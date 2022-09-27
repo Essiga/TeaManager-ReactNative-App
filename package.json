@@ -10,6 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-navigation/drawer": "^6.5.0",
     "react": "18.1.0",
     "react-native": "0.70.1",
     "react-native-paper": "^5.0.0-rc.6",
