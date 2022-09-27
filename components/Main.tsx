@@ -18,12 +18,12 @@ import VesselView from "./view/VesselView";
 
 const Drawer = createDrawerNavigator();
 
-const App = () => {
+const Main = () => {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="TeaView">
-        <Drawer.Screen name="TeaView" component={TeaView} />
-        <Drawer.Screen name="VesselView" component={VesselView} />
+        {/*<Drawer.Screen name="TeaView" component={TeaView} />*/}
+        {/*<Drawer.Screen name="VesselView" component={VesselView} />*/}
       </Drawer.Navigator>
     </NavigationContainer>
   );
@@ -31,4 +31,4 @@ const App = () => {
 
 const styles = StyleSheet.create({});
 
-export default App;
+export default Main;
