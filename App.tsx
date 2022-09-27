@@ -12,12 +12,18 @@ import React from 'react';
 import {
     // SafeAreaView,
     // StyleSheet,
-    Text,
+    // Text,
     // useColorScheme,
-    View,
+    // View,
 } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import TeaView from './components/view/TeaView';
+import VesselView from './components/view/VesselView';
 // import {Colors} from 'react-native/Libraries/NewAppScreen';
 // import Main from './components/Main';
+
+const Drawer = createDrawerNavigator();
 
 const App = () => {
     // const isDarkMode = useColorScheme() === 'dark';
@@ -32,7 +38,14 @@ const App = () => {
     //     </SafeAreaView>
     // );
 
-    return <View><Text>TeaView</Text></View>;
+    return (
+        <NavigationContainer>
+            <Drawer.Navigator initialRouteName="TeaView">
+                <Drawer.Screen name="TeaView" component={TeaView} />
+                <Drawer.Screen name="VesselView" component={VesselView} />
+            </Drawer.Navigator>
+        </NavigationContainer>
+    );
 };
 
 // const styles = StyleSheet.create({
