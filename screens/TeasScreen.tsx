@@ -5,7 +5,7 @@ import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
 import {List} from "react-native-paper";
 
-export default function TeasScreen({navigation}: RootTabScreenProps<'TabOne'>) {
+export default function TeasScreen({navigation}: RootTabScreenProps<'Tea'>) {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Tea Overview</Text>

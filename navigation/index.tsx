@@ -17,10 +17,11 @@ import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TeasScreen from '../screens/TeasScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
+import TabTwoScreen from '../screens/TeaOverview';
 import {RootStackParamList, RootTabParamList, RootTabScreenProps} from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import {createDrawerNavigator} from "@react-navigation/drawer";
+import TeaOverview from "../screens/TeaOverview";
 
 export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
     return (
@@ -65,13 +66,13 @@ function HomeScreen({navigation}: any) {
                 onPress={() => {
                     navigation.navigate('Notifications');
 
-                    axiosInstance.get('viewAllTeas')
-                        .then((response) => {
-                            console.log(response.data);
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
+                    // axiosInstance.get('viewAllTeas')
+                    //     .then((response) => {
+                    //         console.log(response.data);
+                    //     })
+                    //     .catch((err) => {
+                    //         console.log(err);
+                    //     });
                 }}
             >
                 Lets get the teas
@@ -110,12 +111,12 @@ function BottomTabNavigator() {
 
     return (
         <BottomTab.Navigator
-            initialRouteName="TabOne"
+            initialRouteName="Tea"
             screenOptions={{
                 tabBarActiveTintColor: Colors[colorScheme].tint,
             }}>
             <BottomTab.Screen
-                name="TabOne"
+                name="Tea"
                 component={TeasScreen}
                 options={{
                     title: 'Teas',
@@ -124,9 +125,9 @@ function BottomTabNavigator() {
             />
             <BottomTab.Screen
                 name="TabTwo"
-                component={TabTwoScreen}
+                component={TeaOverview}
                 options={{
-                    title: 'Tab Two',
+                    title: 'Tea Overview',
                     tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
                 }}
             />
