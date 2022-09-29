@@ -8,7 +8,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
-import {Button, ColorSchemeName, Pressable, View} from 'react-native';
+import {ColorSchemeName, Pressable, View} from 'react-native';
+import {Button} from 'react-native-paper';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -57,9 +58,11 @@ function HomeScreen({navigation}: any) {
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Button
+                mode="outlined"
                 onPress={() => navigation.navigate('Notifications')}
-                title="Go to notifications"
-            />
+            >
+                Go to notifications
+            </Button>
         </View>
     );
 }
@@ -67,7 +70,7 @@ function HomeScreen({navigation}: any) {
 function NotificationsScreen({navigation}: any) {
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Button onPress={() => navigation.goBack()} title="Go back home"/>
+            <Button mode="contained" onPress={() => navigation.goBack()}>Go back home</Button>
         </View>
     );
 }
