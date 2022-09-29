@@ -10,6 +10,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
 import {ColorSchemeName, Pressable, View} from 'react-native';
 import {Button} from 'react-native-paper';
+import axios from 'axios';
 
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
@@ -54,14 +55,26 @@ function RootNavigator() {
  * A root drawer navigator
  */
 
+const axiosInstance = axios.create({baseURL: 'http://172.31.163.99:3000/'});
+
 function HomeScreen({navigation}: any) {
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Button
                 mode="outlined"
-                onPress={() => navigation.navigate('Notifications')}
+                onPress={() => {
+                    navigation.navigate('Notifications');
+
+                    axiosInstance.get('viewAllTeas')
+                        .then((response) => {
+                            console.log(response.data);
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                }}
             >
-                Go to notifications
+                Lets get the teas
             </Button>
         </View>
     );
