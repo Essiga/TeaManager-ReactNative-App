@@ -16,7 +16,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TabOneScreen from '../screens/TabOneScreen';
+import TeasScreen from '../screens/TeasScreen';
 import TabTwoScreen from '../screens/TabTwoScreen';
 import {RootStackParamList, RootTabParamList, RootTabScreenProps} from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
@@ -27,8 +27,8 @@ export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName
         <NavigationContainer
             linking={LinkingConfiguration}
             theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            {/*<RootNavigator />*/}
-            <RootDrawerNavigator/>
+            <RootNavigator />
+            {/*<RootDrawerNavigator/>*/}
         </NavigationContainer>
     );
 }
@@ -55,7 +55,7 @@ function RootNavigator() {
  * A root drawer navigator
  */
 
-const axiosInstance = axios.create({baseURL: 'http://172.31.163.99:3000/'});
+const axiosInstance = axios.create({baseURL: 'http://172.31.162.103:3000/'});
 
 function HomeScreen({navigation}: any) {
     return (
@@ -116,25 +116,11 @@ function BottomTabNavigator() {
             }}>
             <BottomTab.Screen
                 name="TabOne"
-                component={TabOneScreen}
-                options={({navigation}: RootTabScreenProps<'TabOne'>) => ({
-                    title: 'Tab One',
+                component={TeasScreen}
+                options={{
+                    title: 'Teas',
                     tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
-                    headerRight: () => (
-                        <Pressable
-                            onPress={() => navigation.navigate('Modal')}
-                            style={({pressed}) => ({
-                                opacity: pressed ? 0.5 : 1,
-                            })}>
-                            <FontAwesome
-                                name="info-circle"
-                                size={25}
-                                color={Colors[colorScheme].text}
-                                style={{marginRight: 15}}
-                            />
-                        </Pressable>
-                    ),
-                })}
+                }}
             />
             <BottomTab.Screen
                 name="TabTwo"
@@ -144,6 +130,7 @@ function BottomTabNavigator() {
                     tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
                 }}
             />
+
         </BottomTab.Navigator>
     );
 }
