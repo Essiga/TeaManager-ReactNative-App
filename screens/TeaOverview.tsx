@@ -6,6 +6,8 @@ import {Text, View} from '../components/Themed';
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {TeaModal} from "../components/TeaModal";
+import {Tea} from "./AddNewTea";
+import {TeaType} from "./AddNewTea";
 
 
 export default function TeaOverview() {
@@ -13,11 +15,20 @@ export default function TeaOverview() {
 
     const [teas, setTeas] = useState([]);
     const [teaModalVisible, setTeaModalVisible] = useState(false);
-    const [detailTea, setDetailTea] = useState([])
+    let defaultTea: Tea = {
+        id: "0",
+        name: "name",
+        type: TeaType.Green,
+        amount: 1,
+        link: "www.google.com",
+        vendor: "vendor",
+        year: 1970
+    }
+    const [tea, setTea] = useState(defaultTea)
 
     const containerStyle = {backgroundColor: 'white',height: "120%"};
 
-    function teasModalVisible() {
+    function toggleTeaModalVisibility() {
         setTeaModalVisible(false);
     }
 
@@ -52,7 +63,7 @@ export default function TeaOverview() {
                                 description={item.type}
                                 left={props => <List.Icon {...props} icon="tea"/>}
                                 onPress={() => {
-                                    setDetailTea(teas[i])
+                                    setTea(teas[i])
                                     setTeaModalVisible(true)
                                 }}
                             />
@@ -61,7 +72,7 @@ export default function TeaOverview() {
                 </ScrollView>
             </View>
             <Modal visible={teaModalVisible} onDismiss={() => {setTeaModalVisible(false)}}>
-                <TeaModal teasModalVisible={teasModalVisible} detailTea={detailTea}></TeaModal>
+                <TeaModal toggleTeaModalVisibility={toggleTeaModalVisibility} tea={tea}></TeaModal>
             </Modal>
 
 

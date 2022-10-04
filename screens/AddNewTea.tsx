@@ -6,7 +6,7 @@ import {Text, View} from '../components/Themed';
 import {useEffect, useState} from "react";
 import {RootTabScreenProps} from "../types";
 
-enum TeaType {
+export enum TeaType {
     Green = 'Green',
     Black = 'Black',
     Oolong = 'Oolong',
