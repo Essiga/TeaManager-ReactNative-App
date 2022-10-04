@@ -39,7 +39,7 @@ export default function TeaOverview() {
 
         teaApi.viewAllTeas().then((data) => {
             console.log(data.data);
-            setTeas(data.data);
+            setTeas(data.data as Tea[]);
         }, (err) => {
             console.log(err);
         })
