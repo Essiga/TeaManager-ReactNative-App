@@ -57,9 +57,11 @@ export default function TeaOverview() {
             <View>
                 <ScrollView>
                     <Text>
-                        {teas.map((item: any, i: any) => (
-                            <List.Item
-                                title={item.name}
+                        {teas.map((item: Tea, i: number) => (
+                            <List.Item style={{width: "1%"}}
+                                titleNumberOfLines={1}
+                                titleEllipsizeMode={"tail"}
+                                title={item.name.length < 35 ? `${item.name}` :  `${item.name.substring(0,32)}...`}
                                 description={item.type}
                                 left={props => <List.Icon {...props} icon="tea"/>}
                                 onPress={() => {
