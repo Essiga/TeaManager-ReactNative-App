@@ -8,12 +8,13 @@ import {useEffect, useState} from "react";
 import {TeaModal} from "../components/TeaModal";
 import {Tea} from "./AddNewTea";
 import {TeaType} from "./AddNewTea";
+import {TeaApi} from "../openAPI";
 
 
 export default function TeaOverview() {
-    const axiosInstance = axios.create({baseURL: 'http://172.31.162.103:3000/'});
-
-    const [teas, setTeas] = useState([]);
+    const axiosInstance = axios.create({baseURL: 'http://172.31.162.103:3000/api'});
+    let teaArray: Tea[] = [];
+    const [teas, setTeas] = useState(teaArray);
     const [teaModalVisible, setTeaModalVisible] = useState(false);
     let defaultTea: Tea = {
         id: "0",
@@ -33,13 +34,23 @@ export default function TeaOverview() {
     }
 
     useEffect(() => {
-        axiosInstance.get('viewAllTeas')
-            .then((response) => {
-                setTeas(response.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+
+        let teaApi = new TeaApi();
+
+        teaApi.viewAllTeas().then((data) => {
+            console.log(data.data);
+            setTeas(data.data);
+        }, (err) => {
+            console.log(err);
+        })
+
+        // axiosInstance.get('viewAllTeas')
+        //     .then((response) => {
+        //         setTeas(response.data);
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     });
     }, [])
 
     console.log(teas);
