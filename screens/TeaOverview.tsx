@@ -9,6 +9,7 @@ import {TeaModal} from "../components/TeaModal";
 import {Tea} from "../openAPI";
 import {TeaType} from "../openAPI";
 import {TeaApi} from "../openAPI";
+import {AddSessionModal} from "../components/AddSessionModal";
 
 
 export default function TeaOverview(props: any) {
@@ -16,6 +17,7 @@ export default function TeaOverview(props: any) {
     let teaArray: Tea[] = [];
     const [teas, setTeas] = useState(teaArray);
     const [teaModalVisible, setTeaModalVisible] = useState(false);
+    const [addSessionModalVisible, setAddSessionModalVisible] = useState(false);
     let defaultTea: Tea = {
         id: "0",
         name: "name",
@@ -30,8 +32,11 @@ export default function TeaOverview(props: any) {
 
     const containerStyle = {backgroundColor: 'white',height: "120%"};
 
-    function toggleTeaModalVisibility() {
-        setTeaModalVisible(false);
+    function toggleTeaModalVisibility(visibility: boolean) {
+        setTeaModalVisible(visibility);
+    }
+    function toggleAddSessionModalVisibility(visibility: boolean) {
+        setAddSessionModalVisible(visibility);
     }
 
     useEffect(() => {
@@ -96,9 +101,15 @@ export default function TeaOverview(props: any) {
                     </Text>
                 </ScrollView>
             </View>
+
             <Modal visible={teaModalVisible} onDismiss={() => {setTeaModalVisible(false)}}>
-                <TeaModal toggleTeaModalVisibility={toggleTeaModalVisibility} tea={tea}></TeaModal>
+                <TeaModal toggleTeaModalVisibility={toggleTeaModalVisibility} toggleAddSessionModalVisibility={toggleAddSessionModalVisibility} tea={tea}></TeaModal>
             </Modal>
+
+            <Modal visible={addSessionModalVisible} onDismiss={() => {setAddSessionModalVisible(false)}}>
+                <AddSessionModal toggleAddSessionModalVisibility={toggleAddSessionModalVisibility} ></AddSessionModal>
+            </Modal>
+
 
 
         </View>

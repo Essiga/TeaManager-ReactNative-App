@@ -59,7 +59,11 @@ export function TeaModal(props: ITeaModalProps) {
                 </View>
 
             </View>
-            <Button style={{marginTop: "105%"}} mode="outlined" onPress={() => props.toggleTeaModalVisibility()}> return </Button>
+            <Button style={{marginTop: 15}} mode="outlined" onPress={() => {
+                props.toggleTeaModalVisibility(false);
+                props.toggleAddSessionModalVisibility(true);
+            }}> Start Session </Button>
+            <Button style={{marginTop: "100%"}} mode="outlined" onPress={() => props.toggleTeaModalVisibility(false)}> return </Button>
         </View>
 
     );
