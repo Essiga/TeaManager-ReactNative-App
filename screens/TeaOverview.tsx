@@ -24,9 +24,14 @@ export default function TeaOverview(props: any) {
     } as Tea);
     const [isLoading, setLoading] = useState(true);
 
-    function toggleTeaModalVisibility() {
-        setTeaModalVisible(false);
-    }
+    useEffect(() => {
+
+        callViewAllTeas();
+
+        return props.navigation.addListener('tabPress', () => {
+            callViewAllTeas();
+        });
+    }, [props.navigation]);
 
     function callViewAllTeas() {
         teaApi.viewAllTeas()
@@ -40,17 +45,12 @@ export default function TeaOverview(props: any) {
             })
     }
 
-    useEffect(() => {
-
-        callViewAllTeas();
-
-        return props.navigation.addListener('tabPress', () => {
-            callViewAllTeas();
-        });
-    }, [props.navigation])
+    function toggleTeaModalVisibility() {
+        setTeaModalVisible(false);
+    }
 
     return isLoading ? (
-        <View style={{flex: 1, padding: 20, justifyContent: 'center'}}>
+        <View style={styles.activityIndicatorContainer}>
             <ActivityIndicator size="large" color="#000"/>
         </View>
     ) : (
@@ -76,18 +76,9 @@ export default function TeaOverview(props: any) {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    activityIndicatorContainer: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: '80%',
-    },
+        padding: 20,
+        justifyContent: 'center'
+    }
 });

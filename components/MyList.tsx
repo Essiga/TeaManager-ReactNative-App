@@ -1,6 +1,6 @@
 import {Tea} from "../openAPI";
 import {List, Searchbar, Text} from "react-native-paper";
-import {ScrollView} from "react-native";
+import {ScrollView, StyleSheet} from "react-native";
 import {useState} from "react";
 import {View} from "./Themed";
 
@@ -26,7 +26,7 @@ export default function MyList(props: any) {
         setSearchQuery(query);
     };
 
-    const getSearchBar = () => {
+    const searchBarContent = () => {
         return (
             <Searchbar
                 placeholder="Search"
@@ -38,9 +38,9 @@ export default function MyList(props: any) {
 
     return !filteredTeas.length ? (
         <>
-            {getSearchBar()}
+            {searchBarContent()}
 
-            <View style={{marginTop: "50%", height: "100%", alignItems: 'center'}}>
+            <View style={styles.noTeasFoundTextContainer}>
                 <Text>
                     No teas found
                 </Text>
@@ -48,21 +48,22 @@ export default function MyList(props: any) {
         </>
     ) : (
         <>
-            {getSearchBar()}
+            {searchBarContent()}
 
-            <View style={{height: "100%", alignItems: 'center'}}>
+            <View style={styles.scrollViewContainer}>
                 <ScrollView>
                     {filteredTeas.map((item: Tea, i: number) => (
-                        <List.Item style={{minWidth: '100%'}}
-                                   titleNumberOfLines={1}
-                                   key={i}
-                                   titleEllipsizeMode={"tail"}
-                                   title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
-                                   description={item.type}
-                                   left={props => <List.Icon {...props} icon="tea"/>}
-                                   onPress={() => {
-                                       props.onPress(i);
-                                   }}
+                        <List.Item
+                            style={styles.scrollViewContainerItem}
+                            titleNumberOfLines={1}
+                            key={i}
+                            titleEllipsizeMode={"tail"}
+                            title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
+                            description={item.type}
+                            left={props => <List.Icon {...props} icon="tea"/>}
+                            onPress={() => {
+                                props.onPress(i);
+                            }}
                         />
                     ))}
                 </ScrollView>
@@ -70,3 +71,18 @@ export default function MyList(props: any) {
         </>
     )
 }
+
+const styles = StyleSheet.create({
+    scrollViewContainer: {
+        height: "100%",
+        alignItems: 'center'
+    },
+    scrollViewContainerItem: {
+        minWidth: '100%'
+    },
+    noTeasFoundTextContainer: {
+        marginTop: "50%",
+        height: "100%",
+        alignItems: 'center'
+    },
+});
