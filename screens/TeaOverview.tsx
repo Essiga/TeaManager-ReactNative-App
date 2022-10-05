@@ -12,7 +12,7 @@ import {TeaApi} from "../openAPI";
 import React from 'react';
 
 
-export default function TeaOverview() {
+export default function TeaOverview(props: any) {
     const axiosInstance = axios.create({baseURL: 'http://172.31.162.103:3000/api'});
     let teaArray: Tea[] = [];
     const [teas, setTeas] = useState(teaArray);
@@ -37,14 +37,24 @@ export default function TeaOverview() {
 
     useEffect(() => {
 
-        let teaApi = new TeaApi();
+        props.navigation.addListener('tabPress', (e: any) => {
+            // Prevent default behavior
 
-        teaApi.viewAllTeas().then((data) => {
-            console.log(data.data);
-            setTeas(data.data as Tea[]);
-        }, (err) => {
-            console.log(err);
-        })
+
+            let teaApi = new TeaApi();
+
+            teaApi.viewAllTeas().then((data) => {
+                console.log(data.data);
+                setTeas(data.data as Tea[]);
+            }, (err) => {
+                console.log(err);
+            })
+            // Do something manually
+            // ...
+        });
+
+        // alert("triggered");
+
 
         // axiosInstance.get('viewAllTeas')
         //     .then((response) => {
@@ -53,7 +63,7 @@ export default function TeaOverview() {
         //     .catch((err) => {
         //         console.log(err);
         //     });
-    }, [])
+    }, [props.navigation])
 
     console.log(teas);
 

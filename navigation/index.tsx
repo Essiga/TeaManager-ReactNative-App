@@ -8,7 +8,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
-import {ColorSchemeName, Pressable, View} from 'react-native';
+import {Alert, ColorSchemeName, Pressable, TouchableOpacity, View} from 'react-native';
 import {Button} from 'react-native-paper';
 import axios from 'axios';
 import AddNewTea from '../screens/AddNewTea';
@@ -130,14 +130,17 @@ function BottomTabNavigator() {
                     tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
                 }}
             />
-            <BottomTab.Screen
-                name="NewTea"
-                component={AddNewTea}
-                options={{
-                    title: 'Add Tea',
-                    tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
-                }}
-            />
+
+                <BottomTab.Screen
+                    name="NewTea"
+                    component={AddNewTea}
+                    options={{
+                        title: 'Add Tea',
+                        tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
+                    }}
+                />
+
+
 
 
         </BottomTab.Navigator>
