@@ -34,34 +34,22 @@ export default function TeaOverview(props: any) {
         setTeaModalVisible(false);
     }
 
+    function getAllTeas() {
+        let teaApi = new TeaApi();
+
+        teaApi.viewAllTeas().then((data) => {
+            console.log(data.data);
+            setTeas(data.data as Tea[]);
+        }, (err) => {
+            console.log(err);
+        })
+    }
+
     useEffect(() => {
-
+        getAllTeas();
         props.navigation.addListener('tabPress', (e: any) => {
-            // Prevent default behavior
-
-
-            let teaApi = new TeaApi();
-
-            teaApi.viewAllTeas().then((data) => {
-                console.log(data.data);
-                setTeas(data.data as Tea[]);
-            }, (err) => {
-                console.log(err);
-            })
-            // Do something manually
-            // ...
+           getAllTeas();
         });
-
-        // alert("triggered");
-
-
-        // axiosInstance.get('viewAllTeas')
-        //     .then((response) => {
-        //         setTeas(response.data);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
     }, [props.navigation])
 
     console.log(teas);

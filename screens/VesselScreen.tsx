@@ -27,8 +27,7 @@ export default function VesselScreen(props: any) {
         setAddVesselModalVisible(false);
     }
 
-    useEffect(() => {
-        props.navigation.addListener('tabPress', (e: any) => {
+    function getAllVessels() {
         let vesselApi = new VesselApi();
 
         vesselApi.viewAllVessels().then((data) => {
@@ -37,7 +36,14 @@ export default function VesselScreen(props: any) {
         }, (err) => {
             console.log(err);
         })
-    });
+
+    }
+
+    useEffect(() => {
+        getAllVessels();
+        props.navigation.addListener('tabPress', (e: any) => {
+            getAllVessels();
+        })
     }, [props.navigation])
 
     console.log(vessels);
@@ -66,12 +72,9 @@ export default function VesselScreen(props: any) {
             </View>
             <View style={styles.container}>
                 <View style={styles.button}>
-                    <Button icon="tea" mode="contained"
-                            onPress={() => {
-                                setAddVesselModalVisible(true)
-                                console.log("pressed add vessel")
-                            }
-                            }>
+                    <Button icon="tea" mode="contained" onPress={() => {
+                        setAddVesselModalVisible(true)
+                    }}>
                         Add Vessel
                     </Button>
                     <Button icon="reload" mode="contained" onPress={() => console.log("pressed")}>reload </Button>
@@ -83,8 +86,11 @@ export default function VesselScreen(props: any) {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: "space-between",
-        padding: 50,
+        bottom: 0,
+        alignSelf: 'center',
+        position: 'absolute',
+        padding: 10,
+        width: 400,
     },
     title: {
         fontSize: 20,
@@ -99,7 +105,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         paddingTop: 10,
         justifyContent: 'space-between',
-        marginTop: "105%",
-
+        alignItems: "center",
+        paddingLeft: 20,
+        paddingEnd: 20,
     },
 });
