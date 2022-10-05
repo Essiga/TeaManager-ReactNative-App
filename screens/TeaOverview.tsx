@@ -13,7 +13,6 @@ import {AddSessionModal} from "../components/AddSessionModal";
 
 
 export default function TeaOverview(props: any) {
-    const axiosInstance = axios.create({baseURL: 'http://172.31.162.103:3000/api'});
     let teaArray: Tea[] = [];
     const [teas, setTeas] = useState(teaArray);
     const [teaModalVisible, setTeaModalVisible] = useState(false);
@@ -42,9 +41,6 @@ export default function TeaOverview(props: any) {
     useEffect(() => {
 
         props.navigation.addListener('tabPress', (e: any) => {
-            // Prevent default behavior
-
-
             let teaApi = new TeaApi();
 
             teaApi.viewAllTeas().then((data) => {
@@ -53,34 +49,13 @@ export default function TeaOverview(props: any) {
             }, (err) => {
                 console.log(err);
             })
-            // Do something manually
-            // ...
         });
-
-        // alert("triggered");
-
-
-        // axiosInstance.get('viewAllTeas')
-        //     .then((response) => {
-        //         setTeas(response.data);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
     }, [props.navigation])
 
     console.log(teas);
 
     return (
         <View>
-            {/*<Text style={styles.title}>Tab Two</Text>*/}
-            {/*<View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>*/}
-            {/*<EditScreenInfo path="/screens/TabTwoScreen.tsx"/>*/}
-            {/*<List.Item*/}
-            {/*    title="first Tea"*/}
-            {/*    description="first Tea"*/}
-            {/*    left={props => <List.Icon {...props} icon="folder" />}*/}
-            {/*/>*/}
             <View>
                 <ScrollView>
                     <Text>
@@ -107,11 +82,8 @@ export default function TeaOverview(props: any) {
             </Modal>
 
             <Modal visible={addSessionModalVisible} onDismiss={() => {setAddSessionModalVisible(false)}}>
-                <AddSessionModal toggleAddSessionModalVisibility={toggleAddSessionModalVisibility} ></AddSessionModal>
+                <AddSessionModal toggleAddSessionModalVisibility={toggleAddSessionModalVisibility} tea={tea} ></AddSessionModal>
             </Modal>
-
-
-
         </View>
     );
 }

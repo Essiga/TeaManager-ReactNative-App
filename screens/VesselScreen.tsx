@@ -13,9 +13,6 @@ export default function VesselScreen({navigation}: RootTabScreenProps<'Vessel'>)
 
     const [vesselModalVisible, setVesselModalVisible] = useState(false);
 
-
-
-
     return (
         <PaperProvider theme={theme}>
 
@@ -23,7 +20,7 @@ export default function VesselScreen({navigation}: RootTabScreenProps<'Vessel'>)
 
             <View style={styles.container}>
                 <View style={styles.button}>
-                    <Button icon="Vessel" mode="contained"
+                    <Button mode="contained"
                             onPress={() => {
                                 console.log("pressed")
                             }}>

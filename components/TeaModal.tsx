@@ -67,8 +67,4 @@ export function TeaModal(props: ITeaModalProps) {
         </View>
 
     );
-
-
-
-
 }
