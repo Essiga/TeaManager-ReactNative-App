@@ -25,7 +25,6 @@ export default function AddNewTea({navigation}: RootTabScreenProps<'NewTea'>) {
             label: 'Yellow',
             value: TeaType.Yellow
         }, {label: 'White', value: TeaType.White}, {label: 'Heicha', value: TeaType.Heicha}]
-    // const  teaTypeDropDown = TeaType;
 
     const theme = {
         ...DefaultTheme,
