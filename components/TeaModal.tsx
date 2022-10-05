@@ -59,7 +59,7 @@ export function TeaModal(props: ITeaModalProps) {
                 </View>
 
             </View>
-            <Button onPress={() => props.toggleTeaModalVisibility()}> return </Button>
+            <Button style={{marginTop: "105%"}} mode="outlined" onPress={() => props.toggleTeaModalVisibility()}> return </Button>
         </View>
 
     );

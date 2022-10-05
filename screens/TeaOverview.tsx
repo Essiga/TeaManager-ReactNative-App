@@ -1,5 +1,5 @@
 import {Alert, ScrollView, StyleSheet, Modal} from 'react-native';
-import {List, ListItemProps} from 'react-native-paper';
+import {List, ListItemProps, Menu} from 'react-native-paper';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import {Text, View} from '../components/Themed';
@@ -69,8 +69,9 @@ export default function TeaOverview() {
                 <ScrollView>
                     <Text>
                         {teas.map((item: Tea, i: number) => (
-                            <List.Item style={{width: "1%"}}
+                            <List.Item style={{maxWidth: '100%', width: 800}}
                                 titleNumberOfLines={1}
+                                key={i}
                                 titleEllipsizeMode={"tail"}
                                 title={item.name.length < 35 ? `${item.name}` :  `${item.name.substring(0,32)}...`}
                                 description={item.type}
