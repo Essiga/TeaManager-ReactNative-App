@@ -84,10 +84,10 @@ export interface Tea {
     'name': string;
     /**
      * 
-     * @type {string}
+     * @type {TeaType}
      * @memberof Tea
      */
-    'type': TeaTypeEnum;
+    'type': TeaType;
     /**
      * 
      * @type {number}
@@ -113,20 +113,6 @@ export interface Tea {
      */
     'year'?: number;
 }
-
-export const TeaTypeEnum = {
-    Green: 'Green',
-    Black: 'Black',
-    Oolong: 'Oolong',
-    Sheng: 'Sheng',
-    Shou: 'Shou',
-    Yellow: 'Yellow',
-    White: 'White',
-    Heicha: 'Heicha'
-} as const;
-
-export type TeaTypeEnum = typeof TeaTypeEnum[keyof typeof TeaTypeEnum];
-
 /**
  * 
  * @export
