@@ -16,7 +16,7 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
-import TeasScreen from '../screens/TeasScreen';
+import VesselScreen from '../screens/VesselScreen';
 import {RootStackParamList, RootTabParamList, RootTabScreenProps} from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import {createDrawerNavigator} from "@react-navigation/drawer";
@@ -110,15 +110,15 @@ function BottomTabNavigator() {
 
     return (
         <BottomTab.Navigator
-            initialRouteName="Tea"
+            initialRouteName="TeaOverview"
             screenOptions={{
                 tabBarActiveTintColor: Colors[colorScheme].tint,
             }}>
             <BottomTab.Screen
-                name="Tea"
-                component={TeasScreen}
+                name="Vessel"
+                component={VesselScreen}
                 options={{
-                    title: 'Teas',
+                    title: 'Vessel',
                     tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
                 }}
             />

@@ -6,8 +6,8 @@ import {Text, View} from '../components/Themed';
 import axios from "axios";
 import {useEffect, useState} from "react";
 import {TeaModal} from "../components/TeaModal";
-import {Tea} from "./AddNewTea";
-import {TeaType} from "./AddNewTea";
+import {Tea} from "../openAPI";
+import {TeaType} from "../openAPI";
 import {TeaApi} from "../openAPI";
 
 
@@ -21,6 +21,7 @@ export default function TeaOverview() {
         name: "name",
         type: TeaType.Green,
         amount: 1,
+        price: 2,
         link: "www.google.com",
         vendor: "vendor",
         year: 1970
