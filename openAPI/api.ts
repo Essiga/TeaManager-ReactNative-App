@@ -32,7 +32,7 @@ export interface Session {
      * @type {string}
      * @memberof Session
      */
-    'id': string;
+    'id'?: string;
     /**
      * 
      * @type {string}
@@ -75,7 +75,7 @@ export interface Tea {
      * @type {string}
      * @memberof Tea
      */
-    'id': string;
+    'id'?: string;
     /**
      * 
      * @type {string}
@@ -84,10 +84,22 @@ export interface Tea {
     'name': string;
     /**
      * 
+     * @type {TeaType}
+     * @memberof Tea
+     */
+    'type': TeaType;
+    /**
+     * 
      * @type {string}
      * @memberof Tea
      */
-    'type': TeaTypeEnum;
+    'subType'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof Tea
+     */
+    'price': number;
     /**
      * 
      * @type {number}
@@ -113,20 +125,6 @@ export interface Tea {
      */
     'year'?: number;
 }
-
-export const TeaTypeEnum = {
-    Green: 'Green',
-    Black: 'Black',
-    Oolong: 'Oolong',
-    Sheng: 'Sheng',
-    Shou: 'Shou',
-    Yellow: 'Yellow',
-    White: 'White',
-    Heicha: 'Heicha'
-} as const;
-
-export type TeaTypeEnum = typeof TeaTypeEnum[keyof typeof TeaTypeEnum];
-
 /**
  * 
  * @export
@@ -158,7 +156,7 @@ export interface Vessel {
      * @type {string}
      * @memberof Vessel
      */
-    'id': string;
+    'id'?: string;
     /**
      * 
      * @type {string}
