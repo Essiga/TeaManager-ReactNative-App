@@ -11,13 +11,12 @@ import * as React from 'react';
 import {ColorSchemeName, Pressable, View} from 'react-native';
 import {Button} from 'react-native-paper';
 import axios from 'axios';
-
+import AddNewTea from '../screens/AddNewTea';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import ModalScreen from '../screens/ModalScreen';
 import NotFoundScreen from '../screens/NotFoundScreen';
 import TeasScreen from '../screens/TeasScreen';
-import TabTwoScreen from '../screens/TeaOverview';
 import {RootStackParamList, RootTabParamList, RootTabScreenProps} from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
 import {createDrawerNavigator} from "@react-navigation/drawer";
@@ -124,13 +123,22 @@ function BottomTabNavigator() {
                 }}
             />
             <BottomTab.Screen
-                name="TabTwo"
+                name="TeaOverview"
                 component={TeaOverview}
                 options={{
                     title: 'Tea Overview',
                     tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
                 }}
             />
+            <BottomTab.Screen
+                name="NewTea"
+                component={AddNewTea}
+                options={{
+                    title: 'Add Tea',
+                    tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
+                }}
+            />
+
 
         </BottomTab.Navigator>
     );
