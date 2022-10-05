@@ -1,4 +1,4 @@
-import {Tea} from "../../screens/AddNewTea";
+import {Tea} from "../../openAPI";
 
 export interface ITeaModalProps {
     tea: Tea;

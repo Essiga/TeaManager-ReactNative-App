@@ -5,45 +5,27 @@ import DropDown from "react-native-paper-dropdown";
 import {Text, View} from '../components/Themed';
 import {useEffect, useState} from "react";
 import {RootTabScreenProps} from "../types";
-import {AddTeaRequest, TeaApi} from "../openAPI";
+import { TeaApi, Tea, TeaType} from "../openAPI";
 
-export enum TeaType {
-    Green = 'Green',
-    Black = 'Black',
-    Oolong = 'Oolong',
-    Sheng = 'Sheng',
-    Shou = 'Shou',
-    Yellow = 'Yellow',
-    White = 'White',
-    Heicha = 'Heicha'
-};
-
-export type Tea = {
-    id: string
-    name: string
-    type: TeaType
-    amount: number
-    link: string | null
-    vendor: string | null
-    year: number | null
-}
 
 export default function AddNewTea({navigation}: RootTabScreenProps<'NewTea'>) {
     const [newTea, setNewTea] = useState("");
-    const [teaType, setTeaType] = useState("")
-    const [amount, setAmount] = useState("");
+    const [teaType, setTeaType] = useState(TeaType.Green);
+    const [amount, setAmount] = useState(0);
+    const [price, setPrice] = useState(0);
     const [link, setLink] = useState("");
     const [vendor, setVendor] = useState("");
-    const [year, setYear] = useState("");
+    const [year, setYear] = useState(0);
     const [showDropDown, setShowDropDown] = useState(false);
-    const teaTypeDropDown = [{label: "Green", value: "Green"}, {label: "Black", value: "Black"}, {
+    const teaTypeDropDown = [{label: "Green", value: TeaType.Green}, {label: "Black", value: TeaType.Black}, {
         label: 'Oolong',
-        value: 'Oolong'
+        value: TeaType.Oolong
     },
-        {label: 'Sheng', value: 'Sheng'}, {label: 'Shou', value: 'Shou'}, {
+        {label: 'Sheng', value: TeaType.Sheng}, {label: 'Shou', value: TeaType.Shou}, {
             label: 'Yellow',
-            value: 'Yellow'
-        }, {label: 'White', value: 'White'}, {label: 'Heicha', value: 'Heicha'}]
+            value: TeaType.Yellow
+        }, {label: 'White', value: TeaType.White}, {label: 'Heicha', value: TeaType.Heicha}]
+    // const  teaTypeDropDown = TeaType;
 
     const theme = {
         ...DefaultTheme,
@@ -58,35 +40,42 @@ export default function AddNewTea({navigation}: RootTabScreenProps<'NewTea'>) {
         },
     };
 
+    function checkInput (){
+        if (!newTea.trim()){
+            alert('Add Tea Name');
+            return;
+        }
 
-    function sendData(newTea: string, teaType: string, amount: number, link: string, vendor: string, year: number) {
-        let tea = {
+        sendData(newTea, teaType, amount, price, link, vendor, year);
+    }
+
+    function sendData(newTea: string, teaType: TeaType, amount: number, price: number, link: string, vendor: string, year: number) {
+        let tea:Tea = {
             name: newTea,
             type: teaType,
             amount: amount,
+            price: price,
             link: link,
             vendor: vendor,
             year: year
         };
         let teaApi = new TeaApi();
         console.log(tea);
-        teaApi.addTea(tea as AddTeaRequest).then((response) => {
+        teaApi.addTea(tea).then((response) => {
             Alert.alert("Tea successfully added")
         }, (err) => {
             console.log(err);
         })
-
-
-
     }
 
     function clearData() {
         setNewTea('');
-        setTeaType('');
-        setAmount('');
+        //setTeaType('');
+        setAmount(0);
+        setPrice(0);
         setLink('');
         setVendor('');
-        setYear('');
+        setYear(0);
     }
 
     return (
@@ -113,8 +102,13 @@ export default function AddNewTea({navigation}: RootTabScreenProps<'NewTea'>) {
                 />
                 <TextInput
                     label="Amount"
-                    value={amount}
-                    onChangeText={text => setAmount(text)}
+                    value={amount.toString()}
+                    onChangeText={text => setAmount(parseInt(text))}
+                />
+                <TextInput
+                    label="Price"
+                    value={price.toString()}
+                    onChangeText={text => setPrice(parseInt(text))}
                 />
                 <TextInput
                     label="Webpage"
@@ -128,15 +122,16 @@ export default function AddNewTea({navigation}: RootTabScreenProps<'NewTea'>) {
                 />
                 <TextInput
                     label="Year"
-                    value={year}
-                    onChangeText={text => setYear(text)}
+                    value={year.toString()}
+                    onChangeText={text => setYear(parseInt(text))}
                 />
 
                 <View style={styles.container}>
                     <View style={styles.button}>
                         <Button icon="tea" mode="contained"
                                 onPress={() => {
-                                    sendData(newTea, teaType, parseInt(amount), link, vendor, parseInt(year));
+                                    //sendData(newTea, teaType, parseInt(amount), parseInt(price), link, vendor, parseInt(year));
+                                    checkInput();
                                 }}>
                             Add Tea
                         </Button>
