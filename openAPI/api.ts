@@ -32,7 +32,7 @@ export interface Session {
      * @type {string}
      * @memberof Session
      */
-    'id': string;
+    'id'?: string;
     /**
      * 
      * @type {string}
@@ -75,7 +75,7 @@ export interface Tea {
      * @type {string}
      * @memberof Tea
      */
-    'id': string;
+    'id'?: string;
     /**
      * 
      * @type {string}
@@ -88,6 +88,12 @@ export interface Tea {
      * @memberof Tea
      */
     'type': TeaType;
+    /**
+     * 
+     * @type {number}
+     * @memberof Tea
+     */
+    'price': number;
     /**
      * 
      * @type {number}
@@ -144,7 +150,7 @@ export interface Vessel {
      * @type {string}
      * @memberof Vessel
      */
-    'id': string;
+    'id'?: string;
     /**
      * 
      * @type {string}
