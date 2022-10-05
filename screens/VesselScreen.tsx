@@ -1,38 +1,82 @@
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {Modal, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
 
-import EditScreenInfo from '../components/EditScreenInfo';
+
 import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
 import {Button, List, Provider as PaperProvider, TextInput} from "react-native-paper";
-import DropDown from "react-native-paper-dropdown";
 import theme from './AddNewTea'
-import {useState} from "react";
-import {TeaType} from "../openAPI";
-
-export default function VesselScreen({navigation}: RootTabScreenProps<'Vessel'>) {
-
-    const [vesselModalVisible, setVesselModalVisible] = useState(false);
+import {useEffect, useState} from "react";
+import {VesselApi} from "../openAPI";
+import {Vessel} from "../openAPI";
+import {AddVesselModal} from "../components/AddVesselModal";
 
 
+export default function VesselScreen(props: any) {
 
+    let vesselArray: Vessel[] = [];
+    const [vessels, setVessels] = useState(vesselArray);
+    const [addVesselModalVisible, setAddVesselModalVisible] = useState(false);
+
+    let defaultVessel: Vessel = {
+        id: "0",
+        name: "name",
+        capacity: 0,
+    }
+
+    function toggleVesselModalVisibility() {
+        setAddVesselModalVisible(false);
+    }
+
+    useEffect(() => {
+        props.navigation.addListener('tabPress', (e: any) => {
+        let vesselApi = new VesselApi();
+
+        vesselApi.viewAllVessels().then((data) => {
+            console.log(data.data);
+            setVessels(data.data as Vessel[]);
+        }, (err) => {
+            console.log(err);
+        })
+    });
+    }, [props.navigation])
+
+    console.log(vessels);
 
     return (
         <PaperProvider theme={theme}>
-
-            <Text> To do add Vessel Overview </Text>
-
+            <View>
+                <ScrollView>
+                    <Text>
+                        {vessels.map((item: Vessel, i: number) => (
+                            <List.Item style={{maxWidth: '100%', width: 800}}
+                                       titleNumberOfLines={1}
+                                       key={i}
+                                       titleEllipsizeMode={"tail"}
+                                       title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
+                                       left={props => <List.Icon {...props} icon="tea"/>}
+                            />
+                        ))}
+                    </Text>
+                </ScrollView>
+                <Modal visible={addVesselModalVisible} onDismiss={() => {
+                    setAddVesselModalVisible(false)
+                }}>
+                    <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
+                </Modal>
+            </View>
             <View style={styles.container}>
                 <View style={styles.button}>
-                    <Button icon="Vessel" mode="contained"
+                    <Button icon="tea" mode="contained"
                             onPress={() => {
-                                console.log("pressed")
-                            }}>
+                                setAddVesselModalVisible(true)
+                                console.log("pressed add vessel")
+                            }
+                            }>
                         Add Vessel
                     </Button>
-                    <Button icon="reload" mode="contained" onPress={() => console.log("reload")}>reload </Button>
+                    <Button icon="reload" mode="contained" onPress={() => console.log("pressed")}>reload </Button>
                 </View>
             </View>
-
         </PaperProvider>
     );
 }
@@ -55,6 +99,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         paddingTop: 10,
         justifyContent: 'space-between',
+        marginTop: "105%",
 
     },
 });
