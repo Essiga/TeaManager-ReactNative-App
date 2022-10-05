@@ -1,5 +1,5 @@
 import {Alert, ScrollView, StyleSheet, Modal} from 'react-native';
-import {List, ListItemProps, Menu} from 'react-native-paper';
+import {Divider, List, ListItemProps, Menu} from 'react-native-paper';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import {Text, View} from '../components/Themed';
@@ -9,6 +9,7 @@ import {TeaModal} from "../components/TeaModal";
 import {Tea} from "../openAPI";
 import {TeaType} from "../openAPI";
 import {TeaApi} from "../openAPI";
+import React from 'react';
 
 
 export default function TeaOverview() {
@@ -58,39 +59,34 @@ export default function TeaOverview() {
 
     return (
         <View>
-            {/*<Text style={styles.title}>Tab Two</Text>*/}
-            {/*<View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)"/>*/}
-            {/*<EditScreenInfo path="/screens/TabTwoScreen.tsx"/>*/}
-            {/*<List.Item*/}
-            {/*    title="first Tea"*/}
-            {/*    description="first Tea"*/}
-            {/*    left={props => <List.Icon {...props} icon="folder" />}*/}
-            {/*/>*/}
-            <View>
-                <ScrollView>
-                    <Text>
-                        {teas.map((item: Tea, i: number) => (
+            <ScrollView>
+                <Text>
+                    {teas.map((item: Tea, i: number) => (
+                        <React.Fragment key={i}>
                             <List.Item style={{maxWidth: '100%', width: 800}}
-                                titleNumberOfLines={1}
-                                key={i}
-                                titleEllipsizeMode={"tail"}
-                                title={item.name.length < 35 ? `${item.name}` :  `${item.name.substring(0,32)}...`}
-                                description={item.type}
-                                left={props => <List.Icon {...props} icon="tea"/>}
-                                onPress={() => {
-                                    setTea(teas[i])
-                                    setTeaModalVisible(true)
-                                }}
+                                       titleNumberOfLines={1}
+
+                                       titleEllipsizeMode={"tail"}
+                                       title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
+                                       description={item.type}
+                                       left={props => <List.Icon {...props} icon="tea"/>}
+                                       onPress={() => {
+                                           setTea(teas[i])
+                                           setTeaModalVisible(true)
+                                       }}
                             />
-                        ))}
-                    </Text>
-                </ScrollView>
-            </View>
-            <Modal visible={teaModalVisible} onDismiss={() => {setTeaModalVisible(false)}}>
+
+                            <Divider />
+                        </React.Fragment>
+                    ))}
+                </Text>
+            </ScrollView>
+
+            <Modal visible={teaModalVisible} onDismiss={() => {
+                setTeaModalVisible(false)
+            }}>
                 <TeaModal toggleTeaModalVisibility={toggleTeaModalVisibility} tea={tea}></TeaModal>
             </Modal>
-
-
         </View>
     );
 }
