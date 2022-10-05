@@ -51,7 +51,7 @@ export default function TeaOverview(props: any) {
 
     return isLoading ? (
         <View style={styles.activityIndicatorContainer}>
-            <ActivityIndicator size="large" color="#000"/>
+            <ActivityIndicator size="small" color="lightgrey"/>
         </View>
     ) : (
         <View>
