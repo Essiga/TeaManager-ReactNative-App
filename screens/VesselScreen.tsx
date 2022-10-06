@@ -1,4 +1,4 @@
-import {Modal, SafeAreaView, ScrollView, StyleSheet, TouchableHighlight} from 'react-native';
+import {GestureResponderEvent, Modal, SafeAreaView, ScrollView, StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native';
 
 
 import {Text, View} from '../components/Themed';
@@ -9,6 +9,8 @@ import React, {useEffect, useState} from "react";
 import {VesselApi} from "../openAPI";
 import {Vessel} from "../openAPI";
 import {AddVesselModal} from "../components/AddVesselModal";
+
+import MyList from "../components/MyList";
 
 
 export default function VesselScreen(props: any) {
@@ -46,6 +48,10 @@ export default function VesselScreen(props: any) {
         })
     }, [props.navigation])
 
+    function deleteVessel(id:any){
+        console.log('from the function now', id)
+    }
+
     return (
         <PaperProvider theme={theme}>
             <View>
@@ -58,7 +64,13 @@ export default function VesselScreen(props: any) {
                             titleEllipsizeMode={"tail"}
                             title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
                             left={props => <List.Icon {...props} icon="tea"/>}
-                            right={props => <List.Icon {...props} icon="delete"/>}
+                            right={props => {
+                                return (
+                                    <TouchableOpacity onPress={() => {deleteVessel(item.id)}}>
+                                        <List.Icon {...props} icon="delete"/>
+                                    </TouchableOpacity>
+                                )
+                            }}
                         />
                     ))}
                 </ScrollView>
