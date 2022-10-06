@@ -1,15 +1,15 @@
-import {Modal, SafeAreaView, ScrollView, StyleSheet} from 'react-native';
+import {Modal, SafeAreaView, ScrollView, StyleSheet, TouchableHighlight} from 'react-native';
 
 
 import {Text, View} from '../components/Themed';
 import {RootTabScreenProps} from '../types';
 import {Button, List, Provider as PaperProvider, TextInput} from "react-native-paper";
 import theme from './AddNewTea'
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {VesselApi} from "../openAPI";
 import {Vessel} from "../openAPI";
 import {AddVesselModal} from "../components/AddVesselModal";
-
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 export default function VesselScreen(props: any) {
 
@@ -47,29 +47,56 @@ export default function VesselScreen(props: any) {
     }, [props.navigation])
 
     console.log(vessels);
+    const rightSwipeActions = () => {
+        return (
+            <View
+                style={{
+                    backgroundColor: '#ff8303',
+                    justifyContent: 'center',
+                    alignItems: 'flex-end',
+                }}
+            >
+                <Text
+                    style={{
+                        color: '#1b1a17',
+                        paddingHorizontal: 10,
+                        fontWeight: '600',
+                        //paddingHorizontal: 30,
+                        paddingVertical: 20,
+                    }}
+                >
+                    Delete
+                </Text>
+            </View>
+        );
+    };
 
     return (
         <PaperProvider theme={theme}>
             <View>
-                <ScrollView>
-                    <Text>
-                        {vessels.map((item: Vessel, i: number) => (
-                            <List.Item style={{maxWidth: '100%', width: 800}}
-                                       titleNumberOfLines={1}
-                                       key={i}
-                                       titleEllipsizeMode={"tail"}
-                                       title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
-                                       left={props => <List.Icon {...props} icon="tea"/>}
-                            />
-                        ))}
-                    </Text>
-                </ScrollView>
+                <Swipeable renderLeftActions={rightSwipeActions}>
+                    <ScrollView>
+                        <Text>
+                            {vessels.map((item: Vessel, i: number) => (
+                                <List.Item style={{maxWidth: '100%', width: 800}}
+                                           titleNumberOfLines={1}
+                                           key={i}
+                                           titleEllipsizeMode={"tail"}
+                                           title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
+                                           left={props => <List.Icon {...props} icon="tea"/>}
+                                />
+                            ))}
+
+                        </Text>
+                    </ScrollView>
+                </Swipeable>
                 <Modal visible={addVesselModalVisible} onDismiss={() => {
                     setAddVesselModalVisible(false)
                 }}>
                     <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
                 </Modal>
             </View>
+
             <View style={styles.container}>
                 <View style={styles.button}>
                     <Button icon="tea" mode="contained" onPress={() => {
@@ -77,7 +104,7 @@ export default function VesselScreen(props: any) {
                     }}>
                         Add Vessel
                     </Button>
-                    <Button icon="reload" mode="contained" onPress={() => console.log("pressed")}>reload </Button>
+                    <Button icon="delete" mode="contained" onPress={() => console.log("pressed")}>delete </Button>
                 </View>
             </View>
         </PaperProvider>
