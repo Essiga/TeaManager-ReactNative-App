@@ -49,19 +49,19 @@ export default function VesselScreen(props: any) {
     return (
         <PaperProvider theme={theme}>
             <View>
-                    <ScrollView>
-                        <Text>
-                            {vessels.map((item: Vessel, i: number) => (
-                                <List.Item style={{maxWidth: '100%', width: 800}}
-                                           titleNumberOfLines={1}
-                                           key={i}
-                                           titleEllipsizeMode={"tail"}
-                                           title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
-                                           left={props => <List.Icon {...props} icon="tea"/>}
-                                />
-                            ))}
-                        </Text>
-                    </ScrollView>
+                <ScrollView>
+                    {vessels.map((item: Vessel, i: number) => (
+                        <List.Item
+                            style={{maxWidth: '100%', width: 800}}
+                            titleNumberOfLines={1}
+                            key={i}
+                            titleEllipsizeMode={"tail"}
+                            title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
+                            left={props => <List.Icon {...props} icon="tea"/>}
+                            right={props => <List.Icon {...props} icon="delete"/>}
+                        />
+                    ))}
+                </ScrollView>
                 <Modal visible={addVesselModalVisible} onDismiss={() => {
                     setAddVesselModalVisible(false)
                 }}>
