@@ -2,14 +2,14 @@ import {Modal, SafeAreaView, ScrollView, StyleSheet, TouchableHighlight} from 'r
 
 
 import {Text, View} from '../components/Themed';
-import {RootTabScreenProps} from '../types';
+
 import {Button, List, Provider as PaperProvider, TextInput} from "react-native-paper";
 import theme from './AddNewTea'
 import React, {useEffect, useState} from "react";
 import {VesselApi} from "../openAPI";
 import {Vessel} from "../openAPI";
 import {AddVesselModal} from "../components/AddVesselModal";
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+
 
 export default function VesselScreen(props: any) {
 
@@ -46,35 +46,9 @@ export default function VesselScreen(props: any) {
         })
     }, [props.navigation])
 
-    console.log(vessels);
-    const rightSwipeActions = () => {
-        return (
-            <View
-                style={{
-                    backgroundColor: '#ff8303',
-                    justifyContent: 'center',
-                    alignItems: 'flex-end',
-                }}
-            >
-                <Text
-                    style={{
-                        color: '#1b1a17',
-                        paddingHorizontal: 10,
-                        fontWeight: '600',
-                        //paddingHorizontal: 30,
-                        paddingVertical: 20,
-                    }}
-                >
-                    Delete
-                </Text>
-            </View>
-        );
-    };
-
     return (
         <PaperProvider theme={theme}>
             <View>
-                <Swipeable renderLeftActions={rightSwipeActions}>
                     <ScrollView>
                         <Text>
                             {vessels.map((item: Vessel, i: number) => (
@@ -86,10 +60,8 @@ export default function VesselScreen(props: any) {
                                            left={props => <List.Icon {...props} icon="tea"/>}
                                 />
                             ))}
-
                         </Text>
                     </ScrollView>
-                </Swipeable>
                 <Modal visible={addVesselModalVisible} onDismiss={() => {
                     setAddVesselModalVisible(false)
                 }}>
