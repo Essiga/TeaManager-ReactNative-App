@@ -5,7 +5,7 @@ import DropDown from "react-native-paper-dropdown";
 import {Text, View} from '../components/Themed';
 import {useEffect, useState} from "react";
 import {RootTabScreenProps} from "../types";
-import { TeaApi, Tea, TeaType} from "../openAPI";
+import {TeaApi, Tea, TeaType} from "../openAPI";
 
 
 export default function AddNewTea({navigation}: RootTabScreenProps<'NewTea'>) {
@@ -17,14 +17,16 @@ export default function AddNewTea({navigation}: RootTabScreenProps<'NewTea'>) {
     const [vendor, setVendor] = useState("");
     const [year, setYear] = useState(0);
     const [showDropDown, setShowDropDown] = useState(false);
-    const teaTypeDropDown = [{label: "Green", value: TeaType.Green}, {label: "Black", value: TeaType.Black}, {
-        label: 'Oolong',
-        value: TeaType.Oolong
-    },
-        {label: 'Sheng', value: TeaType.Sheng}, {label: 'Shou', value: TeaType.Shou}, {
-            label: 'Yellow',
-            value: TeaType.Yellow
-        }, {label: 'White', value: TeaType.White}, {label: 'Heicha', value: TeaType.Heicha}]
+    const teaTypeDropDown = [
+        {label: "Green", value: TeaType.Green},
+        {label: "Black", value: TeaType.Black},
+        {label: 'Oolong', value: TeaType.Oolong},
+        {label: 'Sheng', value: TeaType.Sheng},
+        {label: 'Shou', value: TeaType.Shou},
+        {label: 'Yellow', value: TeaType.Yellow},
+        {label: 'White', value: TeaType.White},
+        {label: 'Heicha', value: TeaType.Heicha}
+    ]
 
     const theme = {
         ...DefaultTheme,
@@ -39,8 +41,8 @@ export default function AddNewTea({navigation}: RootTabScreenProps<'NewTea'>) {
         },
     };
 
-    function checkInput (){
-        if (!newTea.trim()){
+    function checkInput() {
+        if (!newTea.trim()) {
             alert('Add Tea Name');
             return;
         }
@@ -49,7 +51,7 @@ export default function AddNewTea({navigation}: RootTabScreenProps<'NewTea'>) {
     }
 
     function sendData(newTea: string, teaType: TeaType, amount: number, price: number, link: string, vendor: string, year: number) {
-        let tea:Tea = {
+        let tea: Tea = {
             name: newTea,
             type: teaType,
             amount: amount,
