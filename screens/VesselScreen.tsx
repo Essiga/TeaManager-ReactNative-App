@@ -49,6 +49,13 @@ export default function VesselScreen(props: any) {
     }, [props.navigation])
 
     function deleteVessel(id:any){
+        let vesselApi = new VesselApi();
+        vesselApi.deleteVessel(id).then((data) => {
+            console.log(data.data);
+            // TODO: add a pop up 
+        }, (err) => {
+            console.log(err);
+        })
         console.log('from the function now', id)
     }
 
