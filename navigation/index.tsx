@@ -9,7 +9,7 @@ import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/na
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
 import {Alert, ColorSchemeName, Pressable, TouchableOpacity, View} from 'react-native';
-import {Button} from 'react-native-paper';
+import {BottomNavigation, Button, Text} from 'react-native-paper';
 import axios from 'axios';
 import AddNewTea from '../screens/AddNewTea';
 import Colors from '../constants/Colors';
@@ -21,81 +21,17 @@ import {RootStackParamList, RootTabParamList, RootTabScreenProps} from '../types
 import LinkingConfiguration from './LinkingConfiguration';
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import TeaOverview from "../screens/TeaOverview";
+import MyList from "../components/MyList";
 
 export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
     return (
-        <NavigationContainer
-            linking={LinkingConfiguration}
-            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <RootNavigator/>
-            {/*<RootDrawerNavigator/>*/}
-        </NavigationContainer>
-    );
-}
-
-/**
- * A root stack navigator is often used for displaying modals on top of all other content.
- * https://reactnavigation.org/docs/modal
- */
-const Stack = createNativeStackNavigator<RootStackParamList>();
-
-function RootNavigator() {
-    return (
-        <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} options={{headerShown: false}}/>
-            <Stack.Screen name="NotFound" component={NotFoundScreen} options={{title: 'Oops!'}}/>
-            <Stack.Group screenOptions={{presentation: 'modal'}}>
-                <Stack.Screen name="Modal" component={ModalScreen}/>
-            </Stack.Group>
-        </Stack.Navigator>
-    );
-}
-
-/**
- * A root drawer navigator
- */
-
-const axiosInstance = axios.create({baseURL: 'http://172.31.162.103:3000/'});
-
-function HomeScreen({navigation}: any) {
-    return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Button
-                mode="outlined"
-                onPress={() => {
-                    navigation.navigate('Notifications');
-
-                    // axiosInstance.get('viewAllTeas')
-                    //     .then((response) => {
-                    //         console.log(response.data);
-                    //     })
-                    //     .catch((err) => {
-                    //         console.log(err);
-                    //     });
-                }}
-            >
-                Lets get the teas
-            </Button>
-        </View>
-    );
-}
-
-function NotificationsScreen({navigation}: any) {
-    return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-            <Button mode="contained" onPress={() => navigation.goBack()}>Go back home</Button>
-        </View>
-    );
-}
-
-const Drawer = createDrawerNavigator();
-
-function RootDrawerNavigator() {
-    return (
-        <Drawer.Navigator initialRouteName="Home">
-            <Drawer.Screen name="Home" component={HomeScreen}/>
-            <Drawer.Screen name="Notifications" component={NotificationsScreen}/>
-        </Drawer.Navigator>
+        // <NavigationContainer
+        //     linking={LinkingConfiguration}
+        //     theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+        // >
+        //     <RootNavigator/>
+            <MyBottomNavigation/>
+        // </NavigationContainer>
     );
 }
 
@@ -151,3 +87,53 @@ function TabBarIcon(props: {
 }) {
     return <FontAwesome size={30} style={{marginBottom: -3}} {...props} />;
 }
+
+
+
+
+
+
+const MusicRoute = () => <Text>Music</Text>;
+
+const AlbumsRoute = () => <Text>Albums</Text>;
+
+const RecentsRoute = () => <Text>Recents</Text>;
+
+const NotificationsRoute = () => <Text>Notifications</Text>;
+
+const MyBottomNavigation = () => {
+    const [index, setIndex] = React.useState(0);
+    // const [routes] = React.useState([
+    //     { key: 'music', title: 'Favorites', focusedIcon: 'heart', unfocusedIcon: 'heart-outline'},
+    //     { key: 'albums', title: 'Albums', focusedIcon: 'album' },
+    //     { key: 'recents', title: 'Recents', focusedIcon: 'history' },
+    //     { key: 'notifications', title: 'Notifications', focusedIcon: 'bell', unfocusedIcon: 'bell-outline' },
+    // ]);
+    //
+    // const renderScene = BottomNavigation.SceneMap({
+    //     music: MusicRoute,
+    //     albums: AlbumsRoute,
+    //     recents: RecentsRoute,
+    //     notifications: NotificationsRoute,
+    // });
+
+    const [routes] = React.useState([
+        { key: 'teas', title: 'Teas', focusedIcon: 'heart', unfocusedIcon: 'heart-outline'},
+        { key: 'vessels', title: 'Vessels', focusedIcon: 'album' },
+        { key: 'sessions', title: 'Sessions', focusedIcon: 'history' },
+    ]);
+
+    const renderScene = BottomNavigation.SceneMap({
+        teas: TeaOverview,
+        vessels: VesselScreen,
+        sessions: AddNewTea,
+    });
+
+    return (
+        <BottomNavigation
+            navigationState={{ index, routes }}
+            onIndexChange={setIndex}
+            renderScene={renderScene}
+        />
+    );
+};

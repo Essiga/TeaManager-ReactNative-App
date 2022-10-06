@@ -8,7 +8,7 @@ import {RootTabScreenProps} from "../types";
 import { TeaApi, Tea, TeaType} from "../openAPI";
 
 
-export default function AddNewTea({navigation}: RootTabScreenProps<'NewTea'>) {
+export default function AddNewTea(props: any) {
     const [newTea, setNewTea] = useState("");
     const [teaType, setTeaType] = useState(TeaType.Green);
     const [amount, setAmount] = useState(0);

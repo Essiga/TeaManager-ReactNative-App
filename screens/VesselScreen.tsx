@@ -1,9 +1,9 @@
-import {Modal, SafeAreaView, ScrollView, StyleSheet, TouchableHighlight} from 'react-native';
+import {Modal, ScrollView, StyleSheet} from 'react-native';
 
 
 import {Text, View} from '../components/Themed';
 
-import {Button, List, Provider as PaperProvider, TextInput} from "react-native-paper";
+import {Button, List, Provider as PaperProvider} from "react-native-paper";
 import theme from './AddNewTea'
 import React, {useEffect, useState} from "react";
 import {VesselApi} from "../openAPI";
