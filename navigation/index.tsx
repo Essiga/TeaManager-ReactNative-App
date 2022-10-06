@@ -27,7 +27,7 @@ export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName
         <NavigationContainer
             linking={LinkingConfiguration}
             theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <RootNavigator />
+            <RootNavigator/>
             {/*<RootDrawerNavigator/>*/}
         </NavigationContainer>
     );
@@ -130,19 +130,14 @@ function BottomTabNavigator() {
                     tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
                 }}
             />
-
-                <BottomTab.Screen
-                    name="NewTea"
-                    component={AddNewTea}
-                    options={{
-                        title: 'Add Tea',
-                        tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
-                    }}
-                />
-
-
-
-
+            <BottomTab.Screen
+                name="NewTea"
+                component={AddNewTea}
+                options={{
+                    title: 'Add Tea',
+                    tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
+                }}
+            />
         </BottomTab.Navigator>
     );
 }
