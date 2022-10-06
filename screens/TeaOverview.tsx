@@ -1,23 +1,18 @@
-import {Alert, ScrollView, StyleSheet, Modal} from 'react-native';
-import {List, ListItemProps, Menu} from 'react-native-paper';
-
-import EditScreenInfo from '../components/EditScreenInfo';
-import {Text, View} from '../components/Themed';
-import axios from "axios";
+import {Modal, StyleSheet} from 'react-native';
+import {View} from '../components/Themed';
 import {useEffect, useState} from "react";
 import {TeaModal} from "../components/TeaModal";
-import {Tea} from "../openAPI";
-import {TeaType} from "../openAPI";
-import {TeaApi} from "../openAPI";
-import {AddSessionModal} from "../components/AddSessionModal";
+import {Tea, TeaApi, TeaType} from "../openAPI";
+import MyList from "../components/MyList";
+import {ActivityIndicator} from "react-native-paper";
 
+const teaApi = new TeaApi();
 
 export default function TeaOverview(props: any) {
-    let teaArray: Tea[] = [];
-    const [teas, setTeas] = useState(teaArray);
+
+    const [teas, setTeas] = useState([] as Tea[]);
     const [teaModalVisible, setTeaModalVisible] = useState(false);
-    const [addSessionModalVisible, setAddSessionModalVisible] = useState(false);
-    let defaultTea: Tea = {
+    const [tea, setTea] = useState({
         id: "0",
         name: "name",
         type: TeaType.Green,
@@ -26,81 +21,64 @@ export default function TeaOverview(props: any) {
         link: "www.google.com",
         vendor: "vendor",
         year: 1970
-    }
-    const [tea, setTea] = useState(defaultTea)
-
-    const containerStyle = {backgroundColor: 'white',height: "120%"};
-
-    function toggleTeaModalVisibility(visibility: boolean) {
-        setTeaModalVisible(visibility);
-    }
-    function toggleAddSessionModalVisibility(visibility: boolean) {
-        setAddSessionModalVisible(visibility);
-    }
+    } as Tea);
+    const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
 
-        props.navigation.addListener('tabPress', (e: any) => {
-            let teaApi = new TeaApi();
+        callViewAllTeas();
 
-            teaApi.viewAllTeas().then((data) => {
-                console.log(data.data);
+        return props.navigation.addListener('tabPress', () => {
+            callViewAllTeas();
+        });
+    }, [props.navigation]);
+
+    function callViewAllTeas() {
+        teaApi.viewAllTeas()
+            .then((data) => {
                 setTeas(data.data as Tea[]);
             }, (err) => {
                 console.log(err);
             })
-        });
-    }, [props.navigation])
+            .finally(() => {
+                setLoading(false);
+            })
+    }
 
-    console.log(teas);
+    function toggleTeaModalVisibility() {
+        setTeaModalVisible(false);
+    }
 
-    return (
+    return isLoading ? (
+        <View style={styles.activityIndicatorContainer}>
+            <ActivityIndicator size="small" color="lightgrey"/>
+        </View>
+    ) : (
         <View>
-            <View>
-                <ScrollView>
-                    <Text>
-                        {teas.map((item: Tea, i: number) => (
-                            <List.Item style={{maxWidth: '100%', width: 800}}
-                                titleNumberOfLines={1}
-                                key={i}
-                                titleEllipsizeMode={"tail"}
-                                title={item.name.length < 35 ? `${item.name}` :  `${item.name.substring(0,32)}...`}
-                                description={item.type}
-                                left={props => <List.Icon {...props} icon="tea"/>}
-                                onPress={() => {
-                                    setTea(teas[i])
-                                    setTeaModalVisible(true)
-                                }}
-                            />
-                        ))}
-                    </Text>
-                </ScrollView>
-            </View>
+            <MyList
+                teas={teas}
+                onPress={(index: any) => {
+                    setTea(teas[index])
+                    setTeaModalVisible(true)
+                }}
+            />
 
-            <Modal visible={teaModalVisible} onDismiss={() => {setTeaModalVisible(false)}}>
-                <TeaModal toggleTeaModalVisibility={toggleTeaModalVisibility} toggleAddSessionModalVisibility={toggleAddSessionModalVisibility} tea={tea}></TeaModal>
-            </Modal>
-
-            <Modal visible={addSessionModalVisible} onDismiss={() => {setAddSessionModalVisible(false)}}>
-                <AddSessionModal toggleAddSessionModalVisibility={toggleAddSessionModalVisibility} tea={tea} ></AddSessionModal>
+            <Modal
+                visible={teaModalVisible}
+                onDismiss={() => {
+                    setTeaModalVisible(false)
+                }}
+            >
+                <TeaModal toggleTeaModalVisibility={toggleTeaModalVisibility} tea={tea}/>
             </Modal>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    activityIndicatorContainer: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: '80%',
-    },
+        padding: 20,
+        justifyContent: 'center'
+    }
 });
