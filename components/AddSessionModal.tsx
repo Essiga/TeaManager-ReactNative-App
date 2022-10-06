@@ -44,6 +44,7 @@ export function AddSessionModal(props: IAddSessionModalProps) {
             />
             <TextInput
                 label="Date"
+                //testcomment
                 // onChangeText={text => setYear(parseInt(text))}
             />
             <DropDown
