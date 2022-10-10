@@ -5,6 +5,7 @@ import {TeaModal} from "../components/TeaModal";
 import {Tea, TeaApi, TeaType} from "../openAPI";
 import MyList from "../components/MyList";
 import {ActivityIndicator} from "react-native-paper";
+import {AddSessionModal} from "../components/AddSessionModal";
 
 const teaApi = new TeaApi();
 
@@ -23,6 +24,7 @@ export default function TeaOverview(props: any) {
         year: 1970
     } as Tea);
     const [isLoading, setLoading] = useState(true);
+    const [addSessionModalVisibility, setAddSessionModalVisibility] = useState(false);
 
     useEffect(() => {
 
@@ -45,8 +47,12 @@ export default function TeaOverview(props: any) {
             })
     }
 
-    function toggleTeaModalVisibility() {
+    function toggleTeaModalVisibility(visbility: boolean) {
         setTeaModalVisible(false);
+    }
+
+    function toggleAddSessionModalVisibility(visbility: boolean) {
+        setAddSessionModalVisibility(visbility);
     }
 
     return isLoading ? (
@@ -69,8 +75,13 @@ export default function TeaOverview(props: any) {
                     setTeaModalVisible(false)
                 }}
             >
-                <TeaModal toggleTeaModalVisibility={toggleTeaModalVisibility} tea={tea}/>
+                <TeaModal toggleTeaModalVisibility={toggleTeaModalVisibility} toggleAddSessionModalVisibility={toggleAddSessionModalVisibility} tea={tea}/>
+
             </Modal>
+            <Modal visible={addSessionModalVisibility} onDismiss={() => {setAddSessionModalVisibility(false)}}>
+                <AddSessionModal tea={tea} toggleAddSessionModalVisibility={toggleAddSessionModalVisibility}/>
+            </Modal>
+
         </View>
     );
 }
