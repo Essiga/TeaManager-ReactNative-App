@@ -69,21 +69,37 @@ export default function VesselScreen(props: any) {
                         />
                     ))}
                 </ScrollView>
-                <Modal visible={addVesselModalVisible} onDismiss={() => {
-                    setAddVesselModalVisible(false)
-                }}>
+
+                <Modal
+                    visible={addVesselModalVisible}
+                    onDismiss={() => setAddVesselModalVisible(false)}
+                >
                     <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
                 </Modal>
 
+                <Modal
+                    visible={addVesselModalVisible}
+                    onDismiss={() => setAddVesselModalVisible(false)}
+                >
+                    <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
+                </Modal>
 
                 <View style={styles.container}>
                     <View style={styles.button}>
-                        <Button icon="tea" mode="contained" onPress={() => {
-                            setAddVesselModalVisible(true)
-                        }}>
+                        <Button
+                            icon="tea"
+                            mode="contained"
+                            onPress={() => setAddVesselModalVisible(true)}
+                        >
                             Add Vessel
                         </Button>
-                        <Button icon="refresh" mode="contained" onPress={() => getAllVessels()}>refresh </Button>
+                        <Button
+                            icon="refresh"
+                            mode="contained"
+                            onPress={() => getAllVessels()}
+                        >
+                            Refresh
+                        </Button>
                     </View>
                 </View>
             </View>

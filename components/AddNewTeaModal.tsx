@@ -62,16 +62,6 @@ export default function AddNewTeaModal(props: any) {
         })
     }
 
-    function clearData() {
-        setNewTea("");
-        setTeaType(TeaType.Green);
-        setAmount(0);
-        setPrice(0);
-        setLink("");
-        setVendor("");
-        setYear(0);
-    }
-
     return (
         <SafeAreaView style={styles.dropDown}>
             <TextInput

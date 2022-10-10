@@ -26,7 +26,7 @@ export default function TeaOverviewScreen(props: any) {
     } as Tea);
     const [isLoading, setLoading] = useState(true);
 
-    const fabStyle = { ["right"]: 16 };
+    const fabStyle = {["right"]: 16};
 
     useEffect(() => {
 
@@ -102,7 +102,7 @@ export default function TeaOverviewScreen(props: any) {
                 visible={true}
                 animateFrom={'right'}
                 iconMode={'static'}
-                style={[styles.fabStyle, fabStyle]}
+                style={[styles.fabStyle, {right: 16}]}
             />
         </View>
     );

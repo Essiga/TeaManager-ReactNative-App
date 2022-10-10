@@ -1,28 +1,23 @@
 import {useState} from "react";
-import {Alert, StyleSheet, View} from "react-native";
+import {StyleSheet, View} from "react-native";
 import {Button, Text, TextInput} from "react-native-paper";
 import {IAddVesselModalProps} from "./api/IAddVesselModalProps";
-import {Session, Vessel, VesselApi} from "../openAPI";
+import {Vessel, VesselApi} from "../openAPI";
 
+let vesselApi = new VesselApi();
 
 export function AddVesselModal(props: IAddVesselModalProps) {
     const [newVessel, setNewVessel] = useState("");
     const [capacity, setCapacity] = useState(0);
 
-    function clearData() {
-        setNewVessel('');
-        setCapacity(0);
-    }
-
-    function sendData(newVessel: string, capacity: number){
-        let vessel:Vessel = {
+    function sendData(newVessel: string, capacity: number) {
+        let vessel: Vessel = {
             name: newVessel,
             capacity: capacity,
         }
-        let vesselApi = new VesselApi();
-        console.log(vessel);
-        vesselApi.addVessel(vessel).then((resonse) => {
-            Alert.alert("Vessel successfully added")
+
+        vesselApi.addVessel(vessel).then((response) => {
+            alert(response.data);
         }, (err) => {
             console.log(err);
         })
@@ -62,7 +57,6 @@ export function AddVesselModal(props: IAddVesselModalProps) {
                     </Button>
                 </View>
             </View>
-
         </View>
     );
 }
