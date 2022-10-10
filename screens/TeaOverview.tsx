@@ -28,18 +28,23 @@ export default function TeaOverview(props: any) {
 
         callViewAllTeas();
 
-        return props.navigation.addListener('tabPress', () => {
-            callViewAllTeas();
-        });
-    }, [props.navigation]);
+        if (props != null && props.navigation != null) {
+            return props.navigation.addListener('tabPress', () => {
+                callViewAllTeas();
+            });
+        }
+    }, []);
 
     function callViewAllTeas() {
         teaApi.viewAllTeas()
-            .then((data) => {
-                setTeas(data.data as Tea[]);
-            }, (err) => {
-                console.log(err);
-            })
+            .then(
+                (data) => {
+                    setTeas(data.data as Tea[]);
+                },
+                (err) => {
+                    console.log(err);
+                }
+            )
             .finally(() => {
                 setLoading(false);
             })
@@ -57,7 +62,7 @@ export default function TeaOverview(props: any) {
         <View>
             <MyList
                 teas={teas}
-                onPress={(index: any) => {
+                onPress={(index: number) => {
                     setTea(teas[index])
                     setTeaModalVisible(true)
                 }}
