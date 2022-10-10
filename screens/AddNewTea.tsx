@@ -40,10 +40,6 @@ export default function AddNewTea(props: any) {
             return;
         }
 
-        sendData(newTea, teaType, amount, price, link, vendor, year);
-    }
-
-    function sendData(newTea: string, teaType: TeaType, amount: number, price: number, link: string, vendor: string, year: number) {
         let tea: Tea = {
             name: newTea,
             type: teaType,
@@ -53,6 +49,11 @@ export default function AddNewTea(props: any) {
             vendor: vendor,
             year: year
         };
+
+        sendData(tea);
+    }
+
+    function sendData(tea: Tea) {
 
         teaApi.addTea(tea).then((response) => {
             Alert.alert(response.data);
