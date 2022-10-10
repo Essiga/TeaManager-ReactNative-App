@@ -4,7 +4,7 @@ import {ScrollView, StyleSheet} from "react-native";
 import {useState} from "react";
 import {View} from "./Themed";
 
-export default function MyList(props: any) {
+export default function TeaOverviewList(props: any) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredTeas, setFilteredTeas] = useState(props.teas);

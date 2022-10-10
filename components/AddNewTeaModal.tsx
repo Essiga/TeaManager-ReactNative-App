@@ -2,7 +2,7 @@ import {Alert, StyleSheet, SafeAreaView} from 'react-native';
 import {Button, TextInput} from 'react-native-paper';
 import DropDown from "react-native-paper-dropdown";
 
-import {View} from '../components/Themed';
+import {View} from './Themed';
 import {useState} from "react";
 import {TeaApi, Tea, TeaType} from "../openAPI";
 
@@ -13,7 +13,7 @@ type TeaTypeDropDownEntry = {
     value: TeaType
 }
 
-export default function AddNewTea(props: any) {
+export default function AddNewTeaModal(props: any) {
     const [newTea, setNewTea] = useState("");
     const [teaType, setTeaType] = useState(TeaType.Green);
     const [amount, setAmount] = useState(0);
@@ -63,12 +63,12 @@ export default function AddNewTea(props: any) {
     }
 
     function clearData() {
-        setNewTea('');
-        //setTeaType('');
+        setNewTea("");
+        setTeaType(TeaType.Green);
         setAmount(0);
         setPrice(0);
-        setLink('');
-        setVendor('');
+        setLink("");
+        setVendor("");
         setYear(0);
     }
 
@@ -121,14 +121,20 @@ export default function AddNewTea(props: any) {
 
             <View style={styles.container}>
                 <View style={styles.button}>
-                    <Button icon="tea" mode="contained"
-                            onPress={() => {
-                                //sendData(newTea, teaType, parseInt(amount), parseInt(price), link, vendor, parseInt(year));
-                                checkInput();
-                            }}>
+                    <Button
+                        icon="tea"
+                        mode="contained"
+                        onPress={() => checkInput()}
+                    >
                         Add Tea
                     </Button>
-                    <Button icon="cancel" mode="contained" onPress={() => clearData()}>Cancel</Button>
+
+                    <Button
+                        mode="outlined"
+                        onPress={() => props.toggleAddTeaModalVisibility()}
+                    >
+                        Return
+                    </Button>
                 </View>
             </View>
         </SafeAreaView>

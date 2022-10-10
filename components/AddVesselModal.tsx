@@ -47,8 +47,19 @@ export function AddVesselModal(props: IAddVesselModalProps) {
             </View>
             <View style={styles.container}>
                 <View style={styles.button}>
-                    <Button mode="outlined" onPress={() => sendData(newVessel, capacity)}> Add Vessel </Button>
-                    <Button mode="outlined" onPress={() => props.toggleAddVesselModalVisibility()}> return </Button>
+                    <Button
+                        icon="tea"
+                        mode="contained"
+                        onPress={() => sendData(newVessel, capacity)}
+                    >
+                        Add Vessel
+                    </Button>
+                    <Button
+                        mode="outlined"
+                        onPress={() => props.toggleAddVesselModalVisibility()}
+                    >
+                        Return
+                    </Button>
                 </View>
             </View>
 
