@@ -3,25 +3,18 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
+import * as React from 'react';
+import {ColorSchemeName} from 'react-native';
 import {FontAwesome} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import * as React from 'react';
-import {Alert, ColorSchemeName, Pressable, TouchableOpacity, View} from 'react-native';
-import {BottomNavigation, Button, Text} from 'react-native-paper';
-import axios from 'axios';
+import {DarkTheme, DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import AddNewTea from '../screens/AddNewTea';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
-import ModalScreen from '../screens/ModalScreen';
-import NotFoundScreen from '../screens/NotFoundScreen';
 import VesselScreen from '../screens/VesselScreen';
-import {RootStackParamList, RootTabParamList, RootTabScreenProps} from '../types';
+import {RootTabParamList} from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import {createDrawerNavigator} from "@react-navigation/drawer";
 import TeaOverview from "../screens/TeaOverview";
-import MyList from "../components/MyList";
 
 export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
     return (
