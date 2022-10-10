@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Modal, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
+import {Modal, StyleSheet} from 'react-native';
 import {View} from '../components/Themed';
-import {ActivityIndicator, AnimatedFAB, Button, List} from "react-native-paper";
-import {VesselApi} from "../openAPI";
-import {Vessel} from "../openAPI";
+import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
+import {Vessel, VesselApi} from "../openAPI";
 import {AddVesselModal} from "../components/AddVesselModal";
 import VesselList from "../components/VesselList";
 
