@@ -23,12 +23,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/teamanager.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.essiga.teaManager"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3e098ef0-2321-4082-9426-ab70b85197ce"
+      }
     }
   }
 }

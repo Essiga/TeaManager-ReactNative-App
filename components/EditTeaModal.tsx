@@ -1,23 +1,20 @@
-import {Alert, StyleSheet, SafeAreaView} from 'react-native';
-import {Button, TextInput} from 'react-native-paper';
+import {SafeAreaView, StyleSheet, View} from "react-native";
+import {IEditTeaModalProps} from "./api/IEditTeaModalProps";
+import {Button, TextInput, Text} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
-
-import {View} from '../components/Themed';
 import {useState} from "react";
-import {TeaApi, Tea, TeaType} from "../openAPI";
-
-let teaApi = new TeaApi();
-
+import {Tea, TeaType} from "../openAPI";
 type TeaTypeDropDownEntry = {
     label: string,
     value: TeaType
 }
 
-export default function AddNewTea(props: any) {
+export function EditTeaModal(props: IEditTeaModalProps) {
+
     const [newTea, setNewTea] = useState("");
     const [teaType, setTeaType] = useState(TeaType.Green);
-    const [amount, setAmount] = useState(0.0);
-    const [price, setPrice] = useState(0.0);
+    const [amount, setAmount] = useState(0);
+    const [price, setPrice] = useState(0);
     const [link, setLink] = useState("");
     const [vendor, setVendor] = useState("");
     const [year, setYear] = useState(0);
@@ -34,12 +31,27 @@ export default function AddNewTea(props: any) {
         {label: 'Heicha', value: TeaType.Heicha}
     ];
 
-    function checkInput() {
-        if (!newTea.trim()) {
-            alert('Add Tea Name');
-            return;
-        }
+    const styles = StyleSheet.create({
+        container: {
+            justifyContent: "space-between",
+            padding: 50,
 
+        },
+        button: {
+            flexDirection: "row",
+            paddingTop: 10,
+            justifyContent: 'space-between',
+
+        },
+        dropDown: {
+            justifyContent: 'space-between',
+            paddingTop: 5,
+            flex: 1,
+            //backgroundColor: '#006400'
+        }
+    });
+
+    function updateData(){
         let tea: Tea = {
             name: newTea,
             type: teaType,
@@ -50,33 +62,19 @@ export default function AddNewTea(props: any) {
             year: year
         };
 
-        sendData(tea);
-    }
 
-    function sendData(tea: Tea) {
-
-        teaApi.addTea(tea).then((response) => {
-            Alert.alert(response.data);
-        }, (err) => {
-            console.log(err);
-        })
-    }
-
-    function clearData() {
-        setNewTea('');
-        //setTeaType('');
-        setAmount(0.0);
-        setPrice(0.0);
-        setLink('');
-        setVendor('');
-        setYear(0);
+        props.toggleEditTeaModalVisibility();
     }
 
     return (
         <SafeAreaView style={styles.dropDown}>
+            <Text variant="titleLarge"
+                  style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}>Edit
+                Tea </Text>
+
             <TextInput
                 label="Tea name"
-                value={newTea}
+                value={props.tea.name}
                 onChangeText={text => setNewTea(text)}
             />
 
@@ -95,61 +93,48 @@ export default function AddNewTea(props: any) {
             />
             <TextInput
                 label="Amount"
-                value={amount.toString()}
-                onChangeText={text => setAmount(parseFloat(text))}
+                value={props.tea.amount.toString()}
+                onChangeText={text => setAmount(parseInt(text))}
             />
             <TextInput
                 label="Price"
-                value={price.toString()}
-                onChangeText={text => setPrice(parseFloat(text))}
+                //value={props.tea.price.toString()}
+                onChangeText={text => setPrice(parseInt(text))}
             />
             <TextInput
                 label="Webpage"
-                value={link}
+                value={props.tea.link}
                 onChangeText={text => setLink(text)}
             />
             <TextInput
                 label="Vendor"
-                value={vendor}
+                value={props.tea.vendor}
                 onChangeText={text => setVendor(text)}
             />
             <TextInput
                 label="Year"
-                value={year.toString()}
+                //value={props.tea.year.toString()}
                 onChangeText={text => setYear(parseInt(text))}
             />
 
             <View style={styles.container}>
-                <View style={styles.button}>
-                    <Button icon="tea" mode="contained"
-                            onPress={() => {
-                                //sendData(newTea, teaType, parseInt(amount), parseInt(price), link, vendor, parseInt(year));
-                                checkInput();
-                            }}>
-                        Add Tea
-                    </Button>
-                    <Button icon="cancel" mode="contained" onPress={() => clearData()}>Cancel</Button>
-                </View>
+            <View style={styles.button}>
+                <Button icon="tea" mode="contained"
+                        onPress={() => {
+                            updateData();
+
+                        }}>
+                    Edit Tea
+                </Button>
+                <Button mode="outlined" onPress={() => props.toggleEditTeaModalVisibility()}> return </Button>
             </View>
+        </View>
+
+
+
         </SafeAreaView>
-    )
+
+
+    );
+
 }
-const styles = StyleSheet.create({
-    container: {
-        justifyContent: "space-between",
-        padding: 50,
-
-    },
-    button: {
-        flexDirection: "row",
-        paddingTop: 10,
-        justifyContent: 'space-between',
-
-    },
-    dropDown: {
-        justifyContent: 'space-between',
-        paddingTop: 5,
-        flex: 1,
-        //backgroundColor: '#006400'
-    }
-});

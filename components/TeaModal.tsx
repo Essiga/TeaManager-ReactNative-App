@@ -1,19 +1,44 @@
-import {Linking, StyleSheet, View} from "react-native";
+import {Linking, Modal, StyleSheet, View} from "react-native";
 import {Button, List, Text} from "react-native-paper";
 import {ITeaModalProps} from "./api/ITeaModalProps";
+import {useState} from "react";
+import {EditTeaModal} from "./EditTeaModal";
+import {Tea, TeaType} from "../openAPI";
 
 export function TeaModal(props: ITeaModalProps) {
-    const propsStyle ={
+    const [editTeaVisible, setEditTeaVisible] = useState(false);
+    const [tea, setTea] = useState({
+        id: "0",
+        name: "name",
+        type: TeaType.Green,
+        amount: 1,
+        price: 2,
+        link: "www.google.com",
+        vendor: "vendor",
+        year: 1970
+    } as Tea);
+
+    const propsStyle = {
 
         paddingStart: 20,
         paddingTop: 5
     }
 
-    const linkText ={
+    const linkText = {
 
         paddingStart: 20,
         paddingTop: 5,
         color: 'blue'
+    }
+
+    function toggleEditTeaModalVisibility() {
+        setEditTeaVisible(false);
+        props.toggleTeaModalVisibility();
+    }
+
+    function showEditTea(tea: Tea) {
+        setEditTeaVisible(true);
+        setTea(tea);
     }
 
 
@@ -26,12 +51,23 @@ export function TeaModal(props: ITeaModalProps) {
         },
         item: {
             width: '50%' // is 50% of container width
-        }
+        },
+        button: {
+            flexDirection: "row",
+            paddingTop: 20,
+            justifyContent: 'space-between',
+            alignItems: "center",
+            paddingLeft: 50,
+            paddingEnd: 50,
+        },
+
     })
+
     //console.log("The name: ",props.detailTea.name)
     return (
         <View>
-            <Text variant="titleLarge" style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}>
+            <Text variant="titleLarge"
+                  style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}>
                 {props.tea.name}
             </Text>
             <View style={styles.container}>
@@ -50,21 +86,25 @@ export function TeaModal(props: ITeaModalProps) {
                     <Text style={propsStyle} variant="bodyLarge">{props.tea.year}</Text>
                     <Text style={propsStyle} variant="bodyLarge">{props.tea.vendor}</Text>
                     <Text style={linkText} variant="bodyLarge" onPress={() => {
-                        if(props.tea.link != null){
+                        if (props.tea.link != null) {
                             let url = props.tea.link;
                             Linking.openURL(url);
                         }
                     }}>open link</Text>
                     <Text style={propsStyle} variant="bodyLarge">{props.tea.type}</Text>
                 </View>
-
             </View>
-            <Button style={{marginTop: "105%"}} mode="outlined" onPress={() => props.toggleTeaModalVisibility()}> return </Button>
+            <View style={styles.button}>
+                <Button mode="outlined" onPress={() => props.toggleTeaModalVisibility()}> return </Button>
+                <Button mode="outlined" onPress={() => showEditTea(props.tea)}> edit Tea </Button>
+            </View>
+            <Modal visible={editTeaVisible} onDismiss={() => {setEditTeaVisible(false)}}>
+                <EditTeaModal toggleEditTeaModalVisibility={toggleEditTeaModalVisibility} tea={tea}/>
+            </Modal>
+
         </View>
 
     );
-
-
 
 
 }
