@@ -1,20 +1,5 @@
-import {
-    GestureResponderEvent,
-    Modal,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    TouchableHighlight,
-    TouchableOpacity
-} from 'react-native';
-
-
-import {Text, View} from '../components/Themed';
-
-import {Button, List, Provider as PaperProvider, TextInput} from "react-native-paper";
-import theme from './AddNewTea'
 import React, {useEffect, useState} from "react";
-import {Modal, ScrollView, StyleSheet} from 'react-native';
+import {Modal, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import {View} from '../components/Themed';
 import {Button, List} from "react-native-paper";
 import {VesselApi} from "../openAPI";
@@ -22,7 +7,6 @@ import {Vessel} from "../openAPI";
 import {AddVesselModal} from "../components/AddVesselModal";
 
 let vesselApi = new VesselApi();
-
 
 export default function VesselScreen(props: any) {
 
@@ -52,7 +36,7 @@ export default function VesselScreen(props: any) {
     }, [props.navigation])
 
     function deleteVessel(id: any) {
-        let vesselApi = new VesselApi();
+
         vesselApi.deleteVessel(id).then((data) => {
             console.log(data.data);
         }, (err) => {
