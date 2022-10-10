@@ -1,3 +1,18 @@
+import {
+    GestureResponderEvent,
+    Modal,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    TouchableHighlight,
+    TouchableOpacity
+} from 'react-native';
+
+
+import {Text, View} from '../components/Themed';
+
+import {Button, List, Provider as PaperProvider, TextInput} from "react-native-paper";
+import theme from './AddNewTea'
 import React, {useEffect, useState} from "react";
 import {Modal, ScrollView, StyleSheet} from 'react-native';
 import {View} from '../components/Themed';
@@ -7,6 +22,7 @@ import {Vessel} from "../openAPI";
 import {AddVesselModal} from "../components/AddVesselModal";
 
 let vesselApi = new VesselApi();
+
 
 export default function VesselScreen(props: any) {
 
@@ -35,6 +51,16 @@ export default function VesselScreen(props: any) {
         });
     }, [props.navigation])
 
+    function deleteVessel(id: any) {
+        let vesselApi = new VesselApi();
+        vesselApi.deleteVessel(id).then((data) => {
+            console.log(data.data);
+        }, (err) => {
+            console.log(err);
+        })
+        console.log('from the function now', id)
+    }
+
     return (
         <>
             <View>
@@ -47,7 +73,15 @@ export default function VesselScreen(props: any) {
                             titleEllipsizeMode={"tail"}
                             title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
                             left={props => <List.Icon {...props} icon="tea"/>}
-                            right={props => <List.Icon {...props} icon="delete"/>}
+                            right={props => {
+                                return (
+                                    <TouchableOpacity onPress={() => {
+                                        deleteVessel(item.id)
+                                    }}>
+                                        <List.Icon {...props} icon="delete"/>
+                                    </TouchableOpacity>
+                                )
+                            }}
                         />
                     ))}
                 </ScrollView>
@@ -56,16 +90,17 @@ export default function VesselScreen(props: any) {
                 }}>
                     <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
                 </Modal>
-            </View>
 
-            <View style={styles.container}>
-                <View style={styles.button}>
-                    <Button icon="tea" mode="contained" onPress={() => {
-                        setAddVesselModalVisible(true)
-                    }}>
-                        Add Vessel
-                    </Button>
-                    <Button icon="delete" mode="contained" onPress={() => console.log("pressed")}>delete </Button>
+
+                <View style={styles.container}>
+                    <View style={styles.button}>
+                        <Button icon="tea" mode="contained" onPress={() => {
+                            setAddVesselModalVisible(true)
+                        }}>
+                            Add Vessel
+                        </Button>
+                        <Button icon="refresh" mode="contained" onPress={() => getAllVessels()}>refresh </Button>
+                    </View>
                 </View>
             </View>
         </>
