@@ -26,9 +26,12 @@ export function AddVesselModal(props: IAddVesselModalProps) {
     return (
         <View style={styles.dropDown}>
             <View>
-                <Text variant="titleLarge"
-                      style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}>Add
-                    Vessel</Text>
+                <Text
+                    variant="titleLarge"
+                    style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}
+                >
+                    Add Vessel
+                </Text>
                 <TextInput
                     label="Vessel name"
                     value={newVessel}
@@ -65,7 +68,6 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: "space-between",
         padding: 50,
-
     },
     button: {
         flexDirection: "row",

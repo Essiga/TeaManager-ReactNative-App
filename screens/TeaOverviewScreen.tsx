@@ -26,8 +26,6 @@ export default function TeaOverviewScreen(props: any) {
     } as Tea);
     const [isLoading, setLoading] = useState(true);
 
-    const fabStyle = {["right"]: 16};
-
     useEffect(() => {
 
         callViewAllTeas();
@@ -51,7 +49,7 @@ export default function TeaOverviewScreen(props: any) {
             )
             .finally(() => {
                 setLoading(false);
-            })
+            });
     }
 
     function toggleTeaModalVisibility() {

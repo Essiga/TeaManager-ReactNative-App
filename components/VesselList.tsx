@@ -1,21 +1,21 @@
-import {Tea} from "../openAPI";
+import {Vessel} from "../openAPI";
 import {List, Searchbar, Text} from "react-native-paper";
-import {ScrollView, StyleSheet} from "react-native";
-import {useState} from "react";
+import {ScrollView, StyleSheet, TouchableOpacity} from "react-native";
+import React, {useState} from "react";
 import {View} from "./Themed";
 
-export default function TeaOverviewList(props: any) {
+export default function VesselList(props: any) {
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredTeas, setFilteredTeas] = useState(props.teas);
+    const [filteredVessels, setFilteredVessels] = useState(props.vessels);
 
     const onChangeSearch = (query: string) => {
 
         if (query === "") {
-            setFilteredTeas(props.teas);
+            setFilteredVessels(props.vessels);
         } else {
-            setFilteredTeas(
-                props.teas.filter((filter: Tea) => {
+            setFilteredVessels(
+                props.vessels.filter((filter: Vessel) => {
                     const itemData = filter.name ? filter.name.toUpperCase() : ''.toUpperCase();
 
                     return itemData.indexOf(query.toUpperCase()) > -1;
@@ -36,13 +36,13 @@ export default function TeaOverviewList(props: any) {
         );
     }
 
-    return !filteredTeas.length ? (
+    return !filteredVessels.length ? (
         <>
             {searchBarContent()}
 
             <View style={styles.noVesselsFoundTextContainer}>
                 <Text>
-                    No teas found
+                    No vessels found
                 </Text>
             </View>
         </>
@@ -52,17 +52,20 @@ export default function TeaOverviewList(props: any) {
 
             <View style={styles.scrollViewContainer}>
                 <ScrollView>
-                    {filteredTeas.map((item: Tea, i: number) => (
+                    {filteredVessels.map((item: Vessel, i: number) => (
                         <List.Item
                             style={styles.scrollViewContainerItem}
                             titleNumberOfLines={1}
                             key={i}
                             titleEllipsizeMode={"tail"}
                             title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
-                            description={item.type}
-                            left={props => <List.Icon {...props} icon="tea"/>}
-                            onPress={() => {
-                                props.onPress(i);
+                            left={_props => <List.Icon {..._props} icon="tea"/>}
+                            right={_props => {
+                                return (
+                                    <TouchableOpacity onPress={() => props.deleteVessel(item.id)}>
+                                        <List.Icon {..._props} icon="delete"/>
+                                    </TouchableOpacity>
+                                )
                             }}
                         />
                     ))}

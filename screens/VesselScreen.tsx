@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Modal, ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import {View} from '../components/Themed';
-import {Button, List} from "react-native-paper";
+import {ActivityIndicator, AnimatedFAB, Button, List} from "react-native-paper";
 import {VesselApi} from "../openAPI";
 import {Vessel} from "../openAPI";
 import {AddVesselModal} from "../components/AddVesselModal";
+import VesselList from "../components/VesselList";
 
 let vesselApi = new VesselApi();
 
@@ -12,19 +13,7 @@ export default function VesselScreen(props: any) {
 
     const [vessels, setVessels] = useState([] as Vessel[]);
     const [addVesselModalVisible, setAddVesselModalVisible] = useState(false);
-
-    function toggleVesselModalVisibility() {
-        setAddVesselModalVisible(false);
-    }
-
-    function getAllVessels() {
-
-        vesselApi.viewAllVessels().then((data) => {
-            setVessels(data.data as Vessel[]);
-        }, (err) => {
-            console.log(err);
-        });
-    }
+    const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
 
@@ -33,7 +22,25 @@ export default function VesselScreen(props: any) {
         return props.navigation.addListener('tabPress', () => {
             getAllVessels();
         });
-    }, [props.navigation])
+    }, [props.navigation]);
+
+    function getAllVessels() {
+        vesselApi.viewAllVessels()
+            .then(
+                (data) => {
+                    setVessels(data.data as Vessel[]);
+                }, (err) => {
+                    console.log(err);
+                }
+            )
+            .finally(() => {
+                setLoading(false);
+            });
+    }
+
+    function toggleVesselModalVisibility() {
+        setAddVesselModalVisible(false);
+    }
 
     function deleteVessel(id: any) {
 
@@ -42,94 +49,50 @@ export default function VesselScreen(props: any) {
         }, (err) => {
             console.log(err);
         })
-        console.log('from the function now', id)
     }
 
-    return (
-        <>
-            <View>
-                <ScrollView>
-                    {vessels.map((item: Vessel, i: number) => (
-                        <List.Item
-                            style={{maxWidth: '100%', width: 800}}
-                            titleNumberOfLines={1}
-                            key={i}
-                            titleEllipsizeMode={"tail"}
-                            title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
-                            left={props => <List.Icon {...props} icon="tea"/>}
-                            right={props => {
-                                return (
-                                    <TouchableOpacity onPress={() => {
-                                        deleteVessel(item.id)
-                                    }}>
-                                        <List.Icon {...props} icon="delete"/>
-                                    </TouchableOpacity>
-                                )
-                            }}
-                        />
-                    ))}
-                </ScrollView>
+    return isLoading ? (
+        <View style={styles.activityIndicatorContainer}>
+            <ActivityIndicator size="small" color="lightgrey"/>
+        </View>
+    ) : (
+        <View>
+            <VesselList
+                vessels={vessels}
+                deleteVessel={(id: number) => deleteVessel(id)}
+            />
 
-                <Modal
-                    visible={addVesselModalVisible}
-                    onDismiss={() => setAddVesselModalVisible(false)}
-                >
-                    <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
-                </Modal>
+            <Modal
+                visible={addVesselModalVisible}
+                onDismiss={() => setAddVesselModalVisible(false)}
+            >
+                <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
+            </Modal>
 
-                <Modal
-                    visible={addVesselModalVisible}
-                    onDismiss={() => setAddVesselModalVisible(false)}
-                >
-                    <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
-                </Modal>
-
-                <View style={styles.container}>
-                    <View style={styles.button}>
-                        <Button
-                            icon="tea"
-                            mode="contained"
-                            onPress={() => setAddVesselModalVisible(true)}
-                        >
-                            Add Vessel
-                        </Button>
-                        <Button
-                            icon="refresh"
-                            mode="contained"
-                            onPress={() => getAllVessels()}
-                        >
-                            Refresh
-                        </Button>
-                    </View>
-                </View>
-            </View>
-        </>
+            <AnimatedFAB
+                icon={'plus'}
+                label={''}
+                extended={false}
+                onPress={() => setAddVesselModalVisible(true)}
+                visible={true}
+                animateFrom={'right'}
+                iconMode={'static'}
+                style={[styles.fabStyle, {right: 16}]}
+            />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        bottom: 0,
-        alignSelf: 'center',
+    activityIndicatorContainer: {
+        flex: 1,
+        padding: 20,
+        justifyContent: 'center'
+    },
+    fabStyle: {
+        bottom: 72,
+        right: 16,
         position: 'absolute',
-        padding: 10,
-        width: 400,
-    },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: '80%',
-    },
-    button: {
-        flexDirection: "row",
-        paddingTop: 10,
-        justifyContent: 'space-between',
-        alignItems: "center",
-        paddingLeft: 20,
-        paddingEnd: 20,
+        alignItems: 'center'
     },
 });
