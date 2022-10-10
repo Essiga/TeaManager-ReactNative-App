@@ -1,5 +1,5 @@
 import {Alert, StyleSheet, SafeAreaView} from 'react-native';
-import {Button, TextInput} from 'react-native-paper';
+import {Button, Text, TextInput} from 'react-native-paper';
 import DropDown from "react-native-paper-dropdown";
 
 import {View} from './Themed';
@@ -64,50 +64,57 @@ export default function AddNewTeaModal(props: any) {
 
     return (
         <SafeAreaView style={styles.dropDown}>
-            <TextInput
-                label="Tea name"
-                value={newTea}
-                onChangeText={text => setNewTea(text)}
-            />
-
-            <DropDown
-                label={"Tea type"}
-                visible={showDropDown}
-                dropDownStyle={{width: 140, top: 80,}}
-                showDropDown={() => setShowDropDown(true)}
-                onDismiss={() => setShowDropDown(false)}
-                value={teaType}
-                setValue={setTeaType}
-                list={teaTypeDropDown}
-                inputProps={{
-                    right: <TextInput.Icon icon={"arrow-down-drop-circle"}/>
-                }}
-            />
-            <TextInput
-                label="Amount"
-                value={amount.toString()}
-                onChangeText={text => setAmount(parseInt(text))}
-            />
-            <TextInput
-                label="Price"
-                value={price.toString()}
-                onChangeText={text => setPrice(parseInt(text))}
-            />
-            <TextInput
-                label="Webpage"
-                value={link}
-                onChangeText={text => setLink(text)}
-            />
-            <TextInput
-                label="Vendor"
-                value={vendor}
-                onChangeText={text => setVendor(text)}
-            />
-            <TextInput
-                label="Year"
-                value={year.toString()}
-                onChangeText={text => setYear(parseInt(text))}
-            />
+            <View>
+                <Text
+                    variant="titleLarge"
+                    style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}
+                >
+                    Add Tea
+                </Text>
+                <TextInput
+                    label="Tea name"
+                    value={newTea}
+                    onChangeText={text => setNewTea(text)}
+                />
+                <DropDown
+                    label={"Tea type"}
+                    visible={showDropDown}
+                    dropDownStyle={{width: 140, top: 80,}}
+                    showDropDown={() => setShowDropDown(true)}
+                    onDismiss={() => setShowDropDown(false)}
+                    value={teaType}
+                    setValue={setTeaType}
+                    list={teaTypeDropDown}
+                    inputProps={{
+                        right: <TextInput.Icon icon={"arrow-down-drop-circle"}/>
+                    }}
+                />
+                <TextInput
+                    label="Amount"
+                    value={amount.toString()}
+                    onChangeText={text => setAmount(parseInt(text))}
+                />
+                <TextInput
+                    label="Price"
+                    value={price.toString()}
+                    onChangeText={text => setPrice(parseInt(text))}
+                />
+                <TextInput
+                    label="Webpage"
+                    value={link}
+                    onChangeText={text => setLink(text)}
+                />
+                <TextInput
+                    label="Vendor"
+                    value={vendor}
+                    onChangeText={text => setVendor(text)}
+                />
+                <TextInput
+                    label="Year"
+                    value={year.toString()}
+                    onChangeText={text => setYear(parseInt(text))}
+                />
+            </View>
 
             <View style={styles.container}>
                 <View style={styles.button}>

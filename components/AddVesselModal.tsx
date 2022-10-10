@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {StyleSheet, View} from "react-native";
+import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
 import {Button, Text, TextInput} from "react-native-paper";
 import {IAddVesselModalProps} from "./api/IAddVesselModalProps";
 import {Vessel, VesselApi} from "../openAPI";
@@ -17,14 +17,14 @@ export function AddVesselModal(props: IAddVesselModalProps) {
         }
 
         vesselApi.addVessel(vessel).then((response) => {
-            alert(response.data);
+            Alert.alert(response.data);
         }, (err) => {
             console.log(err);
         })
     }
 
     return (
-        <View style={styles.dropDown}>
+        <SafeAreaView style={styles.dropDown}>
             <View>
                 <Text
                     variant="titleLarge"
@@ -60,7 +60,7 @@ export function AddVesselModal(props: IAddVesselModalProps) {
                     </Button>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
 
