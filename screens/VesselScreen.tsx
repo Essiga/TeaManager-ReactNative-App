@@ -1,53 +1,42 @@
-import {Modal, SafeAreaView, ScrollView, StyleSheet, TouchableHighlight} from 'react-native';
-
-
-import {Text, View} from '../components/Themed';
-
-import {Button, List, Provider as PaperProvider, TextInput} from "react-native-paper";
-import theme from './AddNewTea'
 import React, {useEffect, useState} from "react";
+import {Modal, ScrollView, StyleSheet} from 'react-native';
+import {View} from '../components/Themed';
+import {Button, List} from "react-native-paper";
 import {VesselApi} from "../openAPI";
 import {Vessel} from "../openAPI";
 import {AddVesselModal} from "../components/AddVesselModal";
 
+let vesselApi = new VesselApi();
 
 export default function VesselScreen(props: any) {
 
-    let vesselArray: Vessel[] = [];
-    const [vessels, setVessels] = useState(vesselArray);
+    const [vessels, setVessels] = useState([] as Vessel[]);
     const [addVesselModalVisible, setAddVesselModalVisible] = useState(false);
-
-    let defaultVessel: Vessel = {
-        id: "0",
-        name: "name",
-        capacity: 0,
-    }
 
     function toggleVesselModalVisibility() {
         setAddVesselModalVisible(false);
     }
 
     function getAllVessels() {
-        let vesselApi = new VesselApi();
 
         vesselApi.viewAllVessels().then((data) => {
-            console.log(data.data);
             setVessels(data.data as Vessel[]);
         }, (err) => {
             console.log(err);
-        })
-
+        });
     }
 
     useEffect(() => {
+
         getAllVessels();
-        props.navigation.addListener('tabPress', (e: any) => {
+
+        return props.navigation.addListener('tabPress', () => {
             getAllVessels();
-        })
+        });
     }, [props.navigation])
 
     return (
-        <PaperProvider theme={theme}>
+        <>
             <View>
                 <ScrollView>
                     {vessels.map((item: Vessel, i: number) => (
@@ -79,7 +68,7 @@ export default function VesselScreen(props: any) {
                     <Button icon="delete" mode="contained" onPress={() => console.log("pressed")}>delete </Button>
                 </View>
             </View>
-        </PaperProvider>
+        </>
     );
 }
 

@@ -90,16 +90,10 @@ export interface Tea {
     'type': TeaType;
     /**
      * 
-     * @type {string}
-     * @memberof Tea
-     */
-    'subType'?: string;
-    /**
-     * 
      * @type {number}
      * @memberof Tea
      */
-    'price': number;
+    'price'?: number;
     /**
      * 
      * @type {number}
