@@ -25,13 +25,12 @@ import MyList from "../components/MyList";
 
 export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
     return (
-        // <NavigationContainer
-        //     linking={LinkingConfiguration}
-        //     theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-        // >
-        //     <RootNavigator/>
-            <MyBottomNavigation/>
-        // </NavigationContainer>
+        <NavigationContainer
+            linking={LinkingConfiguration}
+            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
+        >
+            <BottomTabNavigator/>
+        </NavigationContainer>
     );
 }
 
@@ -87,53 +86,3 @@ function TabBarIcon(props: {
 }) {
     return <FontAwesome size={30} style={{marginBottom: -3}} {...props} />;
 }
-
-
-
-
-
-
-const MusicRoute = () => <Text>Music</Text>;
-
-const AlbumsRoute = () => <Text>Albums</Text>;
-
-const RecentsRoute = () => <Text>Recents</Text>;
-
-const NotificationsRoute = () => <Text>Notifications</Text>;
-
-const MyBottomNavigation = () => {
-    const [index, setIndex] = React.useState(0);
-    // const [routes] = React.useState([
-    //     { key: 'music', title: 'Favorites', focusedIcon: 'heart', unfocusedIcon: 'heart-outline'},
-    //     { key: 'albums', title: 'Albums', focusedIcon: 'album' },
-    //     { key: 'recents', title: 'Recents', focusedIcon: 'history' },
-    //     { key: 'notifications', title: 'Notifications', focusedIcon: 'bell', unfocusedIcon: 'bell-outline' },
-    // ]);
-    //
-    // const renderScene = BottomNavigation.SceneMap({
-    //     music: MusicRoute,
-    //     albums: AlbumsRoute,
-    //     recents: RecentsRoute,
-    //     notifications: NotificationsRoute,
-    // });
-
-    const [routes] = React.useState([
-        { key: 'teas', title: 'Teas', focusedIcon: 'heart', unfocusedIcon: 'heart-outline'},
-        { key: 'vessels', title: 'Vessels', focusedIcon: 'album' },
-        { key: 'sessions', title: 'Sessions', focusedIcon: 'history' },
-    ]);
-
-    const renderScene = BottomNavigation.SceneMap({
-        teas: TeaOverview,
-        vessels: VesselScreen,
-        sessions: AddNewTea,
-    });
-
-    return (
-        <BottomNavigation
-            navigationState={{ index, routes }}
-            onIndexChange={setIndex}
-            renderScene={renderScene}
-        />
-    );
-};
