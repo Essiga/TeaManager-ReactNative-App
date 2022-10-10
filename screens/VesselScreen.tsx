@@ -1,4 +1,12 @@
-import {GestureResponderEvent, Modal, SafeAreaView, ScrollView, StyleSheet, TouchableHighlight, TouchableOpacity} from 'react-native';
+import {
+    GestureResponderEvent,
+    Modal,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    TouchableHighlight,
+    TouchableOpacity
+} from 'react-native';
 
 
 import {Text, View} from '../components/Themed';
@@ -48,11 +56,10 @@ export default function VesselScreen(props: any) {
         })
     }, [props.navigation])
 
-    function deleteVessel(id:any){
+    function deleteVessel(id: any) {
         let vesselApi = new VesselApi();
         vesselApi.deleteVessel(id).then((data) => {
             console.log(data.data);
-            // TODO: add a pop up 
         }, (err) => {
             console.log(err);
         })
@@ -73,7 +80,9 @@ export default function VesselScreen(props: any) {
                             left={props => <List.Icon {...props} icon="tea"/>}
                             right={props => {
                                 return (
-                                    <TouchableOpacity onPress={() => {deleteVessel(item.id)}}>
+                                    <TouchableOpacity onPress={() => {
+                                        deleteVessel(item.id)
+                                    }}>
                                         <List.Icon {...props} icon="delete"/>
                                     </TouchableOpacity>
                                 )
@@ -86,16 +95,17 @@ export default function VesselScreen(props: any) {
                 }}>
                     <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
                 </Modal>
-            </View>
 
-            <View style={styles.container}>
-                <View style={styles.button}>
-                    <Button icon="tea" mode="contained" onPress={() => {
-                        setAddVesselModalVisible(true)
-                    }}>
-                        Add Vessel
-                    </Button>
-                    <Button icon="delete" mode="contained" onPress={() => console.log("pressed")}>delete </Button>
+
+                <View style={styles.container}>
+                    <View style={styles.button}>
+                        <Button icon="tea" mode="contained" onPress={() => {
+                            setAddVesselModalVisible(true)
+                        }}>
+                            Add Vessel
+                        </Button>
+                        <Button icon="refresh" mode="contained" onPress={() => getAllVessels()}>refresh </Button>
+                    </View>
                 </View>
             </View>
         </PaperProvider>
