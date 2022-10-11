@@ -4,6 +4,7 @@ import {Button, TextInput, Text} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import {useState} from "react";
 import {Tea, TeaType} from "../openAPI";
+
 type TeaTypeDropDownEntry = {
     label: string,
     value: TeaType
@@ -47,11 +48,10 @@ export function EditTeaModal(props: IEditTeaModalProps) {
             justifyContent: 'space-between',
             paddingTop: 5,
             flex: 1,
-            //backgroundColor: '#006400'
         }
     });
 
-    function updateData(){
+    function updateData() {
         let tea: Tea = {
             name: newTea,
             type: teaType,
@@ -94,12 +94,12 @@ export function EditTeaModal(props: IEditTeaModalProps) {
             <TextInput
                 label="Amount"
                 value={props.tea.amount.toString()}
-                onChangeText={text => setAmount(parseInt(text))}
+                onChangeText={text => setAmount(parseFloat(text))}
             />
             <TextInput
-                label="Price"
-                //value={props.tea.price.toString()}
-                onChangeText={text => setPrice(parseInt(text))}
+                label="price"
+                value={props.tea.price?.toString()}
+                onChangeText={text => setPrice(parseFloat(text))}
             />
             <TextInput
                 label="Webpage"
@@ -113,23 +113,21 @@ export function EditTeaModal(props: IEditTeaModalProps) {
             />
             <TextInput
                 label="Year"
-                //value={props.tea.year.toString()}
+                value={props.tea.year?.toString()}
                 onChangeText={text => setYear(parseInt(text))}
             />
-
             <View style={styles.container}>
-            <View style={styles.button}>
-                <Button icon="tea" mode="contained"
-                        onPress={() => {
-                            updateData();
+                <View style={styles.button}>
+                    <Button icon="tea" mode="contained"
+                            onPress={() => {
+                                updateData();
 
-                        }}>
-                    Edit Tea
-                </Button>
-                <Button mode="outlined" onPress={() => props.toggleEditTeaModalVisibility()}> return </Button>
+                            }}>
+                        Edit Tea
+                    </Button>
+                    <Button mode="outlined" onPress={() => props.toggleEditTeaModalVisibility()}> return </Button>
+                </View>
             </View>
-        </View>
-
 
 
         </SafeAreaView>
