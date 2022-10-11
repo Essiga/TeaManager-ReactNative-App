@@ -1,16 +1,18 @@
-import {SafeAreaView, StyleSheet, View} from "react-native";
-import {IEditTeaModalProps} from "./api/IEditTeaModalProps";
+import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
+import {IUpdateTeaModalProps} from "./api/IUpdateTeaModalProps";
 import {Button, TextInput, Text} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import {useState} from "react";
-import {Tea, TeaType} from "../openAPI";
+import {Tea, TeaApi, TeaType} from "../openAPI";
 
 type TeaTypeDropDownEntry = {
     label: string,
     value: TeaType
 }
 
-export function EditTeaModal(props: IEditTeaModalProps) {
+let teaApi = new TeaApi();
+
+export function UpdateTeaModal(props: IUpdateTeaModalProps) {
 
     const [newTea, setNewTea] = useState("");
     const [teaType, setTeaType] = useState(TeaType.Green);
@@ -62,14 +64,19 @@ export function EditTeaModal(props: IEditTeaModalProps) {
             year: year
         };
 
+        teaApi.addTea(tea).then((response) => {
+            Alert.alert(response.data);
+        }, (err) => {
+            console.log(err);
+        })
 
-        props.toggleEditTeaModalVisibility();
+        props.toggleUpdateTeaModalVisibility();
     }
 
     return (
         <SafeAreaView style={styles.dropDown}>
             <Text variant="titleLarge"
-                  style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}>Edit
+                  style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}>Update
                 Tea </Text>
 
             <TextInput
@@ -121,18 +128,13 @@ export function EditTeaModal(props: IEditTeaModalProps) {
                     <Button icon="tea" mode="contained"
                             onPress={() => {
                                 updateData();
-
                             }}>
-                        Edit Tea
+                        Update Tea
                     </Button>
-                    <Button mode="outlined" onPress={() => props.toggleEditTeaModalVisibility()}> return </Button>
+                    <Button mode="outlined" onPress={() => props.toggleUpdateTeaModalVisibility()}> return </Button>
                 </View>
             </View>
-
-
         </SafeAreaView>
-
-
     );
 
 }

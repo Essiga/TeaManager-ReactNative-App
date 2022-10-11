@@ -2,11 +2,11 @@ import {Linking, Modal, StyleSheet, View} from "react-native";
 import {Button, List, Text} from "react-native-paper";
 import {ITeaModalProps} from "./api/ITeaModalProps";
 import {useState} from "react";
-import {EditTeaModal} from "./EditTeaModal";
+import {UpdateTeaModal} from "./UpdateTeaModal";
 import {Tea, TeaType} from "../openAPI";
 
 export function TeaModal(props: ITeaModalProps) {
-    const [editTeaVisible, setEditTeaVisible] = useState(false);
+    const [editTeaVisible, setUpdateTeaVisible] = useState(false);
     const [tea, setTea] = useState({
         id: "0",
         name: "name",
@@ -31,20 +31,19 @@ export function TeaModal(props: ITeaModalProps) {
         color: 'blue'
     }
 
-    function toggleEditTeaModalVisibility() {
-        setEditTeaVisible(false);
+    function toggleUpdateTeaModalVisibility() {
+        setUpdateTeaVisible(false);
         props.toggleTeaModalVisibility();
     }
 
-    function showEditTea(tea: Tea) {
-        setEditTeaVisible(true);
+    function showUpdateTea(tea: Tea) {
+        setUpdateTeaVisible(true);
         setTea(tea);
     }
 
 
     const styles = StyleSheet.create({
         container: {
-
             flexDirection: 'row',
             flexWrap: 'wrap',
             alignItems: 'flex-start' // if you want to fill rows left to right
@@ -96,10 +95,10 @@ export function TeaModal(props: ITeaModalProps) {
             </View>
             <View style={styles.button}>
                 <Button mode="outlined" onPress={() => props.toggleTeaModalVisibility()}> return </Button>
-                <Button mode="outlined" onPress={() => showEditTea(props.tea)}> edit Tea </Button>
+                <Button mode="outlined" onPress={() => showUpdateTea(props.tea)}> edit Tea </Button>
             </View>
-            <Modal visible={editTeaVisible} onDismiss={() => {setEditTeaVisible(false)}}>
-                <EditTeaModal toggleEditTeaModalVisibility={toggleEditTeaModalVisibility} tea={tea}/>
+            <Modal visible={editTeaVisible} onDismiss={() => {setUpdateTeaVisible(false)}}>
+                <UpdateTeaModal toggleUpdateTeaModalVisibility={toggleUpdateTeaModalVisibility} tea={tea}/>
             </Modal>
 
         </View>
