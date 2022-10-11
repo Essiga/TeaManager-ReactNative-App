@@ -1,8 +1,9 @@
 import {Vessel} from "../openAPI";
-import {List, Searchbar, Text} from "react-native-paper";
+import {List, Text} from "react-native-paper";
 import {ScrollView, StyleSheet, TouchableOpacity} from "react-native";
 import React, {useState} from "react";
 import {View} from "./Themed";
+import StyledSearchbar from "./StyledSearchbar";
 
 export default function VesselList(props: any) {
 
@@ -28,10 +29,10 @@ export default function VesselList(props: any) {
 
     const searchBarContent = () => {
         return (
-            <Searchbar
-                placeholder="Search"
-                onChangeText={onChangeSearch}
-                value={searchQuery}
+            <StyledSearchbar
+                placeholder={"Search"}
+                onChangeSearch={onChangeSearch}
+                searchQuery={searchQuery}
             />
         );
     }
@@ -78,7 +79,8 @@ export default function VesselList(props: any) {
 const styles = StyleSheet.create({
     scrollViewContainer: {
         height: "100%",
-        alignItems: 'center'
+        alignItems: 'center',
+        marginHorizontal: 10
     },
     scrollViewContainerItem: {
         minWidth: '100%'
