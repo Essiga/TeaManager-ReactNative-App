@@ -18,7 +18,7 @@ import { Configuration } from "./configuration";
 // @ts-ignore
 import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 
-export const BASE_PATH = "http://192.168.0.11:3000/api".replace(/\/+$/, "");
+export const BASE_PATH = "http://172.31.162.103:3000/api".replace(/\/+$/, "");
 
 /**
  *

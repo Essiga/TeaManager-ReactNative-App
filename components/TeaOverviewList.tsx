@@ -62,7 +62,7 @@ export default function TeaOverviewList(props: any) {
                             description={item.type}
                             left={props => <List.Icon {...props} icon="tea"/>}
                             onPress={() => {
-                                props.onPress(i);
+                                props.onPress(filteredTeas[i]);
                             }}
                         />
                     ))}

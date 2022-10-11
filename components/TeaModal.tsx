@@ -37,7 +37,7 @@ export function TeaModal(props: ITeaModalProps) {
             <View style={styles.container}>
                 <View style={styles.item}>
                     <Text style={propsStyle} variant="bodyLarge">Amount:</Text>
-                    <Text style={propsStyle} variant="bodyLarge">Price:</Text>
+                    <Text style={propsStyle} variant="bodyLarge">Price/g:</Text>
                     <Text style={propsStyle} variant="bodyLarge">Year:</Text>
                     <Text style={propsStyle} variant="bodyLarge">Vendor:</Text>
                     <Text style={propsStyle} variant="bodyLarge">Website:</Text>
@@ -46,7 +46,7 @@ export function TeaModal(props: ITeaModalProps) {
                 </View>
                 <View style={styles.item}>
                     <Text style={propsStyle} variant="bodyLarge">{props.tea.amount}g</Text>
-                    <Text style={propsStyle} variant="bodyLarge">{props.tea.price}</Text>
+                    <Text style={propsStyle} variant="bodyLarge">{props.tea.price} USD</Text>
                     <Text style={propsStyle} variant="bodyLarge">{props.tea.year}</Text>
                     <Text style={propsStyle} variant="bodyLarge">{props.tea.vendor}</Text>
                     <Text style={linkText} variant="bodyLarge" onPress={() => {
