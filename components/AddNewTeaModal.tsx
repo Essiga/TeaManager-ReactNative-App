@@ -14,6 +14,7 @@ type TeaTypeDropDownEntry = {
 }
 
 export default function AddNewTeaModal(props: any) {
+
     const [newTea, setNewTea] = useState("");
     const [teaType, setTeaType] = useState(TeaType.Green);
     const [amount, setAmount] = useState(0);
@@ -131,7 +132,7 @@ export default function AddNewTeaModal(props: any) {
 
                     <Button
                         mode="outlined"
-                        onPress={() => props.toggleAddTeaModalVisibility()}
+                        onPress={() => props.toggleAddTeaModalVisibility(false)}
                     >
                         Return
                     </Button>

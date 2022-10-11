@@ -15,6 +15,8 @@ export default function TeaOverviewScreen(props: any) {
     const [teas, setTeas] = useState([] as Tea[]);
     const [teaModalVisible, setTeaModalVisible] = useState(false);
     const [addTeaModalVisible, setAddTeaModalVisible] = useState(false);
+    const [addSessionModalVisible, setAddSessionModalVisible] = useState(false);
+    const [isLoading, setLoading] = useState(true);
     const [tea, setTea] = useState({
         id: "0",
         name: "name",
@@ -25,8 +27,6 @@ export default function TeaOverviewScreen(props: any) {
         vendor: "vendor",
         year: 1970
     } as Tea);
-    const [isLoading, setLoading] = useState(true);
-    const [addSessionModalVisibility, setAddSessionModalVisibility] = useState(false);
 
     useEffect(() => {
 
@@ -59,11 +59,11 @@ export default function TeaOverviewScreen(props: any) {
     }
 
     function toggleAddSessionModalVisibility(visibility: boolean) {
-        setAddSessionModalVisibility(visibility);
+        setAddSessionModalVisible(visibility);
     }
 
     function toggleAddTeaModalVisibility(visibility: boolean) {
-        setAddSessionModalVisibility(visibility);
+        setAddTeaModalVisible(visibility);
     }
 
     return isLoading ? (
@@ -82,26 +82,33 @@ export default function TeaOverviewScreen(props: any) {
 
             <Modal
                 visible={teaModalVisible}
-                onDismiss={() => {
-                    setTeaModalVisible(false)
-                }}
+                onDismiss={() => setTeaModalVisible(false)}
             >
-                <TeaModal toggleTeaModalVisibility={toggleTeaModalVisibility}
-                          toggleAddSessionModalVisibility={toggleAddSessionModalVisibility} tea={tea}/>
+                <TeaModal
+                    tea={tea}
+                    toggleTeaModalVisibility={toggleTeaModalVisibility}
+                    toggleAddSessionModalVisibility={toggleAddSessionModalVisibility}
+                />
             </Modal>
 
             <Modal
-                visible={addSessionModalVisibility}
-                onDismiss={() => setAddSessionModalVisibility(false)}
+                visible={addSessionModalVisible}
+                onDismiss={() => setAddSessionModalVisible(false)}
             >
-                <AddSessionModal tea={tea} toggleAddSessionModalVisibility={toggleAddSessionModalVisibility}/>
+                <AddSessionModal
+                    tea={tea}
+                    toggleAddSessionModalVisibility={toggleAddSessionModalVisibility}
+                />
             </Modal>
 
             <Modal
                 visible={addTeaModalVisible}
                 onDismiss={() => setAddTeaModalVisible(false)}
             >
-                <AddNewTeaModal toggleAddTeaModalVisibility={toggleAddTeaModalVisibility} tea={tea}/>
+                <AddNewTeaModal
+                    tea={tea}
+                    toggleAddTeaModalVisibility={toggleAddTeaModalVisibility}
+                />
             </Modal>
 
             <AnimatedFAB

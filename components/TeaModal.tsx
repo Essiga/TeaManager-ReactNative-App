@@ -1,34 +1,31 @@
 import {Linking, StyleSheet, View} from "react-native";
-import {Button, List, Text} from "react-native-paper";
+import {Button, Text} from "react-native-paper";
 import {ITeaModalProps} from "./api/ITeaModalProps";
 
 export function TeaModal(props: ITeaModalProps) {
-    const propsStyle ={
 
+    const propsStyle ={
         paddingStart: 20,
         paddingTop: 5
-    }
+    };
 
     const linkText ={
-
         paddingStart: 20,
         paddingTop: 5,
         color: 'blue'
-    }
-
+    };
 
     const styles = StyleSheet.create({
         container: {
-
             flexDirection: 'row',
             flexWrap: 'wrap',
             alignItems: 'flex-start' // if you want to fill rows left to right
         },
         item: {
-            width: '50%' // is 50% of container width
+            width: '50%'
         }
-    })
-    //console.log("The name: ",props.detailTea.name)
+    });
+
     return (
         <View>
             <Text variant="titleLarge" style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}>
