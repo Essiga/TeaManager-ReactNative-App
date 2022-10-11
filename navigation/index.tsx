@@ -8,13 +8,13 @@ import {ColorSchemeName} from 'react-native';
 import {FontAwesome} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {DarkTheme, DefaultTheme, NavigationContainer} from '@react-navigation/native';
-import AddNewTea from '../screens/AddNewTea';
+import AddNewTeaModal from '../components/AddNewTeaModal';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import VesselScreen from '../screens/VesselScreen';
 import {RootTabParamList} from '../types';
 import LinkingConfiguration from './LinkingConfiguration';
-import TeaOverview from "../screens/TeaOverview";
+import TeaOverviewScreen from "../screens/TeaOverviewScreen";
 
 export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
     return (
@@ -52,17 +52,9 @@ function BottomTabNavigator() {
             />
             <BottomTab.Screen
                 name="TeaOverview"
-                component={TeaOverview}
+                component={TeaOverviewScreen}
                 options={{
                     title: 'Tea Overview',
-                    tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
-                }}
-            />
-            <BottomTab.Screen
-                name="NewTea"
-                component={AddNewTea}
-                options={{
-                    title: 'Add Tea',
                     tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
                 }}
             />
