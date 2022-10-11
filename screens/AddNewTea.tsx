@@ -14,10 +14,12 @@ type TeaTypeDropDownEntry = {
 }
 
 export default function AddNewTea(props: any) {
+
+
     const [newTea, setNewTea] = useState("");
     const [teaType, setTeaType] = useState(TeaType.Green);
     const [amount, setAmount] = useState(0);
-    const [price, setPrice] = useState(0);
+    const [price, setPrice] = useState("0.0");
     const [link, setLink] = useState("");
     const [vendor, setVendor] = useState("");
     const [year, setYear] = useState(0);
@@ -44,7 +46,7 @@ export default function AddNewTea(props: any) {
             name: newTea,
             type: teaType,
             amount: amount,
-            price: price,
+            price: parseFloat(price),
             link: link,
             vendor: vendor,
             year: year
@@ -66,7 +68,7 @@ export default function AddNewTea(props: any) {
         setNewTea('');
         //setTeaType('');
         setAmount(0);
-        setPrice(0);
+        setPrice("0");
         setLink('');
         setVendor('');
         setYear(0);
@@ -101,7 +103,10 @@ export default function AddNewTea(props: any) {
             <TextInput
                 label="Price"
                 value={price.toString()}
-                onChangeText={text => setPrice(parseInt(text))}
+                onChangeText={(text) => {
+                    text = text.replace(/[^0-9.]/g, '');
+                    setPrice(text);
+                }}
             />
             <TextInput
                 label="Webpage"

@@ -68,8 +68,8 @@ export default function TeaOverview(props: any) {
         <View>
             <MyList
                 teas={teas}
-                onPress={(index: number) => {
-                    setTea(teas[index])
+                onPress={(tea: Tea, index: number) => {
+                    setTea(tea)
                     setTeaModalVisible(true)
                 }}
             />

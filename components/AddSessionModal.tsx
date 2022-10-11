@@ -95,7 +95,7 @@ export function AddSessionModal(props: IAddSessionModalProps) {
                     <Text variant="bodyLarge"
                           style={{paddingBottom: 15, paddingTop: 15, paddingLeft: 5}}>{props.tea.name}</Text>
                     <Text style={{paddingLeft: 5}}>Type: {props.tea.type}</Text>
-                    <Text style={{paddingLeft: 5}}>Price/g: 0.35USD</Text>
+                    <Text style={{paddingLeft: 5}}>Price/g: {props.tea.price}</Text>
 
                     <View style={styles.container}>
                         <View style={styles.itemAmount}>
@@ -125,7 +125,7 @@ export function AddSessionModal(props: IAddSessionModalProps) {
 
                         </View>
                     </View>
-                    <Text>Session Price:</Text>
+                    <Text>Session Price: {props.tea.price}</Text>
 
                     <Button style={{marginTop: "70%"}} mode="outlined"
                             onPress={() => props.toggleAddSessionModalVisibility(false)}> return </Button>
