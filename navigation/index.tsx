@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import VesselScreen from '../screens/VesselScreen';
