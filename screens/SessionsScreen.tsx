@@ -7,6 +7,7 @@ import TeaOverviewList from "../components/TeaOverviewList";
 import {ActivityIndicator, AnimatedFAB, List} from "react-native-paper";
 import AddNewTeaModal from "../components/AddNewTeaModal";
 import {AddSessionModal} from "../components/AddSessionModal";
+import {DetailedSessionModal} from "../components/DetailedSessionModal";
 
 const teaApi = new TeaApi();
 const sessionApi = new SessionApi();
@@ -14,20 +15,18 @@ const sessionApi = new SessionApi();
 export default function SessionsScreen(props: any) {
 
     const [sessions, setSessions] = useState([] as Session[]);
-    const [teaModalVisible, setTeaModalVisible] = useState(false);
+    const [sessionModalVisible, setSessionModalVisible] = useState(false);
     const [addTeaModalVisible, setAddTeaModalVisible] = useState(false);
     const [addSessionModalVisible, setAddSessionModalVisible] = useState(false);
     const [isLoading, setLoading] = useState(true);
-    const [tea, setTea] = useState({
+    const [session, setSession] = useState({
         id: "0",
-        name: "name",
-        type: TeaType.Green,
+        teaId: "0",
+        teaName: "name",
         amount: 1,
-        price: 2,
-        link: "www.google.com",
-        vendor: "vendor",
-        year: 1970
-    } as Tea);
+        price: 1,
+        date: "1970"
+    } as Session);
 
     useEffect(() => {
 
@@ -74,12 +73,21 @@ export default function SessionsScreen(props: any) {
                             description={item.date}
                             left={props => <List.Icon {...props} icon="tea"/>}
                             onPress={() => {
-                                props.onPress(sessions[i]);
+                                setSession(sessions[i]);
+                                setSessionModalVisible(true);
                             }}
                         />
                     ))}
                 </ScrollView>
             </View>
+            <Modal
+                visible={sessionModalVisible}
+                onDismiss={() => setSessionModalVisible(false)}
+            >
+                <DetailedSessionModal
+                    session={session}
+                />
+            </Modal>
         </View>
     );
 }
