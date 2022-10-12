@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Alert, SafeAreaView, StyleSheet} from 'react-native';
+import {Alert, Linking, SafeAreaView, StyleSheet} from 'react-native';
 import {IAddSessionModalProps} from "../api/IAddSessionModalProps";
 import {Button, Provider as PaperProvider, Text, TextInput} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
@@ -53,14 +53,14 @@ export function AddSessionModal(props: any) {
     function sendData(session: Session) {
 
         sessionApi.addSession(session).then(response => {
-            Alert.alert(response.data);
+            Alert.alert("Session added successfully 😁");
         }, (err) => {
             console.log(err);
         });
     }
 
     useEffect(() => {
-
+        console.log(props.tea.name)
         vesselApi.viewAllVessels().then(
             (response) => {
                 let dropDownEntries = [] as any;
@@ -87,12 +87,23 @@ export function AddSessionModal(props: any) {
             <SafeAreaView style={styles.dropDown}>
 
                 <View>
-
-                    <Text variant="headlineMedium" style={{paddingLeft: 5}}>Add Session</Text>
                     <Text variant="bodyLarge"
                           style={{paddingBottom: 15, paddingTop: 15, paddingLeft: 5}}>{props.tea.name}</Text>
-                    <Text style={{paddingLeft: 5}}>Type: {props.tea.type}</Text>
-                    <Text style={{paddingLeft: 5}}>Price/g: {props.tea.price} USD</Text>
+                    <View style={styles.container}>
+                        <View style={styles.props}>
+
+
+
+                            <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>Type:</Text>
+                            <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>Price/g:</Text>
+                        </View>
+                        <View>
+
+                            <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>{props.tea.type}</Text>
+                            <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>{props.tea.price} USD</Text>
+                        </View>
+                    </View>
+
 
                     <View style={styles.container}>
                         <View style={styles.itemAmount}>
@@ -125,14 +136,21 @@ export function AddSessionModal(props: any) {
                         </View>
                     </View>
 
-                    <Text>Session Price: {((props.tea?.price || 0) * parseFloat(amount)).toFixed(2)}</Text>
+                    <Text style={{paddingLeft: 5}} variant={"bodyLarge"}>Session Price: {((props.tea?.price || 0) * parseFloat(amount)).toFixed(2)}</Text>
 
-                    <Button
-                        mode="outlined"
-                        onPress={() => checkInput()}
-                    >
-                        Save
-                    </Button>
+                    <View style={{alignItems: "center"}}>
+                        <Button
+                            style={{marginTop: 20, width: "40%"}}
+                            mode="outlined"
+                            onPress={() => {
+                                checkInput();
+                                props.toggleAddSessionModalVisibility(false);
+                            }}
+                        >
+                            Add
+                        </Button>
+                    </View>
+
                     <Button
                         style={{marginTop: "70%"}}
                         mode="outlined"
@@ -152,6 +170,13 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         alignItems: 'flex-start' // if you want to fill rows left to right
     },
+    item: {
+        width: '50%'
+    },
+    props:{
+        width: "40%",
+        marginStart: 5
+    },
     button: {
         flexDirection: "row",
         paddingTop: 10,
@@ -165,11 +190,15 @@ const styles = StyleSheet.create({
         //backgroundColor: '#006400'
     },
     itemAmount: {
+        paddingTop: 10,
+        paddingBottom: 10,
         width: '40%',
         paddingLeft: 5,
     },
     itemVessel: {
         width: '60%',
+        paddingTop: 10,
+        paddingBottom: 10,
         paddingLeft: 35,
         paddingRight: 5,
     }

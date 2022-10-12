@@ -74,7 +74,9 @@ export default function TeaOverviewScreen(navProps: any) {
             <TeaOverviewList
                 teas={teas}
                 onPress={(tea: Tea) => {
+                    setTea(tea);
                     navProps.navigation.navigate("DetailedTeaModal", {
+
                         tea: tea,
                         toggleTeaModalVisibility: toggleTeaModalVisibility,
                         toggleAddSessionModalVisibility: toggleAddSessionModalVisibility
