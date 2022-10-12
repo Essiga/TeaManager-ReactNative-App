@@ -2,10 +2,11 @@ import {Vessel} from "../openAPI";
 import {List, Text} from "react-native-paper";
 import {ScrollView, StyleSheet, TouchableOpacity} from "react-native";
 import React, {useState} from "react";
-import {View} from "./Themed";
-import StyledSearchbar from "./StyledSearchbar";
+import {View} from "react-native";
+import StyledSearchbar from "./styled/StyledSearchbar";
+import {IVesselViewListProps} from "./api/IVesselViewListProps";
 
-export default function VesselList(props: any) {
+export default function VesselViewList(props: IVesselViewListProps) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredVessels, setFilteredVessels] = useState(props.vessels);
@@ -62,6 +63,7 @@ export default function VesselList(props: any) {
                             title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
                             description={item.capacity + "ml"}
                             left={_props => <List.Icon {..._props} icon="tea"/>}
+
                             // TODO:: delete is broken
                             // right={_props => {
                             //     return (

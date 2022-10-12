@@ -1,17 +1,17 @@
-import {Linking, Modal, StyleSheet, View} from "react-native";
+import {Linking, StyleSheet, View} from "react-native";
 import {Button, Text} from "react-native-paper";
-import {ITeaModalProps} from "../api/ITeaModalProps";
-import {Tea, TeaApi, TeaType} from "../../openAPI";
+import {IDetailedTeaModalProps} from "./api/IDetailedTeaModalProps";
+import {Tea, TeaApi} from "../../openAPI";
 import {useState} from "react";
 import {UpdateTeaModal} from "./UpdateTeaModal";
+import {RootStackScreenProps} from "../../types";
 
 // let teaApi = new TeaApi();
 
-export function DetailedTeaModal(navProps: any) {
+export function DetailedTeaModal(navProps: RootStackScreenProps<"DetailedTeaModal">) {
 
-    let props: ITeaModalProps = navProps.route.params;
+    const props: IDetailedTeaModalProps = navProps.route.params;
 
-    const [updateTeaVisible, setUpdateTeaVisible] = useState(false);
     const [tea, setTea] = useState({
         id: props.tea.id,
         name: props.tea.name,
@@ -23,16 +23,13 @@ export function DetailedTeaModal(navProps: any) {
         year: props.tea.year
     } as Tea);
 
-    function toggleUpdateTeaModalVisibility() {
-        setUpdateTeaVisible(false);
-        props.toggleTeaModalVisibility(true);
-
-        // navProps.navigation.navigate("")
-    }
-
     function showUpdateTea(tea: Tea) {
-        setUpdateTeaVisible(true);
         setTea(tea);
+
+        navProps.navigation.navigate("UpdateTeaModal", {
+            tea: tea,
+            updateTea: updateTea,
+        });
     }
 
     function updateTea(tea: Tea) {
@@ -91,8 +88,9 @@ export function DetailedTeaModal(navProps: any) {
                 <Button
                     mode="outlined"
                     onPress={() => {
-                        props.toggleTeaModalVisibility(false);
-                        props.toggleAddSessionModalVisibility(true);
+                        navProps.navigation.navigate("AddSessionModal", {
+                            tea: tea,
+                        });
                     }}
                 >
                     Start Session
@@ -104,27 +102,6 @@ export function DetailedTeaModal(navProps: any) {
                     Update Tea
                 </Button>
             </View>
-
-            <Button
-                style={{marginTop: "100%"}}
-                mode="outlined"
-                onPress={() => props.toggleTeaModalVisibility(false)}
-            >
-                Return
-            </Button>
-
-            <Modal
-                visible={updateTeaVisible}
-                onDismiss={() => {
-                    setUpdateTeaVisible(false)
-                }}
-            >
-                <UpdateTeaModal
-                    toggleUpdateTeaModalVisibility={toggleUpdateTeaModalVisibility}
-                    tea={tea}
-                    updateTea={updateTea}
-                />
-            </Modal>
         </View>
     );
 }

@@ -1,21 +1,18 @@
-import {Modal, StyleSheet} from 'react-native';
-import {View} from '../components/Themed';
+import {StyleSheet} from 'react-native';
+import {View} from "react-native";
 import {useEffect, useState} from "react";
 import {DetailedTeaModal} from "../components/modal/DetailedTeaModal";
 import {Tea, TeaApi, TeaType} from "../openAPI";
-import TeaOverviewList from "../components/TeaOverviewList";
+import TeaList from "../components/TeaViewList";
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
 import AddNewTeaModal from "../components/modal/AddNewTeaModal";
-import {AddSessionModal} from "../components/modal/AddSessionModal";
+import {RootTabScreenProps} from "../types";
 
 const teaApi = new TeaApi();
 
-export default function TeaOverviewScreen(navProps: any) {
+export default function TeaScreen(navProps: RootTabScreenProps<"TeaScreen">) {
 
     const [teas, setTeas] = useState([] as Tea[]);
-    const [teaModalVisible, setTeaModalVisible] = useState(false);
-    const [addTeaModalVisible, setAddTeaModalVisible] = useState(false);
-    const [addSessionModalVisible, setAddSessionModalVisible] = useState(false);
     const [isLoading, setLoading] = useState(true);
     const [tea, setTea] = useState({
         id: "0",
@@ -32,10 +29,11 @@ export default function TeaOverviewScreen(navProps: any) {
 
         callViewAllTeas();
 
-        return navProps.navigation.addListener('tabPress', () => {
+        return navProps.navigation.addListener('focus', () => {
+            setLoading(true);
             callViewAllTeas();
         });
-    }, []);
+    }, [navProps.navigation]);
 
     function callViewAllTeas() {
         teaApi.viewAllTeas()
@@ -52,63 +50,30 @@ export default function TeaOverviewScreen(navProps: any) {
             });
     }
 
-
-    function toggleTeaModalVisibility(visibility: boolean) {
-        setTeaModalVisible(visibility);
-    }
-
-    function toggleAddSessionModalVisibility(visibility: boolean) {
-        setAddSessionModalVisible(visibility);
-    }
-
-    function toggleAddTeaModalVisibility(visibility: boolean) {
-        setAddTeaModalVisible(visibility);
-    }
-
     return isLoading ? (
         <View style={styles.activityIndicatorContainer}>
             <ActivityIndicator size="small" color="lightgrey"/>
         </View>
     ) : (
         <View>
-            <TeaOverviewList
+            <TeaList
                 teas={teas}
-                onPress={(tea: Tea) => {
+                onItemPress={(tea: Tea) => {
                     setTea(tea);
-                    navProps.navigation.navigate("DetailedTeaModal", {
 
+                    navProps.navigation.navigate("DetailedTeaModal", {
                         tea: tea,
-                        toggleTeaModalVisibility: toggleTeaModalVisibility,
-                        toggleAddSessionModalVisibility: toggleAddSessionModalVisibility
                     });
                 }}
             />
-
-            <Modal
-                visible={addSessionModalVisible}
-                onDismiss={() => setAddSessionModalVisible(false)}
-            >
-                <AddSessionModal
-                    tea={tea}
-                    toggleAddSessionModalVisibility={toggleAddSessionModalVisibility}
-                />
-            </Modal>
-
-            <Modal
-                visible={addTeaModalVisible}
-                onDismiss={() => setAddTeaModalVisible(false)}
-            >
-                <AddNewTeaModal
-                    tea={tea}
-                    toggleAddTeaModalVisibility={toggleAddTeaModalVisibility}
-                />
-            </Modal>
 
             <AnimatedFAB
                 icon={'plus'}
                 label={''}
                 extended={false}
-                onPress={() => setAddTeaModalVisible(true)}
+                onPress={() => {
+                    navProps.navigation.navigate("AddNewTeaModal", {});
+                }}
                 visible={true}
                 animateFrom={'right'}
                 iconMode={'static'}

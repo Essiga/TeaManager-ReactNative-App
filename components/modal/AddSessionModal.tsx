@@ -1,16 +1,19 @@
 import {useEffect, useState} from "react";
-import {Alert, Linking, SafeAreaView, StyleSheet} from 'react-native';
-import {IAddSessionModalProps} from "../api/IAddSessionModalProps";
+import {Alert, SafeAreaView, StyleSheet} from 'react-native';
+import {IAddSessionModalProps} from "./api/IAddSessionModalProps";
 import {Button, Provider as PaperProvider, Text, TextInput} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import Theme from '../../constants/Theme';
 import {Session, SessionApi, Vessel, VesselApi} from "../../openAPI";
-import {View} from "../Themed";
+import {View} from "react-native";
+import {RootStackScreenProps} from "../../types";
 
 let vesselApi = new VesselApi();
 let sessionApi = new SessionApi();
 
-export function AddSessionModal(props: any) {
+export function AddSessionModal(navProps: RootStackScreenProps<"AddSessionModal">) {
+
+    const props: IAddSessionModalProps = navProps.route.params;
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [vesselsDropDown, setVesselsDropDown] = useState([] as any)
@@ -54,13 +57,15 @@ export function AddSessionModal(props: any) {
 
         sessionApi.addSession(session).then(response => {
             Alert.alert("Session added successfully 😁");
+
+            navProps.navigation.navigate("Root");
         }, (err) => {
             console.log(err);
         });
     }
 
     useEffect(() => {
-        console.log(props.tea.name)
+
         vesselApi.viewAllVessels().then(
             (response) => {
                 let dropDownEntries = [] as any;
@@ -85,25 +90,24 @@ export function AddSessionModal(props: any) {
     return (
         <PaperProvider theme={Theme}>
             <SafeAreaView style={styles.dropDown}>
-
                 <View>
-                    <Text variant="bodyLarge"
-                          style={{paddingBottom: 15, paddingTop: 15, paddingLeft: 5}}>{props.tea.name}</Text>
+                    <Text
+                        variant="bodyLarge"
+                        style={{paddingBottom: 15, paddingTop: 15, paddingLeft: 5}}
+                    >
+                        {props.tea.name}
+                    </Text>
+
                     <View style={styles.container}>
                         <View style={styles.props}>
-
-
-
                             <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>Type:</Text>
                             <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>Price/g:</Text>
                         </View>
                         <View>
-
                             <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>{props.tea.type}</Text>
                             <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>{props.tea.price} USD</Text>
                         </View>
                     </View>
-
 
                     <View style={styles.container}>
                         <View style={styles.itemAmount}>
@@ -115,7 +119,6 @@ export function AddSessionModal(props: any) {
                                     setAmount(text);
                                 }}
                             />
-
                         </View>
 
                         <View style={styles.itemVessel}>
@@ -132,11 +135,14 @@ export function AddSessionModal(props: any) {
                                     right: <TextInput.Icon icon={"arrow-down-drop-circle"}/>
                                 }}
                             />
-
                         </View>
                     </View>
 
-                    <Text style={{paddingLeft: 5}} variant={"bodyLarge"}>Session Price: {((props.tea?.price || 0) * parseFloat(amount)).toFixed(2)}</Text>
+                    <Text
+                        style={{paddingLeft: 5}} variant={"bodyLarge"}
+                    >
+                        Session Price: {((props.tea?.price || 0) * parseFloat(amount)).toFixed(2)}
+                    </Text>
 
                     <View style={{alignItems: "center"}}>
                         <Button
@@ -144,20 +150,11 @@ export function AddSessionModal(props: any) {
                             mode="outlined"
                             onPress={() => {
                                 checkInput();
-                                props.toggleAddSessionModalVisibility(false);
                             }}
                         >
                             Add
                         </Button>
                     </View>
-
-                    <Button
-                        style={{marginTop: "70%"}}
-                        mode="outlined"
-                        onPress={() => props.toggleAddSessionModalVisibility(false)}
-                    >
-                        Return
-                    </Button>
                 </View>
             </SafeAreaView>
         </PaperProvider>
@@ -173,7 +170,7 @@ const styles = StyleSheet.create({
     item: {
         width: '50%'
     },
-    props:{
+    props: {
         width: "40%",
         marginStart: 5
     },

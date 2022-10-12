@@ -1,29 +1,11 @@
-import {Linking, Modal, StyleSheet, View} from "react-native";
-import {Button, Text} from "react-native-paper";
-import {ITeaModalProps} from "../api/ITeaModalProps";
-import {Tea, TeaType} from "../../openAPI";
-import {useState} from "react";
-import {UpdateTeaModal} from "./UpdateTeaModal";
-import {ISessionModalProps} from "../api/ISessionModalProps";
+import {StyleSheet, View} from "react-native";
+import {Text} from "react-native-paper";
+import {IDetailedSessionModalProps} from "./api/IDetailedSessionModalProps";
+import {RootStackScreenProps} from "../../types";
 
-export function DetailedSessionModal(props: ISessionModalProps) {
-    const [updateTeaVisible, setUpdateTeaVisible] = useState(false);
-    const [tea, setTea] = useState({
-        id: "0",
-        name: "name",
-        type: TeaType.Green,
-        amount: 1,
-        price: 2,
-        link: "www.google.com",
-        vendor: "vendor",
-        year: 1970
-    } as Tea);
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    function showUpdateTea(tea: Tea) {
-        console.log(tea)
-        setUpdateTeaVisible(true);
-        setTea(tea);
-    }
+export function DetailedSessionModal(navProps: RootStackScreenProps<"DetailedSessionModal">) {
+
+    const props: IDetailedSessionModalProps = navProps.route.params;
 
     return (
         <View>
@@ -44,31 +26,12 @@ export function DetailedSessionModal(props: ISessionModalProps) {
                 <View style={styles.item}>
                     <Text style={styles.propsStyle} variant="bodyLarge">{props.session.amount}g</Text>
                     <Text style={styles.propsStyle} variant="bodyLarge">{props.session.price} USD</Text>
-                    <Text style={styles.propsStyle} variant="bodyLarge">{new Date(props.session.date).toLocaleString()}</Text>
+                    <Text
+                        style={styles.propsStyle}
+                        variant="bodyLarge">{new Date(props.session.date).toLocaleString()}
+                    </Text>
                 </View>
-
             </View>
-
-            {/*<View style={styles.button}>*/}
-            {/*    <Button mode="outlined" onPress={() => {*/}
-            {/*        props.toggleTeaModalVisibility(false);*/}
-            {/*        props.toggleAddSessionModalVisibility(true);*/}
-            {/*    }}> Start Session </Button>*/}
-            {/*    <Button mode="outlined" onPress={() => showUpdateTea(props.tea)}> Update Tea</Button>*/}
-            {/*</View>*/}
-            {/*<Button*/}
-            {/*    style={{marginTop: "100%"}}*/}
-            {/*    mode="outlined"*/}
-            {/*    onPress={() => props.toggleTeaModalVisibility(false)}*/}
-            {/*>*/}
-            {/*    Return*/}
-            {/*</Button>*/}
-
-            {/*<Modal visible={updateTeaVisible} onDismiss={() => {*/}
-            {/*    setUpdateTeaVisible(false)*/}
-            {/*}}>*/}
-            {/*    <UpdateTeaModal toggleUpdateTeaModalVisibility={toggleUpdateTeaModalVisibility} tea={tea}/>*/}
-            {/*</Modal>*/}
         </View>
     );
 }

@@ -6,9 +6,15 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps, NavigatorScreenParams} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AddVesselModal} from "./components/modal/AddVesselModal";
-import {UpdateTeaModal} from "./components/modal/UpdateTeaModal";
-import {ITeaModalProps} from "./components/api/ITeaModalProps";
+import {IDetailedTeaModalProps} from "./components/modal/api/IDetailedTeaModalProps";
+import {IUpdateTeaModalProps} from "./components/modal/api/IUpdateTeaModalProps";
+import {IAddSessionModalProps} from "./components/modal/api/IAddSessionModalProps";
+import {IAddVesselModalProps} from "./components/modal/api/IAddVesselModalProps";
+import {IAddNewTeaModalProps} from "./components/modal/api/IAddNewTeaModalProps";
+import {IDetailedSessionModalProps} from "./components/modal/api/IDetailedSessionModalProps";
+import {ISessionScreenProps} from "./screens/api/ISessionScreenProps";
+import {IVesselScreenProps} from "./screens/api/IVesselScreenProps";
+import {ITeaScreenProps} from "./screens/api/ITeaScreenProps";
 
 declare global {
     namespace ReactNavigation {
@@ -19,20 +25,21 @@ declare global {
 
 export type RootStackParamList = {
     Root: NavigatorScreenParams<RootTabParamList> | undefined;
-    AddNewTeaModal: undefined;
-    AddVesselModal: undefined;
-    AddSessionModal: undefined;
-    DetailedTeaModal: ITeaModalProps;
-    UpdateTeaModal: undefined;
+    AddNewTeaModal: IAddNewTeaModalProps;
+    AddVesselModal: IAddVesselModalProps;
+    AddSessionModal: IAddSessionModalProps;
+    DetailedSessionModal: IDetailedSessionModalProps;
+    DetailedTeaModal: IDetailedTeaModalProps;
+    UpdateTeaModal: IUpdateTeaModalProps;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList>
     = NativeStackScreenProps<RootStackParamList, Screen>;
 
 export type RootTabParamList = {
-    Vessel: undefined;
-    TeaOverview: undefined;
-    Sessions: undefined;
+    TeaScreen: ITeaScreenProps;
+    VesselScreen: IVesselScreenProps;
+    SessionScreen: ISessionScreenProps;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList>

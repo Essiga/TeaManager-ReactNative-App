@@ -1,13 +1,14 @@
 import {useState} from "react";
 import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
-import {Button, Text, TextInput, Provider as PaperProvider} from 'react-native-paper';
+import {Button, TextInput, Provider as PaperProvider} from 'react-native-paper';
 import Theme from '../../constants/Theme';
-import {IAddVesselModalProps} from "../api/IAddVesselModalProps";
 import {Vessel, VesselApi} from "../../openAPI";
+import {RootStackScreenProps} from "../../types";
 
 let vesselApi = new VesselApi();
 
-export function AddVesselModal(props: any) {
+export function AddVesselModal(navProps: RootStackScreenProps<"AddVesselModal">) {
+
     const [newVessel, setNewVessel] = useState("");
     const [capacity, setCapacity] = useState(0);
 
@@ -19,7 +20,9 @@ export function AddVesselModal(props: any) {
 
         vesselApi.addVessel(vessel).then(
             (response) => {
-                Alert.alert(response.data);
+                Alert.alert("Vessel added successfully 😁");
+
+                navProps.navigation.goBack();
             },
             (err) => {
                 console.log(err);
@@ -31,12 +34,6 @@ export function AddVesselModal(props: any) {
         <PaperProvider theme={Theme}>
             <SafeAreaView style={styles.dropDown}>
                 <View>
-                    <Text
-                        variant="titleLarge"
-                        style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}
-                    >
-                        Add Vessel
-                    </Text>
                     <TextInput
                         label="Vessel name"
                         value={newVessel}
@@ -56,12 +53,6 @@ export function AddVesselModal(props: any) {
                             onPress={() => sendData(newVessel, capacity)}
                         >
                             Add Vessel
-                        </Button>
-                        <Button
-                            mode="outlined"
-                            onPress={() => props.toggleAddVesselModalVisibility()}
-                        >
-                            Return
                         </Button>
                     </View>
                 </View>

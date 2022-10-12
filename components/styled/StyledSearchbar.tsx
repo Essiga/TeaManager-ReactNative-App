@@ -1,7 +1,8 @@
 import {StyleSheet} from "react-native";
 import {Searchbar} from "react-native-paper";
+import {IStyledSearchbarProps} from "./api/IStyledSearchbarProps";
 
-export default function StyledSearchbar(props: any) {
+export default function StyledSearchbar(props: IStyledSearchbarProps) {
     return (
         <Searchbar
             placeholder={props.placeholder}

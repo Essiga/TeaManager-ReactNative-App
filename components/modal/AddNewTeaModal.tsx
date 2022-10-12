@@ -1,10 +1,12 @@
 import {useState} from "react";
 import {Alert, StyleSheet, SafeAreaView} from 'react-native';
-import {Button, Text, TextInput, Provider as PaperProvider} from 'react-native-paper';
+import {Button, TextInput, Provider as PaperProvider} from 'react-native-paper';
 import DropDown from "react-native-paper-dropdown";
 import Theme from '../../constants/Theme';
-import {View} from '../Themed';
+import {View} from "react-native";
 import {TeaApi, Tea, TeaType} from "../../openAPI";
+import {IAddNewTeaModalProps} from "./api/IAddNewTeaModalProps";
+import {RootStackScreenProps} from "../../types";
 
 let teaApi = new TeaApi();
 
@@ -13,7 +15,9 @@ type TeaTypeDropDownEntry = {
     value: TeaType
 }
 
-export default function AddNewTeaModal(props: any) {
+export default function AddNewTeaModal(navProps: RootStackScreenProps<"AddNewTeaModal">) {
+
+    const props: IAddNewTeaModalProps = navProps.route.params;
 
     const [newTea, setNewTea] = useState("");
     const [teaType, setTeaType] = useState(TeaType.Green);
@@ -58,7 +62,9 @@ export default function AddNewTeaModal(props: any) {
 
         teaApi.addTea(tea).then(
             (response) => {
-                Alert.alert(response.data);
+                Alert.alert("Tea added successfully 😁");
+
+                navProps.navigation.goBack();
             },
             (err) => {
                 console.log(err);
@@ -70,12 +76,6 @@ export default function AddNewTeaModal(props: any) {
         <PaperProvider theme={Theme}>
             <SafeAreaView style={styles.dropDown}>
                 <View>
-                    <Text
-                        variant="titleLarge"
-                        style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}
-                    >
-                        Add Tea
-                    </Text>
                     <TextInput
                         label="Tea name"
                         value={newTea}
@@ -132,13 +132,6 @@ export default function AddNewTeaModal(props: any) {
                             onPress={() => checkInput()}
                         >
                             Add Tea
-                        </Button>
-
-                        <Button
-                            mode="outlined"
-                            onPress={() => props.toggleAddTeaModalVisibility(false)}
-                        >
-                            Return
                         </Button>
                     </View>
                 </View>

@@ -2,10 +2,11 @@ import {Tea} from "../openAPI";
 import {List, Text} from "react-native-paper";
 import {ScrollView, StyleSheet} from "react-native";
 import {useState} from "react";
-import {View} from "./Themed";
-import StyledSearchbar from "./StyledSearchbar";
+import {View} from "react-native";
+import StyledSearchbar from "./styled/StyledSearchbar";
+import {ITeaViewListProps} from "./api/ITeaViewListProps";
 
-export default function TeaOverviewList(props: any) {
+export default function TeaViewList(props: ITeaViewListProps) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredTeas, setFilteredTeas] = useState(props.teas);
@@ -63,7 +64,7 @@ export default function TeaOverviewList(props: any) {
                             description={item.type}
                             left={props => <List.Icon {...props} icon="leaf"/>}
                             onPress={() => {
-                                props.onPress(filteredTeas[i]);
+                                props.onItemPress(filteredTeas[i]);
                             }}
                         />
                     ))}
