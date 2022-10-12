@@ -31,7 +31,9 @@ export default function TeaOverviewList(props: any) {
         return (
             <StyledSearchbar
                 placeholder={"Search"}
-                onChangeSearch={onChangeSearch}
+                onChangeSearch={(query: string) => {
+                    onChangeSearch(query);
+                }}
                 searchQuery={searchQuery}
             />
         );
