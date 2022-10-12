@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {StyleSheet} from 'react-native';
+import {Alert, StyleSheet} from 'react-native';
 import {View} from "react-native";
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
 import {Vessel, VesselApi} from "../openAPI";
@@ -48,8 +48,7 @@ export default function VesselScreen(navProps: RootTabScreenProps<"VesselScreen"
                     });
                 });
 
-                // TODO:: add snackbar
-                console.log(response.data);
+                Alert.alert("Vessel deleted successfully 😁");
             },
             (err) => {
                 console.log(err);
