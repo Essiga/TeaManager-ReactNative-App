@@ -44,6 +44,12 @@ export interface Session {
      * @type {string}
      * @memberof Session
      */
+    'teaName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Session
+     */
     'date': string;
     /**
      * 
@@ -366,6 +372,41 @@ export const TeaApiAxiosParamCreator = function (configuration?: Configuration) 
             };
         },
         /**
+         * Update tea.
+         * @param {Tea} tea 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateTea: async (tea: Tea, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'tea' is not null or undefined
+            assertParamExists('updateTea', 'tea', tea)
+            const localVarPath = `/updateTea`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(tea, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get all teas.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -415,6 +456,16 @@ export const TeaApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * Update tea.
+         * @param {Tea} tea 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateTea(tea: Tea, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateTea(tea, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Get all teas.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -443,6 +494,15 @@ export const TeaApiFactory = function (configuration?: Configuration, basePath?:
             return localVarFp.addTea(tea, options).then((request) => request(axios, basePath));
         },
         /**
+         * Update tea.
+         * @param {Tea} tea 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateTea(tea: Tea, options?: any): AxiosPromise<string> {
+            return localVarFp.updateTea(tea, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get all teas.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -469,6 +529,17 @@ export class TeaApi extends BaseAPI {
      */
     public addTea(tea: Tea, options?: AxiosRequestConfig) {
         return TeaApiFp(this.configuration).addTea(tea, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Update tea.
+     * @param {Tea} tea 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TeaApi
+     */
+    public updateTea(tea: Tea, options?: AxiosRequestConfig) {
+        return TeaApiFp(this.configuration).updateTea(tea, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

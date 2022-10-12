@@ -1,9 +1,33 @@
-import {Linking, StyleSheet, View} from "react-native";
+import {Linking, Modal, StyleSheet, View} from "react-native";
 import {Button, Text, Provider as PaperProvider} from 'react-native-paper';
 import {ITeaModalProps} from "./api/ITeaModalProps";
 import Theme from "../constants/Theme";
+import {Tea, TeaType} from "../openAPI";
+import { useState } from "react";
+import {UpdateTeaModal} from "./UpdateTeaModal";
 
 export function DetailedTeaModal(props: ITeaModalProps) {
+    const [updateTeaVisible, setUpdateTeaVisible] = useState(false);
+    const [tea, setTea] = useState({
+        id: "0",
+        name: "name",
+        type: TeaType.Green,
+        amount: 1,
+        price: 2,
+        link: "www.google.com",
+        vendor: "vendor",
+        year: 1970
+    } as Tea);
+    function toggleUpdateTeaModalVisibility() {
+        setUpdateTeaVisible(false);
+        props.toggleTeaModalVisibility(true);
+    }
+
+    function showUpdateTea(tea: Tea) {
+        console.log(tea)
+        setUpdateTeaVisible(true);
+        setTea(tea);
+    }
 
     return (
         <PaperProvider theme={Theme}>
@@ -66,7 +90,27 @@ export function DetailedTeaModal(props: ITeaModalProps) {
                     Return
                 </Button>
             </View>
-        </PaperProvider>
+
+            <View style={styles.button}>
+                <Button  mode="outlined" onPress={() => {
+                    props.toggleTeaModalVisibility(false);
+                    props.toggleAddSessionModalVisibility(true);
+                }}> Start Session </Button>
+                <Button mode="outlined" onPress={() => showUpdateTea(props.tea)}> Update Tea</Button>
+            </View>
+            <Button
+                style={{marginTop: "100%"}}
+                mode="outlined"
+                onPress={() => props.toggleTeaModalVisibility(false)}
+            >
+                Return
+            </Button>
+
+            <Modal visible={updateTeaVisible} onDismiss={() => {setUpdateTeaVisible(false)}}>
+                <UpdateTeaModal toggleUpdateTeaModalVisibility={toggleUpdateTeaModalVisibility} tea={tea}/>
+            </Modal>
+        </View>
+     </PaperProvider>
     );
 }
 
@@ -93,5 +137,13 @@ const styles = StyleSheet.create({
         paddingEnd: 20,
         paddingBottom: 10,
         textAlign: "center"
-    }
+    },
+    button: {
+        flexDirection: "row",
+        paddingTop: 20,
+        justifyContent: 'space-between',
+        alignItems: "center",
+        paddingLeft: 50,
+        paddingEnd: 50,
+    },
 });
