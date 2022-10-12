@@ -31,7 +31,7 @@ export default function VesselList(props: any) {
         return (
             <StyledSearchbar
                 placeholder={"Search"}
-                onChangeSearch={onChangeSearch}
+                onChangeSearch={(query: string) => onChangeSearch(query)}
                 searchQuery={searchQuery}
             />
         );
