@@ -72,13 +72,6 @@ export default function VesselScreen(navProps: RootTabScreenProps<"VesselScreen"
                 deleteVessel={(id: number) => deleteVessel(id)}
             />
 
-            {/*<Modal*/}
-            {/*    visible={addVesselModalVisible}*/}
-            {/*    onDismiss={() => setAddVesselModalVisible(false)}*/}
-            {/*>*/}
-            {/*    <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>*/}
-            {/*</Modal>*/}
-
             <AnimatedFAB
                 icon={'plus'}
                 label={''}
