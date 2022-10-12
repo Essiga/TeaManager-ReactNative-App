@@ -7,10 +7,11 @@ import TeaList from "../components/TeaViewList";
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
 import AddNewTeaModal from "../components/modal/AddNewTeaModal";
 import {AddSessionModal} from "../components/modal/AddSessionModal";
+import {RootTabScreenProps} from "../types";
 
 const teaApi = new TeaApi();
 
-export default function TeaScreen(navProps: any) {
+export default function TeaScreen(navProps: RootTabScreenProps<"TeaScreen">) {
 
     const [teas, setTeas] = useState([] as Tea[]);
     const [teaModalVisible, setTeaModalVisible] = useState(false);
@@ -81,23 +82,12 @@ export default function TeaScreen(navProps: any) {
                 }}
             />
 
-            {/*<Modal*/}
-            {/*    visible={addSessionModalVisible}*/}
-            {/*    onDismiss={() => setAddSessionModalVisible(false)}*/}
-            {/*>*/}
-            {/*    <AddSessionModal*/}
-            {/*        tea={tea}*/}
-            {/*        toggleAddSessionModalVisibility={toggleAddSessionModalVisibility}*/}
-            {/*    />*/}
-            {/*</Modal>*/}
-
             <AnimatedFAB
                 icon={'plus'}
                 label={''}
                 extended={false}
                 onPress={() => {
                     navProps.navigation.navigate("AddNewTeaModal", {
-                        tea: tea,
                         toggleAddTeaModalVisibility: toggleAddTeaModalVisibility
                     });
                 }}

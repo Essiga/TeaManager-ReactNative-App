@@ -18,7 +18,6 @@ import {UpdateTeaModal} from "../components/modal/UpdateTeaModal";
 import {DetailedSessionModal} from "../components/modal/DetailedSessionModal";
 
 export default function Navigation() {
-
     return (
         <NavigationContainer>
             <RootNavigator/>
@@ -36,7 +35,13 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 function RootNavigator() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Root" component={BottomTabNavigator} options={{headerShown: false}}/>
+            <Stack.Screen
+                name="Root"
+                component={BottomTabNavigator}
+                options={{
+                    headerShown: false
+                }}
+            />
 
             <Stack.Group
                 screenOptions={({navigation}) => ({
@@ -48,14 +53,41 @@ function RootNavigator() {
                             </TouchableOpacity>
                         )
                     },
+                    headerStyle: {
+                        backgroundColor: '#ded8c1',
+                    },
                 })}
             >
-                <Stack.Screen name="AddNewTeaModal" component={AddNewTeaModal} options={{title: "test"}}/>
-                <Stack.Screen name="AddSessionModal" component={AddSessionModal}/>
-                <Stack.Screen name="AddVesselModal" component={AddVesselModal}/>
-                <Stack.Screen name="DetailedSessionModal" component={DetailedSessionModal}/>
-                <Stack.Screen name="DetailedTeaModal" component={DetailedTeaModal}/>
-                <Stack.Screen name="UpdateTeaModal" component={UpdateTeaModal}/>
+                <Stack.Screen
+                    name="AddNewTeaModal"
+                    component={AddNewTeaModal}
+                    options={{title: "Add Tea"}}
+                />
+                <Stack.Screen
+                    name="AddSessionModal"
+                    component={AddSessionModal}
+                    options={{title: "Add Session"}}
+                />
+                <Stack.Screen
+                    name="AddVesselModal"
+                    component={AddVesselModal}
+                    options={{title: "Add Vessel"}}
+                />
+                <Stack.Screen
+                    name="DetailedSessionModal"
+                    component={DetailedSessionModal}
+                    options={{title: "Session Info"}}
+                />
+                <Stack.Screen
+                    name="DetailedTeaModal"
+                    component={DetailedTeaModal}
+                    options={{title: "Tea Info"}}
+                />
+                <Stack.Screen
+                    name="UpdateTeaModal"
+                    component={UpdateTeaModal}
+                    options={{title: "Update Tea"}}
+                />
             </Stack.Group>
         </Stack.Navigator>
     )
@@ -72,49 +104,50 @@ function BottomTabNavigator() {
 
     return (
         <Tab.Navigator
-            initialRouteName="TeaOverview"
+            initialRouteName="TeaScreen"
             screenOptions={() => ({
                 tabBarActiveTintColor: '#7b8f4b',
                 tabBarInactiveTintColor: 'grey',
-                tabBarActiveBackgroundColor: '#F0EAD2',
-                tabBarInactiveBackgroundColor: '#F0EAD2',
-                tabBarLabelStyle: {marginBottom: 3},
+                tabBarActiveBackgroundColor: '#f0ead2',
+                tabBarInactiveBackgroundColor: '#f0ead2',
+                tabBarLabelStyle: {
+                    marginBottom: 3
+                },
                 tabBarButton: (props) => <TouchableRipple{...props}/>
             })}
         >
-            <Tab.Screen
-                name="TeaOverview"
-                component={TeaScreen}
-                options={{
-                    title: 'Teas',
-                    tabBarIcon: ({color}) => <FontAwesomeIcon icon={faLeaf} color={color}/>,
+            <Tab.Group
+                screenOptions={{
                     headerStyle: {
                         backgroundColor: '#ded8c1',
                     },
                 }}
-            />
-            <Tab.Screen
-                name="Vessel"
-                component={VesselScreen}
-                options={{
-                    title: 'Vessels',
-                    tabBarIcon: ({color}) => <FontAwesomeIcon icon={faMugHot} color={color}/>,
-                    headerStyle: {
-                        backgroundColor: '#ded8c1',
-                    },
-                }}
-            />
-            <Tab.Screen
-                name="Sessions"
-                component={SessionScreen}
-                options={{
-                    title: 'Sessions',
-                    tabBarIcon: ({color}) => <FontAwesomeIcon icon={faBook} color={color}/>,
-                    headerStyle: {
-                        backgroundColor: '#ded8c1',
-                    },
-                }}
-            />
+            >
+                <Tab.Screen
+                    name="TeaScreen"
+                    component={TeaScreen}
+                    options={{
+                        title: 'Teas',
+                        tabBarIcon: ({color}) => <FontAwesomeIcon icon={faLeaf} color={color}/>
+                    }}
+                />
+                <Tab.Screen
+                    name="VesselScreen"
+                    component={VesselScreen}
+                    options={{
+                        title: 'Vessels',
+                        tabBarIcon: ({color}) => <FontAwesomeIcon icon={faMugHot} color={color}/>
+                    }}
+                />
+                <Tab.Screen
+                    name="SessionScreen"
+                    component={SessionScreen}
+                    options={{
+                        title: 'Sessions',
+                        tabBarIcon: ({color}) => <FontAwesomeIcon icon={faBook} color={color}/>
+                    }}
+                />
+            </Tab.Group>
         </Tab.Navigator>
     );
 }

@@ -1,12 +1,11 @@
 import {StyleSheet, View} from "react-native";
 import {Text} from "react-native-paper";
 import {IDetailedSessionModalProps} from "./api/IDetailedSessionModalProps";
-import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import {RootStackParamList} from "../../types";
+import {RootStackScreenProps} from "../../types";
 
-export function DetailedSessionModal(navProps: NativeStackScreenProps<RootStackParamList, "DetailedSessionModal">) {
+export function DetailedSessionModal(navProps: RootStackScreenProps<"DetailedSessionModal">) {
 
-    let props: IDetailedSessionModalProps = navProps.route.params;
+    const props: IDetailedSessionModalProps = navProps.route.params;
 
     return (
         <View>
@@ -27,7 +26,10 @@ export function DetailedSessionModal(navProps: NativeStackScreenProps<RootStackP
                 <View style={styles.item}>
                     <Text style={styles.propsStyle} variant="bodyLarge">{props.session.amount}g</Text>
                     <Text style={styles.propsStyle} variant="bodyLarge">{props.session.price} USD</Text>
-                    <Text style={styles.propsStyle} variant="bodyLarge">{new Date(props.session.date).toLocaleString()}</Text>
+                    <Text
+                        style={styles.propsStyle}
+                        variant="bodyLarge">{new Date(props.session.date).toLocaleString()}
+                    </Text>
                 </View>
             </View>
         </View>

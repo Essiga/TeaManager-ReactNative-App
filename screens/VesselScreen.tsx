@@ -5,10 +5,11 @@ import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
 import {Vessel, VesselApi} from "../openAPI";
 import {AddVesselModal} from "../components/modal/AddVesselModal";
 import VesselViewList from "../components/VesselViewList";
+import {RootTabScreenProps} from "../types";
 
 let vesselApi = new VesselApi();
 
-export default function VesselScreen(navProps: any) {
+export default function VesselScreen(navProps: RootTabScreenProps<"VesselScreen">) {
 
     const [vessels, setVessels] = useState([] as Vessel[]);
     const [addVesselModalVisible, setAddVesselModalVisible] = useState(false);

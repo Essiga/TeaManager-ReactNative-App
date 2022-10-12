@@ -12,6 +12,9 @@ import {IAddSessionModalProps} from "./components/modal/api/IAddSessionModalProp
 import {IAddVesselModalProps} from "./components/modal/api/IAddVesselModalProps";
 import {IAddNewTeaModal} from "./components/modal/api/IAddNewTeaModal";
 import {IDetailedSessionModalProps} from "./components/modal/api/IDetailedSessionModalProps";
+import {ISessionScreen} from "./screens/api/ISessionScreen";
+import {IVesselScreen} from "./screens/api/IVesselScreen";
+import {ITeaScreen} from "./screens/api/ITeaScreen";
 
 declare global {
     namespace ReactNavigation {
@@ -34,9 +37,9 @@ export type RootStackScreenProps<Screen extends keyof RootStackParamList>
     = NativeStackScreenProps<RootStackParamList, Screen>;
 
 export type RootTabParamList = {
-    Vessel: undefined;
-    TeaOverview: undefined;
-    Sessions: undefined;
+    TeaScreen: ITeaScreen;
+    VesselScreen: IVesselScreen;
+    SessionScreen: ISessionScreen;
 };
 
 export type RootTabScreenProps<Screen extends keyof RootTabParamList>

@@ -6,8 +6,7 @@ import Theme from '../../constants/Theme';
 import {View} from "react-native";
 import {TeaApi, Tea, TeaType} from "../../openAPI";
 import {IAddNewTeaModal} from "./api/IAddNewTeaModal";
-import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import {RootStackParamList} from "../../types";
+import {RootStackScreenProps} from "../../types";
 
 let teaApi = new TeaApi();
 
@@ -16,9 +15,9 @@ type TeaTypeDropDownEntry = {
     value: TeaType
 }
 
-export default function AddNewTeaModal(navProps: NativeStackScreenProps<RootStackParamList, "AddNewTeaModal">) {
+export default function AddNewTeaModal(navProps: RootStackScreenProps<"AddNewTeaModal">) {
 
-    let props: IAddNewTeaModal = navProps.route.params;
+    const props: IAddNewTeaModal = navProps.route.params;
 
     const [newTea, setNewTea] = useState("");
     const [teaType, setTeaType] = useState(TeaType.Green);

@@ -1,16 +1,16 @@
 import {Modal, ScrollView, StyleSheet} from 'react-native';
 import {View} from "react-native";
 import {useEffect, useState} from "react";
-import {Session, SessionApi, Tea, TeaApi, TeaType} from "../openAPI";
-import {ActivityIndicator, AnimatedFAB, List} from "react-native-paper";
+import {Session, SessionApi} from "../openAPI";
+import {ActivityIndicator, List} from "react-native-paper";
 import {DetailedSessionModal} from "../components/modal/DetailedSessionModal";
+import {RootTabScreenProps} from "../types";
 
 const sessionApi = new SessionApi();
 
-export default function SessionScreen(props: any) {
+export default function SessionScreen(navProps: RootTabScreenProps<"SessionScreen">) {
 
     const [sessions, setSessions] = useState([] as Session[]);
-    const [sessionModalVisible, setSessionModalVisible] = useState(false);
     const [isLoading, setLoading] = useState(true);
     const [session, setSession] = useState({
         id: "0",
@@ -25,10 +25,10 @@ export default function SessionScreen(props: any) {
 
         callViewAllSessions();
 
-        return props.navigation.addListener('tabPress', () => {
+        return navProps.navigation.addListener('tabPress', () => {
             callViewAllSessions();
         });
-    }, [props.navigation]);
+    }, [navProps.navigation]);
 
     function callViewAllSessions() {
         sessionApi.viewAllSessions()
@@ -56,7 +56,6 @@ export default function SessionScreen(props: any) {
         </View>
     ) : (
         <View>
-
             <View style={styles.scrollViewContainer}>
                 <ScrollView>
                     {sessions.map((item: Session, i: number) => (
@@ -69,21 +68,16 @@ export default function SessionScreen(props: any) {
                             description={new Date(item.date).toLocaleString()}
                             left={props => <List.Icon {...props} icon="tea"/>}
                             onPress={() => {
-                                setSession(sessions[i]);
-                                setSessionModalVisible(true);
+                                setSession(item);
+
+                                navProps.navigation.navigate("DetailedSessionModal", {
+                                    session: item
+                                })
                             }}
                         />
                     ))}
                 </ScrollView>
             </View>
-            {/*<Modal*/}
-            {/*    visible={sessionModalVisible}*/}
-            {/*    onDismiss={() => setSessionModalVisible(false)}*/}
-            {/*>*/}
-            {/*    <DetailedSessionModal*/}
-            {/*        session={session}*/}
-            {/*    />*/}
-            {/*</Modal>*/}
         </View>
     );
 }

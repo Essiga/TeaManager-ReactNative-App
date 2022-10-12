@@ -6,8 +6,7 @@ import DropDown from "react-native-paper-dropdown";
 import {useState} from "react";
 import {Tea, TeaApi, TeaType} from "../../openAPI";
 import Theme from "../../constants/Theme";
-import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import {RootStackParamList} from "../../types";
+import {RootStackScreenProps} from "../../types";
 
 type TeaTypeDropDownEntry = {
     label: string,
@@ -16,9 +15,9 @@ type TeaTypeDropDownEntry = {
 
 let teaApi = new TeaApi();
 
-export function UpdateTeaModal(navProps: NativeStackScreenProps<RootStackParamList, 'UpdateTeaModal'>) {
+export function UpdateTeaModal(navProps: RootStackScreenProps<'UpdateTeaModal'>) {
 
-    let props: IUpdateTeaModalProps = navProps.route.params;
+    const props: IUpdateTeaModalProps = navProps.route.params;
 
     const [updateTea, setUpdateTea] = useState(props.tea.name);
     const [updateTeaType, setTeaType] = useState(TeaType.Green);
@@ -57,8 +56,10 @@ export function UpdateTeaModal(navProps: NativeStackScreenProps<RootStackParamLi
             props.updateTea(tea);
             navProps.navigation.navigate("DetailedTeaModal", {
                 tea: tea,
-                toggleTeaModalVisibility: () => {},
-                toggleAddSessionModalVisibility: () => {}
+                toggleTeaModalVisibility: () => {
+                },
+                toggleAddSessionModalVisibility: () => {
+                }
             });
 
             Alert.alert("Tea successfully updated");

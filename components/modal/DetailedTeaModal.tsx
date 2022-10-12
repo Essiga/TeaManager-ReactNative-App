@@ -4,14 +4,13 @@ import {IDetailedTeaModalProps} from "./api/IDetailedTeaModalProps";
 import {Tea, TeaApi, TeaType} from "../../openAPI";
 import {useState} from "react";
 import {UpdateTeaModal} from "./UpdateTeaModal";
-import {NativeStackScreenProps} from "@react-navigation/native-stack";
-import {RootStackParamList} from "../../types";
+import {RootStackScreenProps} from "../../types";
 
 // let teaApi = new TeaApi();
 
-export function DetailedTeaModal(navProps: NativeStackScreenProps<RootStackParamList, "DetailedTeaModal">) {
+export function DetailedTeaModal(navProps: RootStackScreenProps<"DetailedTeaModal">) {
 
-    let props: IDetailedTeaModalProps = navProps.route.params;
+    const props: IDetailedTeaModalProps = navProps.route.params;
 
     const [updateTeaVisible, setUpdateTeaVisible] = useState(false);
     const [tea, setTea] = useState({
@@ -28,8 +27,6 @@ export function DetailedTeaModal(navProps: NativeStackScreenProps<RootStackParam
     function toggleUpdateTeaModalVisibility() {
         setUpdateTeaVisible(false);
         // props.toggleTeaModalVisibility(true);
-
-        // navProps.navigation.navigate("")
     }
 
     function showUpdateTea(tea: Tea) {
