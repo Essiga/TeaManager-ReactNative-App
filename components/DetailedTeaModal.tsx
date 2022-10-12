@@ -1,25 +1,21 @@
-import {useState} from "react";
 import {Linking, Modal, StyleSheet, View} from "react-native";
-import {Button, Text, Provider as PaperProvider} from 'react-native-paper';
+import {Button, Text} from "react-native-paper";
 import {ITeaModalProps} from "./api/ITeaModalProps";
-import Theme from "../constants/Theme";
-import {Tea, TeaType} from "../openAPI";
+import {Tea, TeaApi, TeaType} from "../openAPI";
+import {useState} from "react";
 import {UpdateTeaModal} from "./UpdateTeaModal";
 
-export function DetailedTeaModal(navProps: any) {
-
-    let props = navProps.route.params as ITeaModalProps;
-
+export function DetailedTeaModal(props: ITeaModalProps) {
     const [updateTeaVisible, setUpdateTeaVisible] = useState(false);
     const [tea, setTea] = useState({
-        id: "0",
-        name: "name",
-        type: TeaType.Green,
-        amount: 1,
-        price: 2,
-        link: "www.google.com",
-        vendor: "vendor",
-        year: 1970
+        id: props.tea.id,
+        name: props.tea.name,
+        type: props.tea.type,
+        amount: props.tea.amount,
+        price: props.tea.price,
+        link: props.tea.link,
+        vendor: props.tea.vendor,
+        year: props.tea.year
     } as Tea);
 
     function toggleUpdateTeaModalVisibility() {
@@ -28,91 +24,72 @@ export function DetailedTeaModal(navProps: any) {
     }
 
     function showUpdateTea(tea: Tea) {
-        console.log(tea)
         setUpdateTeaVisible(true);
         setTea(tea);
     }
 
+    function updateTea(tea: Tea) {
+        let teaApi = new TeaApi();
+        if (tea.id != null) {
+            // teaApi.getTeaById(tea.id).then((data) => {
+            //     setTea(data as unknown as Tea)
+            // });
+            //props.tea = tea;
+            setTea(tea);
+
+        }
+        console.log("new", tea)
+    }
+
     return (
-        <PaperProvider theme={Theme}>
-            <View>
-                <Text
-                    variant="titleLarge"
-                    style={styles.title}
-                >
-                    {props.tea.name}
-                </Text>
+        <View>
+            <Text
+                variant="titleLarge"
+                style={styles.title}
+            >
+                {tea.name}
+            </Text>
 
-                <View style={styles.container}>
-                    <View style={styles.item}>
-                        <Text style={styles.propsStyle} variant="bodyLarge">Amount:</Text>
-                        <Text style={styles.propsStyle} variant="bodyLarge">Price/g:</Text>
-                        <Text style={styles.propsStyle} variant="bodyLarge">Year:</Text>
-                        <Text style={styles.propsStyle} variant="bodyLarge">Vendor:</Text>
-                        <Text style={styles.propsStyle} variant="bodyLarge">Website:</Text>
-                        <Text style={styles.propsStyle} variant="bodyLarge">Type:</Text>
-
-                    </View>
-                    <View style={styles.item}>
-                        <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.amount}g</Text>
-                        <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.price} USD</Text>
-                        <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.year}</Text>
-                        <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.vendor}</Text>
-                        <Text
-                            style={styles.linkText}
-                            variant="bodyLarge"
-                            onPress={() => {
-                                if (props.tea.link != null) {
-                                    Linking
-                                        .openURL(props.tea.link)
-                                        .then(/* Empty promise handling */);
-                                }
-                            }}
-                        >
-                            Open link
-                        </Text>
-                        <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.type}</Text>
-                    </View>
+            <View style={styles.container}>
+                <View style={styles.item}>
+                    <Text style={styles.propsStyle} variant="bodyLarge">Amount:</Text>
+                    <Text style={styles.propsStyle} variant="bodyLarge">Price/g:</Text>
+                    <Text style={styles.propsStyle} variant="bodyLarge">Year:</Text>
+                    <Text style={styles.propsStyle} variant="bodyLarge">Vendor:</Text>
+                    <Text style={styles.propsStyle} variant="bodyLarge">Website:</Text>
+                    <Text style={styles.propsStyle} variant="bodyLarge">Type:</Text>
 
                 </View>
+                <View style={styles.item}>
+                    <Text style={styles.propsStyle} variant="bodyLarge">{tea.amount}g</Text>
+                    <Text style={styles.propsStyle} variant="bodyLarge">{tea.price} USD</Text>
+                    <Text style={styles.propsStyle} variant="bodyLarge">{tea.year}</Text>
+                    <Text style={styles.propsStyle} variant="bodyLarge">{tea.vendor}</Text>
+                    <Text
+                        style={styles.linkText}
+                        variant="bodyLarge"
+                        onPress={() => {
+                            if (props.tea.link != null) {
+                                Linking
+                                    .openURL(props.tea.link)
+                                    .then(/* Empty promise handling */);
+                            }
+                        }}
+                    >
+                        Open link
+                    </Text>
+                    <Text style={styles.propsStyle} variant="bodyLarge">{tea.type}</Text>
+                </View>
 
-                <Button
-                    style={{marginTop: 15}}
-                    mode="outlined"
-                    onPress={() => {
-                        props.toggleTeaModalVisibility(false);
-                        props.toggleAddSessionModalVisibility(true);
-                    }}
-                >
-                    Start Session
-                </Button>
-                <Button
-                    style={{marginTop: "100%"}}
-                    mode="outlined"
-                    onPress={() => props.toggleTeaModalVisibility(false)}
-                >
-                    Return
-                </Button>
             </View>
 
             <View style={styles.button}>
-                <Button
-                    mode="outlined"
-                    onPress={() => {
-                        props.toggleTeaModalVisibility(false);
-                        props.toggleAddSessionModalVisibility(true);
-                    }}
-                >
-                    Start Session
-                </Button>
-                <Button
-                    mode="outlined"
-                    onPress={() => showUpdateTea(props.tea)}
-                >
-                    Update Tea
-                </Button>
+                <Button mode="outlined" onPress={() => {
+                    props.toggleTeaModalVisibility(false);
+                    props.toggleAddSessionModalVisibility(true);
+                }}> Start Session </Button>
+                <Button mode="outlined" onPress={() => showUpdateTea(tea)}> Update Tea</Button>
             </View>
-
             <Button
                 style={{marginTop: "100%"}}
                 mode="outlined"
@@ -121,18 +98,13 @@ export function DetailedTeaModal(navProps: any) {
                 Return
             </Button>
 
-            <Modal
-                visible={updateTeaVisible}
-                onDismiss={() => {
-                    setUpdateTeaVisible(false)
-                }}
-            >
-                <UpdateTeaModal
-                    tea={tea}
-                    toggleUpdateTeaModalVisibility={toggleUpdateTeaModalVisibility}
-                />
+            <Modal visible={updateTeaVisible} onDismiss={() => {
+                setUpdateTeaVisible(false)
+            }}>
+                <UpdateTeaModal toggleUpdateTeaModalVisibility={toggleUpdateTeaModalVisibility} tea={tea}
+                                updateTea={updateTea}/>
             </Modal>
-        </PaperProvider>
+        </View>
     );
 }
 

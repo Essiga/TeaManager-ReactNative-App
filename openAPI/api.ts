@@ -372,6 +372,41 @@ export const TeaApiAxiosParamCreator = function (configuration?: Configuration) 
             };
         },
         /**
+         * Get Tea by Id
+         * @param {string} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTeaById: async (body: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('getTeaById', 'body', body)
+            const localVarPath = `/getTeaById`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'text/plain';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Update tea.
          * @param {Tea} tea 
          * @param {*} [options] Override http request option.
@@ -456,6 +491,16 @@ export const TeaApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * Get Tea by Id
+         * @param {string} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTeaById(body: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Tea>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTeaById(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Update tea.
          * @param {Tea} tea 
          * @param {*} [options] Override http request option.
@@ -494,6 +539,15 @@ export const TeaApiFactory = function (configuration?: Configuration, basePath?:
             return localVarFp.addTea(tea, options).then((request) => request(axios, basePath));
         },
         /**
+         * Get Tea by Id
+         * @param {string} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTeaById(body: string, options?: any): AxiosPromise<Tea> {
+            return localVarFp.getTeaById(body, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Update tea.
          * @param {Tea} tea 
          * @param {*} [options] Override http request option.
@@ -529,6 +583,17 @@ export class TeaApi extends BaseAPI {
      */
     public addTea(tea: Tea, options?: AxiosRequestConfig) {
         return TeaApiFp(this.configuration).addTea(tea, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get Tea by Id
+     * @param {string} body 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TeaApi
+     */
+    public getTeaById(body: string, options?: AxiosRequestConfig) {
+        return TeaApiFp(this.configuration).getTeaById(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
