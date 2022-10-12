@@ -1,12 +1,12 @@
 import {Modal, StyleSheet} from 'react-native';
 import {View} from '../components/Themed';
 import {useEffect, useState} from "react";
-import {DetailedTeaModal} from "../components/DetailedTeaModal";
+import {DetailedTeaModal} from "../components/modal/DetailedTeaModal";
 import {Tea, TeaApi, TeaType} from "../openAPI";
 import TeaOverviewList from "../components/TeaOverviewList";
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
-import AddNewTeaModal from "../components/AddNewTeaModal";
-import {AddSessionModal} from "../components/AddSessionModal";
+import AddNewTeaModal from "../components/modal/AddNewTeaModal";
+import {AddSessionModal} from "../components/modal/AddSessionModal";
 
 const teaApi = new TeaApi();
 
@@ -32,18 +32,16 @@ export default function TeaOverviewScreen(props: any) {
 
         callViewAllTeas();
 
-        if (props != null && props.navigation != null) {
-            return props.navigation.addListener('tabPress', () => {
-                callViewAllTeas();
-            });
-        }
+        return props.navigation.addListener('tabPress', () => {
+            callViewAllTeas();
+        });
     }, []);
 
     function callViewAllTeas() {
         teaApi.viewAllTeas()
             .then(
-                (data) => {
-                    setTeas(data.data as Tea[]);
+                (response) => {
+                    setTeas(response.data as Tea[]);
                 },
                 (err) => {
                     console.log(err);
@@ -76,8 +74,13 @@ export default function TeaOverviewScreen(props: any) {
             <TeaOverviewList
                 teas={teas}
                 onPress={(tea: Tea) => {
-                    setTea(tea)
-                    setTeaModalVisible(true)
+                    setTea(tea);
+                    props.navigation.navigate("DetailedTeaModal", {
+                        tea: tea,
+                        toggleTeaModalVisibility: toggleTeaModalVisibility,
+                        toggleAddSessionModalVisibility: toggleAddSessionModalVisibility
+                    });
+                    // setTeaModalVisible(true)
                 }}
             />
 

@@ -3,7 +3,7 @@ import {Modal, StyleSheet} from 'react-native';
 import {View} from '../components/Themed';
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
 import {Vessel, VesselApi} from "../openAPI";
-import {AddVesselModal} from "../components/AddVesselModal";
+import {AddVesselModal} from "../components/modal/AddVesselModal";
 import VesselList from "../components/VesselList";
 
 let vesselApi = new VesselApi();
@@ -16,14 +16,14 @@ export default function VesselScreen(props: any) {
 
     useEffect(() => {
 
-        getAllVessels();
+        callViewAllVessels();
 
         return props.navigation.addListener('tabPress', () => {
-            getAllVessels();
+            callViewAllVessels();
         });
     }, [props.navigation]);
 
-    function getAllVessels() {
+    function callViewAllVessels() {
         vesselApi.viewAllVessels()
             .then(
                 (data) => {
@@ -41,13 +41,23 @@ export default function VesselScreen(props: any) {
         setAddVesselModalVisible(false);
     }
 
-    function deleteVessel(id: any) {
+    function deleteVessel(removeIndex: any) {
 
-        vesselApi.deleteVessel(id).then((data) => {
-            console.log(data.data);
-        }, (err) => {
-            console.log(err);
-        })
+        vesselApi.deleteVessel(removeIndex).then(
+            (response) => {
+                setVessels(vessels => {
+                    return vessels.filter((vessel) => {
+                        return vessel.id !== removeIndex;
+                    });
+                });
+
+                // TODO:: add snackbar
+                console.log(response.data);
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
 
     return isLoading ? (

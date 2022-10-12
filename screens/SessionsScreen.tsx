@@ -3,7 +3,7 @@ import {View} from '../components/Themed';
 import {useEffect, useState} from "react";
 import {Session, SessionApi, Tea, TeaApi, TeaType} from "../openAPI";
 import {ActivityIndicator, AnimatedFAB, List} from "react-native-paper";
-import {DetailedSessionModal} from "../components/DetailedSessionModal";
+import {DetailedSessionModal} from "../components/modal/DetailedSessionModal";
 
 const sessionApi = new SessionApi();
 

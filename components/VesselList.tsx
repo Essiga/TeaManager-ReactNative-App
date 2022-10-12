@@ -52,7 +52,7 @@ export default function VesselList(props: any) {
             {searchBarContent()}
 
             <View style={styles.scrollViewContainer}>
-                <ScrollView>
+                <ScrollView style={styles.scrollView}>
                     {filteredVessels.map((item: Vessel, i: number) => (
                         <List.Item
                             style={styles.scrollViewContainerItem}
@@ -60,14 +60,16 @@ export default function VesselList(props: any) {
                             key={i}
                             titleEllipsizeMode={"tail"}
                             title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
+                            description={item.capacity + "ml"}
                             left={_props => <List.Icon {..._props} icon="tea"/>}
-                            right={_props => {
-                                return (
-                                    <TouchableOpacity onPress={() => props.deleteVessel(item.id)}>
-                                        <List.Icon {..._props} icon="delete"/>
-                                    </TouchableOpacity>
-                                )
-                            }}
+                            // TODO:: delete is broken
+                            // right={_props => {
+                            //     return (
+                            //         <TouchableOpacity onPress={() => props.deleteVessel(item.id)}>
+                            //             <List.Icon {..._props} icon="delete"/>
+                            //         </TouchableOpacity>
+                            //     )
+                            // }}
                         />
                     ))}
                 </ScrollView>
@@ -77,13 +79,17 @@ export default function VesselList(props: any) {
 }
 
 const styles = StyleSheet.create({
+    scrollView: {
+        marginBottom: 110
+    },
     scrollViewContainer: {
         height: "100%",
         alignItems: 'center',
         marginHorizontal: 10
     },
     scrollViewContainerItem: {
-        minWidth: '100%'
+        minWidth: '100%',
+        padding: 5
     },
     noVesselsFoundTextContainer: {
         marginTop: "50%",
