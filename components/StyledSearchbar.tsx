@@ -5,7 +5,7 @@ export default function StyledSearchbar(props: any) {
     return (
         <Searchbar
             placeholder={props.placeholder}
-            onChangeText={() => props.onChangeSearch()}
+            onChangeText={(query) => props.onChangeSearch(query)}
             value={props.searchQuery}
             style={styles.searchBar}
             inputStyle={styles.searchBarInput}
