@@ -18,7 +18,7 @@ export function DetailedTeaModal(props: ITeaModalProps) {
         year: 1970
     } as Tea);
     function toggleUpdateTeaModalVisibility() {
-        props.setUpdateTeaVisible(false);
+        setUpdateTeaVisible(false);
         props.toggleTeaModalVisibility(true);
     }
 
