@@ -37,6 +37,10 @@ export default function SessionsScreen(props: any) {
             .then(
                 (data) => {
                     console.log(data.data);
+                    data.data.sort ( function (a, b){
+                        // @ts-ignore
+                        return new Date(b.date) - new Date(a.date);
+                    });
                     setSessions(data.data as Session[]);
                 },
                 (err) => {
@@ -64,7 +68,7 @@ export default function SessionsScreen(props: any) {
                             key={i}
                             titleEllipsizeMode={"tail"}
                             title={(item?.teaName?.length ?? 0) < 35 ? `${item.teaName}` : `${item.teaName?.substring(0, 32)}...`}
-                            description={item.date}
+                            description={new Date(item.date).toLocaleString()}
                             left={props => <List.Icon {...props} icon="tea"/>}
                             onPress={() => {
                                 setSession(sessions[i]);
