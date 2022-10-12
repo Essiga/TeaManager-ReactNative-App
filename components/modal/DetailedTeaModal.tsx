@@ -1,6 +1,6 @@
 import {Linking, Modal, StyleSheet, View} from "react-native";
 import {Button, Text} from "react-native-paper";
-import {ITeaModalProps} from "../api/ITeaModalProps";
+import {ITeaModalProps} from "./api/ITeaModalProps";
 import {Tea, TeaApi, TeaType} from "../../openAPI";
 import {useState} from "react";
 import {UpdateTeaModal} from "./UpdateTeaModal";

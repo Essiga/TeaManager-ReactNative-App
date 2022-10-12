@@ -4,7 +4,7 @@ import {View} from '../components/Themed';
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
 import {Vessel, VesselApi} from "../openAPI";
 import {AddVesselModal} from "../components/modal/AddVesselModal";
-import VesselList from "../components/VesselList";
+import VesselViewList from "../components/VesselViewList";
 
 let vesselApi = new VesselApi();
 
@@ -66,7 +66,7 @@ export default function VesselScreen(navProps: any) {
         </View>
     ) : (
         <View>
-            <VesselList
+            <VesselViewList
                 vessels={vessels}
                 deleteVessel={(id: number) => deleteVessel(id)}
             />

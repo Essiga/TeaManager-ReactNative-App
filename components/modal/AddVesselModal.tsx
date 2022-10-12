@@ -2,12 +2,13 @@ import {useState} from "react";
 import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
 import {Button, Text, TextInput, Provider as PaperProvider} from 'react-native-paper';
 import Theme from '../../constants/Theme';
-import {IAddVesselModalProps} from "../api/IAddVesselModalProps";
+import {IAddVesselModalProps} from "./api/IAddVesselModalProps";
 import {Vessel, VesselApi} from "../../openAPI";
 
 let vesselApi = new VesselApi();
 
 export function AddVesselModal(props: any) {
+
     const [newVessel, setNewVessel] = useState("");
     const [capacity, setCapacity] = useState(0);
 
@@ -56,12 +57,6 @@ export function AddVesselModal(props: any) {
                             onPress={() => sendData(newVessel, capacity)}
                         >
                             Add Vessel
-                        </Button>
-                        <Button
-                            mode="outlined"
-                            onPress={() => props.toggleAddVesselModalVisibility()}
-                        >
-                            Return
                         </Button>
                     </View>
                 </View>

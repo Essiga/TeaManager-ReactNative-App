@@ -3,11 +3,11 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import VesselScreen from '../screens/VesselScreen';
 import {RootStackParamList, RootTabParamList} from '../types';
-import TeaOverviewScreen from "../screens/TeaOverviewScreen";
+import TeaScreen from "../screens/TeaScreen";
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {faBook, faChevronLeft, faLeaf, faMugHot} from '@fortawesome/free-solid-svg-icons'
 import {TouchableRipple} from "react-native-paper";
-import SessionsScreen from "../screens/SessionsScreen";
+import SessionScreen from "../screens/SessionScreen";
 import {AddVesselModal} from "../components/modal/AddVesselModal";
 import {TouchableOpacity} from "react-native";
 import AddNewTeaModal from "../components/modal/AddNewTeaModal";
@@ -49,7 +49,7 @@ function RootNavigator() {
                     },
                 })}
             >
-                <Stack.Screen name="AddNewTeaModal" component={AddNewTeaModal}/>
+                <Stack.Screen name="AddNewTeaModal" component={AddNewTeaModal} options={{title: "test"}}/>
                 <Stack.Screen name="AddVesselModal" component={AddVesselModal}/>
                 <Stack.Screen name="AddSessionModal" component={AddSessionModal}/>
                 <Stack.Screen name="DetailedTeaModal" component={DetailedTeaModal}/>
@@ -82,7 +82,7 @@ function BottomTabNavigator() {
         >
             <Tab.Screen
                 name="TeaOverview"
-                component={TeaOverviewScreen}
+                component={TeaScreen}
                 options={{
                     title: 'Teas',
                     tabBarIcon: ({color}) => <FontAwesomeIcon icon={faLeaf} color={color}/>,
@@ -104,7 +104,7 @@ function BottomTabNavigator() {
             />
             <Tab.Screen
                 name="Sessions"
-                component={SessionsScreen}
+                component={SessionScreen}
                 options={{
                     title: 'Sessions',
                     tabBarIcon: ({color}) => <FontAwesomeIcon icon={faBook} color={color}/>,

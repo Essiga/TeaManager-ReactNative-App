@@ -1,4 +1,4 @@
-import {Tea} from "../../openAPI";
+import {Tea} from "../../../openAPI";
 
 export interface IAddSessionModalProps {
     tea: Tea;

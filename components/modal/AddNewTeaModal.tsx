@@ -5,7 +5,8 @@ import DropDown from "react-native-paper-dropdown";
 import Theme from '../../constants/Theme';
 import {View} from '../Themed';
 import {TeaApi, Tea, TeaType} from "../../openAPI";
-import {ITeaModalProps} from "../api/ITeaModalProps";
+import {ITeaModalProps} from "./api/ITeaModalProps";
+import {IAddNewTeaModal} from "./api/IAddNewTeaModal";
 
 let teaApi = new TeaApi();
 
@@ -16,7 +17,7 @@ type TeaTypeDropDownEntry = {
 
 export default function AddNewTeaModal(navProps: any) {
 
-    let props: any = navProps.route.params;
+    let props: IAddNewTeaModal = navProps.route.params;
 
     const [newTea, setNewTea] = useState("");
     const [teaType, setTeaType] = useState(TeaType.Green);

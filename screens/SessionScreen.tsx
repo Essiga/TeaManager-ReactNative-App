@@ -7,7 +7,7 @@ import {DetailedSessionModal} from "../components/modal/DetailedSessionModal";
 
 const sessionApi = new SessionApi();
 
-export default function SessionsScreen(props: any) {
+export default function SessionScreen(props: any) {
 
     const [sessions, setSessions] = useState([] as Session[]);
     const [sessionModalVisible, setSessionModalVisible] = useState(false);
@@ -25,19 +25,17 @@ export default function SessionsScreen(props: any) {
 
         callViewAllSessions();
 
-        if (props != null && props.navigation != null) {
-            return props.navigation.addListener('tabPress', () => {
-                callViewAllSessions();
-            });
-        }
-    }, []);
+        return props.navigation.addListener('tabPress', () => {
+            callViewAllSessions();
+        });
+    }, [props.navigation]);
 
     function callViewAllSessions() {
         sessionApi.viewAllSessions()
             .then(
                 (data) => {
                     console.log(data.data);
-                    data.data.sort ( function (a, b){
+                    data.data.sort(function (a, b) {
                         // @ts-ignore
                         return new Date(b.date) - new Date(a.date);
                     });

@@ -3,14 +3,14 @@ import {View} from '../components/Themed';
 import {useEffect, useState} from "react";
 import {DetailedTeaModal} from "../components/modal/DetailedTeaModal";
 import {Tea, TeaApi, TeaType} from "../openAPI";
-import TeaOverviewList from "../components/TeaOverviewList";
+import TeaList from "../components/TeaViewList";
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
 import AddNewTeaModal from "../components/modal/AddNewTeaModal";
 import {AddSessionModal} from "../components/modal/AddSessionModal";
 
 const teaApi = new TeaApi();
 
-export default function TeaOverviewScreen(navProps: any) {
+export default function TeaScreen(navProps: any) {
 
     const [teas, setTeas] = useState([] as Tea[]);
     const [teaModalVisible, setTeaModalVisible] = useState(false);
@@ -35,7 +35,7 @@ export default function TeaOverviewScreen(navProps: any) {
         return navProps.navigation.addListener('tabPress', () => {
             callViewAllTeas();
         });
-    }, []);
+    }, [navProps.navigation]);
 
     function callViewAllTeas() {
         teaApi.viewAllTeas()
@@ -51,7 +51,6 @@ export default function TeaOverviewScreen(navProps: any) {
                 setLoading(false);
             });
     }
-
 
     function toggleTeaModalVisibility(visibility: boolean) {
         setTeaModalVisible(visibility);
@@ -71,9 +70,9 @@ export default function TeaOverviewScreen(navProps: any) {
         </View>
     ) : (
         <View>
-            <TeaOverviewList
+            <TeaList
                 teas={teas}
-                onPress={(tea: Tea) => {
+                onItemPress={(tea: Tea) => {
                     navProps.navigation.navigate("DetailedTeaModal", {
                         tea: tea,
                         toggleTeaModalVisibility: toggleTeaModalVisibility,
@@ -91,16 +90,6 @@ export default function TeaOverviewScreen(navProps: any) {
                     toggleAddSessionModalVisibility={toggleAddSessionModalVisibility}
                 />
             </Modal>
-
-            {/*<Modal*/}
-            {/*    visible={addTeaModalVisible}*/}
-            {/*    onDismiss={() => setAddTeaModalVisible(false)}*/}
-            {/*>*/}
-            {/*    <AddNewTeaModal*/}
-            {/*        tea={tea}*/}
-            {/*        toggleAddTeaModalVisibility={toggleAddTeaModalVisibility}*/}
-            {/*    />*/}
-            {/*</Modal>*/}
 
             <AnimatedFAB
                 icon={'plus'}

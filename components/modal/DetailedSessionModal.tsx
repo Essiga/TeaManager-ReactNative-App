@@ -1,6 +1,6 @@
 import {StyleSheet, View} from "react-native";
 import {Text} from "react-native-paper";
-import {ISessionModalProps} from "../api/ISessionModalProps";
+import {ISessionModalProps} from "./api/ISessionModalProps";
 
 export function DetailedSessionModal(navProps: any) {
 
