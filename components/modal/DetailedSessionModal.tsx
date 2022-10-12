@@ -1,10 +1,12 @@
 import {StyleSheet, View} from "react-native";
 import {Text} from "react-native-paper";
-import {ISessionModalProps} from "./api/ISessionModalProps";
+import {IDetailedSessionModalProps} from "./api/IDetailedSessionModalProps";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../types";
 
-export function DetailedSessionModal(navProps: any) {
+export function DetailedSessionModal(navProps: NativeStackScreenProps<RootStackParamList, "DetailedSessionModal">) {
 
-    let props: ISessionModalProps = navProps.route.params;
+    let props: IDetailedSessionModalProps = navProps.route.params;
 
     return (
         <View>

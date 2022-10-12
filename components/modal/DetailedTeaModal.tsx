@@ -1,15 +1,17 @@
 import {Linking, Modal, StyleSheet, View} from "react-native";
 import {Button, Text} from "react-native-paper";
-import {ITeaModalProps} from "./api/ITeaModalProps";
+import {IDetailedTeaModalProps} from "./api/IDetailedTeaModalProps";
 import {Tea, TeaApi, TeaType} from "../../openAPI";
 import {useState} from "react";
 import {UpdateTeaModal} from "./UpdateTeaModal";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../types";
 
 // let teaApi = new TeaApi();
 
-export function DetailedTeaModal(navProps: any) {
+export function DetailedTeaModal(navProps: NativeStackScreenProps<RootStackParamList, "DetailedTeaModal">) {
 
-    let props: ITeaModalProps = navProps.route.params;
+    let props: IDetailedTeaModalProps = navProps.route.params;
 
     const [updateTeaVisible, setUpdateTeaVisible] = useState(false);
     const [tea, setTea] = useState({
@@ -25,7 +27,7 @@ export function DetailedTeaModal(navProps: any) {
 
     function toggleUpdateTeaModalVisibility() {
         setUpdateTeaVisible(false);
-        props.toggleTeaModalVisibility(true);
+        // props.toggleTeaModalVisibility(true);
 
         // navProps.navigation.navigate("")
     }
@@ -37,7 +39,7 @@ export function DetailedTeaModal(navProps: any) {
         navProps.navigation.navigate("UpdateTeaModal", {
             tea: tea,
             updateTea: updateTea,
-            // toggleUpdateTeaModalVisibility: toggleUpdateTeaModalVisibility
+            toggleUpdateTeaModalVisibility: toggleUpdateTeaModalVisibility
         });
     }
 
@@ -97,8 +99,12 @@ export function DetailedTeaModal(navProps: any) {
                 <Button
                     mode="outlined"
                     onPress={() => {
-                        props.toggleTeaModalVisibility(false);
-                        props.toggleAddSessionModalVisibility(true);
+                        navProps.navigation.navigate("AddSessionModal", {
+                            tea: tea,
+                            toggleAddSessionModalVisibility: props.toggleAddSessionModalVisibility
+                        })
+                        // props.toggleTeaModalVisibility(false);
+                        // props.toggleAddSessionModalVisibility(true);
                     }}
                 >
                     Start Session

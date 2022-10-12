@@ -1,5 +1,5 @@
 import {Session} from "../../../openAPI";
 
-export interface ISessionModalProps {
+export interface IDetailedSessionModalProps {
     session: Session;
 }

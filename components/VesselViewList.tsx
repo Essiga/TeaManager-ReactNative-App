@@ -2,7 +2,7 @@ import {Vessel} from "../openAPI";
 import {List, Text} from "react-native-paper";
 import {ScrollView, StyleSheet, TouchableOpacity} from "react-native";
 import React, {useState} from "react";
-import {View} from "./Themed";
+import {View} from "react-native";
 import StyledSearchbar from "./StyledSearchbar";
 import {IVesselViewListProps} from "./api/IVesselViewListProps";
 

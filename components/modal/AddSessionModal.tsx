@@ -5,12 +5,16 @@ import {Button, Provider as PaperProvider, Text, TextInput} from "react-native-p
 import DropDown from "react-native-paper-dropdown";
 import Theme from '../../constants/Theme';
 import {Session, SessionApi, Vessel, VesselApi} from "../../openAPI";
-import {View} from "../Themed";
+import {View} from "react-native";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../types";
 
 let vesselApi = new VesselApi();
 let sessionApi = new SessionApi();
 
-export function AddSessionModal(props: any) {
+export function AddSessionModal(navProps: NativeStackScreenProps<RootStackParamList, "AddSessionModal">) {
+
+    let props: IAddSessionModalProps = navProps.route.params;
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [vesselsDropDown, setVesselsDropDown] = useState([] as any)

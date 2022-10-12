@@ -6,13 +6,12 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps, NavigatorScreenParams} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AddVesselModal} from "./components/modal/AddVesselModal";
-import {UpdateTeaModal} from "./components/modal/UpdateTeaModal";
-import {ITeaModalProps} from "./components/modal/api/ITeaModalProps";
+import {IDetailedTeaModalProps} from "./components/modal/api/IDetailedTeaModalProps";
 import {IUpdateTeaModalProps} from "./components/modal/api/IUpdateTeaModalProps";
 import {IAddSessionModalProps} from "./components/modal/api/IAddSessionModalProps";
 import {IAddVesselModalProps} from "./components/modal/api/IAddVesselModalProps";
 import {IAddNewTeaModal} from "./components/modal/api/IAddNewTeaModal";
+import {IDetailedSessionModalProps} from "./components/modal/api/IDetailedSessionModalProps";
 
 declare global {
     namespace ReactNavigation {
@@ -26,7 +25,8 @@ export type RootStackParamList = {
     AddNewTeaModal: IAddNewTeaModal;
     AddVesselModal: IAddVesselModalProps;
     AddSessionModal: IAddSessionModalProps;
-    DetailedTeaModal: ITeaModalProps;
+    DetailedSessionModal: IDetailedSessionModalProps;
+    DetailedTeaModal: IDetailedTeaModalProps;
     UpdateTeaModal: IUpdateTeaModalProps;
 };
 

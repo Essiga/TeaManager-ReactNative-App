@@ -1,5 +1,5 @@
 import {Modal, StyleSheet} from 'react-native';
-import {View} from '../components/Themed';
+import {View} from "react-native";
 import {useEffect, useState} from "react";
 import {DetailedTeaModal} from "../components/modal/DetailedTeaModal";
 import {Tea, TeaApi, TeaType} from "../openAPI";
@@ -81,15 +81,15 @@ export default function TeaScreen(navProps: any) {
                 }}
             />
 
-            <Modal
-                visible={addSessionModalVisible}
-                onDismiss={() => setAddSessionModalVisible(false)}
-            >
-                <AddSessionModal
-                    tea={tea}
-                    toggleAddSessionModalVisibility={toggleAddSessionModalVisibility}
-                />
-            </Modal>
+            {/*<Modal*/}
+            {/*    visible={addSessionModalVisible}*/}
+            {/*    onDismiss={() => setAddSessionModalVisible(false)}*/}
+            {/*>*/}
+            {/*    <AddSessionModal*/}
+            {/*        tea={tea}*/}
+            {/*        toggleAddSessionModalVisibility={toggleAddSessionModalVisibility}*/}
+            {/*    />*/}
+            {/*</Modal>*/}
 
             <AnimatedFAB
                 icon={'plus'}

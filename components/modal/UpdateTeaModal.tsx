@@ -51,11 +51,14 @@ export function UpdateTeaModal(navProps: NativeStackScreenProps<RootStackParamLi
             vendor: updateVendor,
             year: updateYear
         };
+
         teaApi.updateTea(tea).then((response) => {
 
             props.updateTea(tea);
             navProps.navigation.navigate("DetailedTeaModal", {
                 tea: tea,
+                toggleTeaModalVisibility: () => {},
+                toggleAddSessionModalVisibility: () => {}
             });
 
             Alert.alert("Tea successfully updated");
@@ -63,8 +66,6 @@ export function UpdateTeaModal(navProps: NativeStackScreenProps<RootStackParamLi
         }, (err) => {
             console.log(err);
         })
-        // props.toggleUpdateTeaModalVisibility(false);
-        // props.toggleUpdateTeaModalVisibility(true);
     }
 
     return (

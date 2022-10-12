@@ -15,6 +15,7 @@ import {AddSessionModal} from "../components/modal/AddSessionModal";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {DetailedTeaModal} from "../components/modal/DetailedTeaModal";
 import {UpdateTeaModal} from "../components/modal/UpdateTeaModal";
+import {DetailedSessionModal} from "../components/modal/DetailedSessionModal";
 
 export default function Navigation() {
 
@@ -50,8 +51,9 @@ function RootNavigator() {
                 })}
             >
                 <Stack.Screen name="AddNewTeaModal" component={AddNewTeaModal} options={{title: "test"}}/>
-                <Stack.Screen name="AddVesselModal" component={AddVesselModal}/>
                 <Stack.Screen name="AddSessionModal" component={AddSessionModal}/>
+                <Stack.Screen name="AddVesselModal" component={AddVesselModal}/>
+                <Stack.Screen name="DetailedSessionModal" component={DetailedSessionModal}/>
                 <Stack.Screen name="DetailedTeaModal" component={DetailedTeaModal}/>
                 <Stack.Screen name="UpdateTeaModal" component={UpdateTeaModal}/>
             </Stack.Group>

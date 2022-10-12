@@ -3,10 +3,11 @@ import {Alert, StyleSheet, SafeAreaView} from 'react-native';
 import {Button, Text, TextInput, Provider as PaperProvider} from 'react-native-paper';
 import DropDown from "react-native-paper-dropdown";
 import Theme from '../../constants/Theme';
-import {View} from '../Themed';
+import {View} from "react-native";
 import {TeaApi, Tea, TeaType} from "../../openAPI";
-import {ITeaModalProps} from "./api/ITeaModalProps";
 import {IAddNewTeaModal} from "./api/IAddNewTeaModal";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../types";
 
 let teaApi = new TeaApi();
 
@@ -15,7 +16,7 @@ type TeaTypeDropDownEntry = {
     value: TeaType
 }
 
-export default function AddNewTeaModal(navProps: any) {
+export default function AddNewTeaModal(navProps: NativeStackScreenProps<RootStackParamList, "AddNewTeaModal">) {
 
     let props: IAddNewTeaModal = navProps.route.params;
 

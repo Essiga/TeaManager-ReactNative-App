@@ -1,5 +1,5 @@
 import {Modal, ScrollView, StyleSheet} from 'react-native';
-import {View} from '../components/Themed';
+import {View} from "react-native";
 import {useEffect, useState} from "react";
 import {Session, SessionApi, Tea, TeaApi, TeaType} from "../openAPI";
 import {ActivityIndicator, AnimatedFAB, List} from "react-native-paper";
@@ -76,14 +76,14 @@ export default function SessionScreen(props: any) {
                     ))}
                 </ScrollView>
             </View>
-            <Modal
-                visible={sessionModalVisible}
-                onDismiss={() => setSessionModalVisible(false)}
-            >
-                <DetailedSessionModal
-                    session={session}
-                />
-            </Modal>
+            {/*<Modal*/}
+            {/*    visible={sessionModalVisible}*/}
+            {/*    onDismiss={() => setSessionModalVisible(false)}*/}
+            {/*>*/}
+            {/*    <DetailedSessionModal*/}
+            {/*        session={session}*/}
+            {/*    />*/}
+            {/*</Modal>*/}
         </View>
     );
 }

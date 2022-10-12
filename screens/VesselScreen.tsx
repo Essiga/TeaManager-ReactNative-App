@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Modal, StyleSheet} from 'react-native';
-import {View} from '../components/Themed';
+import {View} from "react-native";
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
 import {Vessel, VesselApi} from "../openAPI";
 import {AddVesselModal} from "../components/modal/AddVesselModal";

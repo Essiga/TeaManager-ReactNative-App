@@ -2,12 +2,13 @@ import {useState} from "react";
 import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
 import {Button, Text, TextInput, Provider as PaperProvider} from 'react-native-paper';
 import Theme from '../../constants/Theme';
-import {IAddVesselModalProps} from "./api/IAddVesselModalProps";
 import {Vessel, VesselApi} from "../../openAPI";
+import {NativeStackScreenProps} from "@react-navigation/native-stack";
+import {RootStackParamList} from "../../types";
 
 let vesselApi = new VesselApi();
 
-export function AddVesselModal(props: any) {
+export function AddVesselModal(navProps: NativeStackScreenProps<RootStackParamList, "AddVesselModal">) {
 
     const [newVessel, setNewVessel] = useState("");
     const [capacity, setCapacity] = useState(0);
