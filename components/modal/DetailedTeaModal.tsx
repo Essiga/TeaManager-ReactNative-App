@@ -7,7 +7,9 @@ import {UpdateTeaModal} from "./UpdateTeaModal";
 
 // let teaApi = new TeaApi();
 
-export function DetailedTeaModal(props: any) {
+export function DetailedTeaModal(navProps: any) {
+
+    let props: ITeaModalProps = navProps.route.params;
 
     const [updateTeaVisible, setUpdateTeaVisible] = useState(false);
     const [tea, setTea] = useState({
@@ -24,6 +26,8 @@ export function DetailedTeaModal(props: any) {
     function toggleUpdateTeaModalVisibility() {
         setUpdateTeaVisible(false);
         props.toggleTeaModalVisibility(true);
+
+        // navProps.navigation.navigate("")
     }
 
     function showUpdateTea(tea: Tea) {

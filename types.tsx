@@ -8,6 +8,7 @@ import {CompositeScreenProps, NavigatorScreenParams} from '@react-navigation/nat
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {AddVesselModal} from "./components/modal/AddVesselModal";
 import {UpdateTeaModal} from "./components/modal/UpdateTeaModal";
+import {ITeaModalProps} from "./components/api/ITeaModalProps";
 
 declare global {
     namespace ReactNavigation {
@@ -21,7 +22,7 @@ export type RootStackParamList = {
     AddNewTeaModal: undefined;
     AddVesselModal: undefined;
     AddSessionModal: undefined;
-    DetailedTeaModal: undefined;
+    DetailedTeaModal: ITeaModalProps;
     UpdateTeaModal: undefined;
 };
 
