@@ -7,7 +7,7 @@ import {Vessel, VesselApi} from "../openAPI";
 
 let vesselApi = new VesselApi();
 
-export function AddVesselModal(props: IAddVesselModalProps) {
+export function AddVesselModal(props: any) {
     const [newVessel, setNewVessel] = useState("");
     const [capacity, setCapacity] = useState(0);
 

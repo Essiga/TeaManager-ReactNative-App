@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
         height: "100%",
         alignItems: 'center',
         marginHorizontal: 10,
-        marginBottom: 10,
     },
     scrollViewContainerItem: {
         minWidth: '100%',

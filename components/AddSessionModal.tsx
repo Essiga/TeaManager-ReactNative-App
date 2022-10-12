@@ -10,7 +10,7 @@ import {View} from "./Themed";
 let vesselApi = new VesselApi();
 let sessionApi = new SessionApi();
 
-export function AddSessionModal(props: IAddSessionModalProps) {
+export function AddSessionModal(props: any) {
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [vesselsDropDown, setVesselsDropDown] = useState([] as any)

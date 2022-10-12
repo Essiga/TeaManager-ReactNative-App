@@ -6,7 +6,9 @@ import Theme from "../constants/Theme";
 import {Tea, TeaType} from "../openAPI";
 import {UpdateTeaModal} from "./UpdateTeaModal";
 
-export function DetailedTeaModal(props: ITeaModalProps) {
+export function DetailedTeaModal(navProps: any) {
+
+    let props = navProps.route.params as ITeaModalProps;
 
     const [updateTeaVisible, setUpdateTeaVisible] = useState(false);
     const [tea, setTea] = useState({

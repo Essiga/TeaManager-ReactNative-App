@@ -16,14 +16,14 @@ export default function VesselScreen(props: any) {
 
     useEffect(() => {
 
-        getAllVessels();
+        callViewAllVessels();
 
         return props.navigation.addListener('tabPress', () => {
-            getAllVessels();
+            callViewAllVessels();
         });
     }, [props.navigation]);
 
-    function getAllVessels() {
+    function callViewAllVessels() {
         vesselApi.viewAllVessels()
             .then(
                 (data) => {
@@ -51,16 +51,14 @@ export default function VesselScreen(props: any) {
                     });
                 });
 
+                // TODO:: add snackbar
                 console.log(response.data);
-                console.log(removeIndex);
             },
             (err) => {
                 console.log(err);
             }
         );
     }
-
-    console.log(vessels);
 
     return isLoading ? (
         <View style={styles.activityIndicatorContainer}>

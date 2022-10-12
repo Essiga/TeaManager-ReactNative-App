@@ -12,7 +12,7 @@ type TeaTypeDropDownEntry = {
 
 let teaApi = new TeaApi();
 
-export function UpdateTeaModal(props: IUpdateTeaModalProps) {
+export function UpdateTeaModal(props: any) {
 
     const [updateTea, setUpdateTea] = useState(props.tea.name);
     const [updateTeaType, setTeaType] = useState(TeaType.Green);

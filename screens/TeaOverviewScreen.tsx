@@ -32,11 +32,9 @@ export default function TeaOverviewScreen(props: any) {
 
         callViewAllTeas();
 
-        if (props != null && props.navigation != null) {
-            return props.navigation.addListener('tabPress', () => {
-                callViewAllTeas();
-            });
-        }
+        return props.navigation.addListener('tabPress', () => {
+            callViewAllTeas();
+        });
     }, []);
 
     function callViewAllTeas() {
@@ -75,8 +73,13 @@ export default function TeaOverviewScreen(props: any) {
             <TeaOverviewList
                 teas={teas}
                 onPress={(tea: Tea) => {
-                    setTea(tea)
-                    setTeaModalVisible(true)
+                    setTea(tea);
+                    props.navigation.navigate("DetailedTeaModal", {
+                        tea: tea,
+                        toggleTeaModalVisibility: toggleTeaModalVisibility,
+                        toggleAddSessionModalVisibility: toggleAddSessionModalVisibility
+                    });
+                    // setTeaModalVisible(true)
                 }}
             />
 
