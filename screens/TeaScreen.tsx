@@ -74,6 +74,7 @@ export default function TeaScreen(navProps: RootTabScreenProps<"TeaScreen">) {
             <TeaList
                 teas={teas}
                 onItemPress={(tea: Tea) => {
+                    setTea(tea);
                     navProps.navigation.navigate("DetailedTeaModal", {
                         tea: tea,
                         toggleTeaModalVisibility: toggleTeaModalVisibility,
