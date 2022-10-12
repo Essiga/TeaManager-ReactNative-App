@@ -1,23 +1,16 @@
 import {Modal, ScrollView, StyleSheet} from 'react-native';
 import {View} from '../components/Themed';
 import {useEffect, useState} from "react";
-import {DetailedTeaModal} from "../components/DetailedTeaModal";
 import {Session, SessionApi, Tea, TeaApi, TeaType} from "../openAPI";
-import TeaOverviewList from "../components/TeaOverviewList";
 import {ActivityIndicator, AnimatedFAB, List} from "react-native-paper";
-import AddNewTeaModal from "../components/AddNewTeaModal";
-import {AddSessionModal} from "../components/AddSessionModal";
 import {DetailedSessionModal} from "../components/DetailedSessionModal";
 
-const teaApi = new TeaApi();
 const sessionApi = new SessionApi();
 
 export default function SessionsScreen(props: any) {
 
     const [sessions, setSessions] = useState([] as Session[]);
     const [sessionModalVisible, setSessionModalVisible] = useState(false);
-    const [addTeaModalVisible, setAddTeaModalVisible] = useState(false);
-    const [addSessionModalVisible, setAddSessionModalVisible] = useState(false);
     const [isLoading, setLoading] = useState(true);
     const [session, setSession] = useState({
         id: "0",
@@ -43,6 +36,7 @@ export default function SessionsScreen(props: any) {
         sessionApi.viewAllSessions()
             .then(
                 (data) => {
+                    console.log(data.data);
                     setSessions(data.data as Session[]);
                 },
                 (err) => {
