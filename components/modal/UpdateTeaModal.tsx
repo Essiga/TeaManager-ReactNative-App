@@ -14,7 +14,9 @@ type TeaTypeDropDownEntry = {
 
 let teaApi = new TeaApi();
 
-export function UpdateTeaModal(props: any) {
+export function UpdateTeaModal(navProps: any) {
+
+    let props: IUpdateTeaModalProps = navProps.route.params;
 
     const [updateTea, setUpdateTea] = useState(props.tea.name);
     const [updateTeaType, setTeaType] = useState(TeaType.Green);
@@ -36,25 +38,6 @@ export function UpdateTeaModal(props: any) {
         {label: 'Heicha', value: TeaType.Heicha}
     ];
 
-    const styles = StyleSheet.create({
-        container: {
-            justifyContent: "space-between",
-            padding: 50,
-
-        },
-        button: {
-            flexDirection: "row",
-            paddingTop: 10,
-            justifyContent: 'space-between',
-
-        },
-        dropDown: {
-            justifyContent: 'space-between',
-            paddingTop: 5,
-            flex: 1,
-        }
-    });
-
     function updateData() {
         let tea: Tea = {
             id: props.tea.id,
@@ -67,23 +50,30 @@ export function UpdateTeaModal(props: any) {
             year: updateYear
         };
         teaApi.updateTea(tea).then((response) => {
+
             props.updateTea(tea);
-            console.log("up", tea)
-            Alert.alert("tea successfully updated");
+            navProps.navigation.navigate("DetailedTeaModal", {
+                tea: tea,
+            });
+
+            Alert.alert("Tea successfully updated");
 
         }, (err) => {
             console.log(err);
         })
-        props.toggleUpdateTeaModalVisibility(false);
-        //props.toggleUpdateTeaModalVisibility(true);
+        // props.toggleUpdateTeaModalVisibility(false);
+        // props.toggleUpdateTeaModalVisibility(true);
     }
 
     return (
         <PaperProvider theme={Theme}>
             <SafeAreaView style={styles.dropDown}>
-                <Text variant="titleLarge"
-                      style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}>Update
-                    Tea </Text>
+                <Text
+                    variant="titleLarge"
+                    style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}
+                >
+                    Update Tea
+                </Text>
 
                 <TextInput
                     label={"old tea name: " + props.tea.name}
@@ -131,10 +121,13 @@ export function UpdateTeaModal(props: any) {
                 />
                 <View style={styles.container}>
                     <View style={styles.button}>
-                        <Button icon="tea" mode="contained"
-                                onPress={() => {
-                                    updateData();
-                                }}>
+                        <Button
+                            icon="tea"
+                            mode="contained"
+                            onPress={() => {
+                                updateData();
+                            }}
+                        >
                             Update Tea
                         </Button>
                         <Button mode="outlined"
@@ -144,5 +137,23 @@ export function UpdateTeaModal(props: any) {
             </SafeAreaView>
         </PaperProvider>
     );
-
 }
+
+const styles = StyleSheet.create({
+    container: {
+        justifyContent: "space-between",
+        padding: 50,
+
+    },
+    button: {
+        flexDirection: "row",
+        paddingTop: 10,
+        justifyContent: 'space-between',
+
+    },
+    dropDown: {
+        justifyContent: 'space-between',
+        paddingTop: 5,
+        flex: 1,
+    }
+});

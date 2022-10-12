@@ -92,21 +92,26 @@ export default function TeaOverviewScreen(navProps: any) {
                 />
             </Modal>
 
-            <Modal
-                visible={addTeaModalVisible}
-                onDismiss={() => setAddTeaModalVisible(false)}
-            >
-                <AddNewTeaModal
-                    tea={tea}
-                    toggleAddTeaModalVisibility={toggleAddTeaModalVisibility}
-                />
-            </Modal>
+            {/*<Modal*/}
+            {/*    visible={addTeaModalVisible}*/}
+            {/*    onDismiss={() => setAddTeaModalVisible(false)}*/}
+            {/*>*/}
+            {/*    <AddNewTeaModal*/}
+            {/*        tea={tea}*/}
+            {/*        toggleAddTeaModalVisibility={toggleAddTeaModalVisibility}*/}
+            {/*    />*/}
+            {/*</Modal>*/}
 
             <AnimatedFAB
                 icon={'plus'}
                 label={''}
                 extended={false}
-                onPress={() => setAddTeaModalVisible(true)}
+                onPress={() => {
+                    navProps.navigation.navigate("AddNewTeaModal", {
+                        tea: tea,
+                        toggleAddTeaModalVisibility: toggleAddTeaModalVisibility
+                    });
+                }}
                 visible={true}
                 animateFrom={'right'}
                 iconMode={'static'}

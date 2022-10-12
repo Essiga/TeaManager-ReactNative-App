@@ -31,8 +31,14 @@ export function DetailedTeaModal(navProps: any) {
     }
 
     function showUpdateTea(tea: Tea) {
-        setUpdateTeaVisible(true);
+        // setUpdateTeaVisible(true);
         setTea(tea);
+
+        navProps.navigation.navigate("UpdateTeaModal", {
+            tea: tea,
+            updateTea: updateTea,
+            // toggleUpdateTeaModalVisibility: toggleUpdateTeaModalVisibility
+        });
     }
 
     function updateTea(tea: Tea) {
@@ -113,18 +119,18 @@ export function DetailedTeaModal(navProps: any) {
                 Return
             </Button>
 
-            <Modal
-                visible={updateTeaVisible}
-                onDismiss={() => {
-                    setUpdateTeaVisible(false)
-                }}
-            >
-                <UpdateTeaModal
-                    toggleUpdateTeaModalVisibility={toggleUpdateTeaModalVisibility}
-                    tea={tea}
-                    updateTea={updateTea}
-                />
-            </Modal>
+            {/*<Modal*/}
+            {/*    visible={updateTeaVisible}*/}
+            {/*    onDismiss={() => {*/}
+            {/*        setUpdateTeaVisible(false)*/}
+            {/*    }}*/}
+            {/*>*/}
+            {/*    <UpdateTeaModal*/}
+            {/*        toggleUpdateTeaModalVisibility={toggleUpdateTeaModalVisibility}*/}
+            {/*        tea={tea}*/}
+            {/*        updateTea={updateTea}*/}
+            {/*    />*/}
+            {/*</Modal>*/}
         </View>
     );
 }

@@ -8,7 +8,7 @@ import VesselList from "../components/VesselList";
 
 let vesselApi = new VesselApi();
 
-export default function VesselScreen(props: any) {
+export default function VesselScreen(navProps: any) {
 
     const [vessels, setVessels] = useState([] as Vessel[]);
     const [addVesselModalVisible, setAddVesselModalVisible] = useState(false);
@@ -18,10 +18,10 @@ export default function VesselScreen(props: any) {
 
         callViewAllVessels();
 
-        return props.navigation.addListener('tabPress', () => {
+        return navProps.navigation.addListener('tabPress', () => {
             callViewAllVessels();
         });
-    }, [props.navigation]);
+    }, [navProps.navigation]);
 
     function callViewAllVessels() {
         vesselApi.viewAllVessels()
@@ -71,18 +71,22 @@ export default function VesselScreen(props: any) {
                 deleteVessel={(id: number) => deleteVessel(id)}
             />
 
-            <Modal
-                visible={addVesselModalVisible}
-                onDismiss={() => setAddVesselModalVisible(false)}
-            >
-                <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
-            </Modal>
+            {/*<Modal*/}
+            {/*    visible={addVesselModalVisible}*/}
+            {/*    onDismiss={() => setAddVesselModalVisible(false)}*/}
+            {/*>*/}
+            {/*    <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>*/}
+            {/*</Modal>*/}
 
             <AnimatedFAB
                 icon={'plus'}
                 label={''}
                 extended={false}
-                onPress={() => setAddVesselModalVisible(true)}
+                onPress={() => {
+                    navProps.navigation.navigate("AddVesselModal", {
+                        toggleAddVesselModalVisibility: toggleVesselModalVisibility
+                    });
+                }}
                 visible={true}
                 animateFrom={'right'}
                 iconMode={'static'}
