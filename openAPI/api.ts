@@ -44,6 +44,12 @@ export interface Session {
      * @type {string}
      * @memberof Session
      */
+    'teaName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Session
+     */
     'date': string;
     /**
      * 
@@ -90,16 +96,10 @@ export interface Tea {
     'type': TeaType;
     /**
      * 
-     * @type {string}
-     * @memberof Tea
-     */
-    'subType'?: string;
-    /**
-     * 
      * @type {number}
      * @memberof Tea
      */
-    'price': number;
+    'price'?: number;
     /**
      * 
      * @type {number}
@@ -372,6 +372,76 @@ export const TeaApiAxiosParamCreator = function (configuration?: Configuration) 
             };
         },
         /**
+         * Get Tea by Id
+         * @param {string} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTeaById: async (body: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('getTeaById', 'body', body)
+            const localVarPath = `/getTeaById`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'text/plain';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Update tea.
+         * @param {Tea} tea 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateTea: async (tea: Tea, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'tea' is not null or undefined
+            assertParamExists('updateTea', 'tea', tea)
+            const localVarPath = `/updateTea`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(tea, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get all teas.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -421,6 +491,26 @@ export const TeaApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * Get Tea by Id
+         * @param {string} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getTeaById(body: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Tea>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getTeaById(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Update tea.
+         * @param {Tea} tea 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateTea(tea: Tea, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateTea(tea, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Get all teas.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -449,6 +539,24 @@ export const TeaApiFactory = function (configuration?: Configuration, basePath?:
             return localVarFp.addTea(tea, options).then((request) => request(axios, basePath));
         },
         /**
+         * Get Tea by Id
+         * @param {string} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getTeaById(body: string, options?: any): AxiosPromise<Tea> {
+            return localVarFp.getTeaById(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Update tea.
+         * @param {Tea} tea 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateTea(tea: Tea, options?: any): AxiosPromise<string> {
+            return localVarFp.updateTea(tea, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get all teas.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -475,6 +583,28 @@ export class TeaApi extends BaseAPI {
      */
     public addTea(tea: Tea, options?: AxiosRequestConfig) {
         return TeaApiFp(this.configuration).addTea(tea, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Get Tea by Id
+     * @param {string} body 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TeaApi
+     */
+    public getTeaById(body: string, options?: AxiosRequestConfig) {
+        return TeaApiFp(this.configuration).getTeaById(body, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Update tea.
+     * @param {Tea} tea 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TeaApi
+     */
+    public updateTea(tea: Tea, options?: AxiosRequestConfig) {
+        return TeaApiFp(this.configuration).updateTea(tea, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -531,6 +661,41 @@ export const VesselApiAxiosParamCreator = function (configuration?: Configuratio
             };
         },
         /**
+         * Delete vessel.
+         * @param {string} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteVessel: async (body: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            assertParamExists('deleteVessel', 'body', body)
+            const localVarPath = `/deleteVessel`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'text/plain';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * Get all vessels.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -580,6 +745,16 @@ export const VesselApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * Delete vessel.
+         * @param {string} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteVessel(body: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteVessel(body, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * Get all vessels.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -608,6 +783,15 @@ export const VesselApiFactory = function (configuration?: Configuration, basePat
             return localVarFp.addVessel(vessel, options).then((request) => request(axios, basePath));
         },
         /**
+         * Delete vessel.
+         * @param {string} body 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteVessel(body: string, options?: any): AxiosPromise<string> {
+            return localVarFp.deleteVessel(body, options).then((request) => request(axios, basePath));
+        },
+        /**
          * Get all vessels.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -634,6 +818,17 @@ export class VesselApi extends BaseAPI {
      */
     public addVessel(vessel: Vessel, options?: AxiosRequestConfig) {
         return VesselApiFp(this.configuration).addVessel(vessel, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Delete vessel.
+     * @param {string} body 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof VesselApi
+     */
+    public deleteVessel(body: string, options?: AxiosRequestConfig) {
+        return VesselApiFp(this.configuration).deleteVessel(body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -1,60 +1,97 @@
-import {SafeAreaView, StyleSheet} from 'react-native';
+import React, {useEffect, useState} from "react";
+import {Modal, StyleSheet} from 'react-native';
+import {View} from '../components/Themed';
+import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
+import {Vessel, VesselApi} from "../openAPI";
+import {AddVesselModal} from "../components/AddVesselModal";
+import VesselList from "../components/VesselList";
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import {Text, View} from '../components/Themed';
-import {RootTabScreenProps} from '../types';
-import {Button, List, Provider as PaperProvider, TextInput} from "react-native-paper";
-import DropDown from "react-native-paper-dropdown";
-import theme from './AddNewTea'
-import {useState} from "react";
-import {TeaType} from "../openAPI";
+let vesselApi = new VesselApi();
 
-export default function VesselScreen({navigation}: RootTabScreenProps<'Vessel'>) {
+export default function VesselScreen(props: any) {
 
-    const [vesselModalVisible, setVesselModalVisible] = useState(false);
+    const [vessels, setVessels] = useState([] as Vessel[]);
+    const [addVesselModalVisible, setAddVesselModalVisible] = useState(false);
+    const [isLoading, setLoading] = useState(true);
 
+    useEffect(() => {
 
+        getAllVessels();
 
+        return props.navigation.addListener('tabPress', () => {
+            getAllVessels();
+        });
+    }, [props.navigation]);
 
-    return (
-        <PaperProvider theme={theme}>
+    function getAllVessels() {
+        vesselApi.viewAllVessels()
+            .then(
+                (data) => {
+                    setVessels(data.data as Vessel[]);
+                }, (err) => {
+                    console.log(err);
+                }
+            )
+            .finally(() => {
+                setLoading(false);
+            });
+    }
 
-            <Text> To do add Vessel Overview </Text>
+    function toggleVesselModalVisibility() {
+        setAddVesselModalVisible(false);
+    }
 
-            <View style={styles.container}>
-                <View style={styles.button}>
-                    <Button icon="Vessel" mode="contained"
-                            onPress={() => {
-                                console.log("pressed")
-                            }}>
-                        Add Vessel
-                    </Button>
-                    <Button icon="reload" mode="contained" onPress={() => console.log("reload")}>reload </Button>
-                </View>
-            </View>
+    function deleteVessel(id: any) {
 
-        </PaperProvider>
+        vesselApi.deleteVessel(id).then((data) => {
+            console.log(data.data);
+        }, (err) => {
+            console.log(err);
+        })
+    }
+
+    return isLoading ? (
+        <View style={styles.activityIndicatorContainer}>
+            <ActivityIndicator size="small" color="lightgrey"/>
+        </View>
+    ) : (
+        <View>
+            <VesselList
+                vessels={vessels}
+                deleteVessel={(id: number) => deleteVessel(id)}
+            />
+
+            <Modal
+                visible={addVesselModalVisible}
+                onDismiss={() => setAddVesselModalVisible(false)}
+            >
+                <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
+            </Modal>
+
+            <AnimatedFAB
+                icon={'plus'}
+                label={''}
+                extended={false}
+                onPress={() => setAddVesselModalVisible(true)}
+                visible={true}
+                animateFrom={'right'}
+                iconMode={'static'}
+                style={[styles.fabStyle, {right: 16}]}
+            />
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        justifyContent: "space-between",
-        padding: 50,
+    activityIndicatorContainer: {
+        flex: 1,
+        padding: 20,
+        justifyContent: 'center'
     },
-    title: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    separator: {
-        marginVertical: 30,
-        height: 1,
-        width: '80%',
-    },
-    button: {
-        flexDirection: "row",
-        paddingTop: 10,
-        justifyContent: 'space-between',
-
+    fabStyle: {
+        bottom: 72,
+        right: 16,
+        position: 'absolute',
+        alignItems: 'center'
     },
 });
