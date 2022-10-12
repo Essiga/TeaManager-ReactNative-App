@@ -1,85 +1,38 @@
-import {IAddSessionModalProps} from "./api/IAddSessionModalProps";
-import {Button, TextInput, Text} from "react-native-paper";
-import DropDown from "react-native-paper-dropdown";
-import {Alert, SafeAreaView, StyleSheet} from 'react-native';
-import {DefaultTheme, List, ListItemProps, Provider as PaperProvider} from 'react-native-paper';
 import {useEffect, useState} from "react";
-import {Session, SessionApi, Tea, TeaApi, TeaType, Vessel, VesselApi} from "../openAPI";
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {IAddSessionModalProps} from "./api/IAddSessionModalProps";
+import {Button, DefaultTheme, Provider as PaperProvider, Text, TextInput} from "react-native-paper";
+import DropDown from "react-native-paper-dropdown";
+import Theme from '../constants/Theme';
+import {Session, SessionApi, Vessel, VesselApi} from "../openAPI";
 import {View} from "./Themed";
 
 let vesselApi = new VesselApi();
 let sessionApi = new SessionApi();
 
 export function AddSessionModal(props: IAddSessionModalProps) {
-    const theme = {
-        ...DefaultTheme,
-        roundness: 4,
-        padding: 50,
-        version: 3,
-        elevation: 2,
-        colors: {
-            ...DefaultTheme.colors,
-            primary: '#006400',
-            secondary: '#f1c40f',
-            tertiary: '#a1b2c3',
-        },
-    };
 
-    const styles = StyleSheet.create({
-        container: {
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            alignItems: 'flex-start' // if you want to fill rows left to right
-        },
-        button: {
-            flexDirection: "row",
-            paddingTop: 10,
-            justifyContent: 'space-between',
-
-        },
-        dropDown: {
-            justifyContent: 'space-between',
-            paddingTop: 5,
-            flex: 1,
-            //backgroundColor: '#006400'
-        },
-        itemAmount: {
-            width: '40%',
-            paddingLeft: 5,
-        },
-        itemVessel: {
-            width: '60%',
-            paddingLeft: 35,
-            paddingRight: 5,
-        }
-    });
-
-
-    let defaultVessel: Vessel = {
-        name: "name",
-        capacity: 0
-    }
     let vesselArray: Vessel[] = [];
+
     const [showDropDown, setShowDropDown] = useState(false);
-    const [vessels, setVessels] = useState(vesselArray);
-    const [selectedVessel, setSelectedVessel] = useState({label: "", value: ""});
     const [vesselsDropDown, setVesselsDropDown] = useState([] as any)
     const [amount, setAmount] = useState('0');
     const [selectedVesselId, setSelectedVesselId] = useState("");
 
-    function getDateString(timestamp: Date){
-        if (!isNaN(timestamp.getTime())) {
-            let day = timestamp.getDate() < 10 ? '0' + timestamp.getDate() : timestamp.getDate();
-            let month = (timestamp.getMonth() + 1) < 10 ? '0' + (timestamp.getMonth() + 1) : (timestamp.getMonth() + 1);
-            let date = timestamp.getFullYear() + '-' + month + '-' + day;
+    function getDateString(dateObj: Date) {
+        if (!isNaN(dateObj.getTime())) {
+            let day = dateObj.getDate() < 10 ? '0' + dateObj.getDate() : dateObj.getDate();
+            let month = (dateObj.getMonth() + 1) < 10 ? '0' + (dateObj.getMonth() + 1) : (dateObj.getMonth() + 1);
+            let date = dateObj.getFullYear() + '-' + month + '-' + day;
 
-            let hours = timestamp.getHours() < 10 ? '0' + timestamp.getHours() : timestamp.getHours();
-            let minutes = timestamp.getMinutes() < 10 ? '0' + timestamp.getMinutes() : timestamp.getMinutes();
-            let seconds = timestamp.getSeconds() < 10 ? '0' + timestamp.getSeconds() : timestamp.getSeconds();
+            let hours = dateObj.getHours() < 10 ? '0' + dateObj.getHours() : dateObj.getHours();
+            let minutes = dateObj.getMinutes() < 10 ? '0' + dateObj.getMinutes() : dateObj.getMinutes();
+            let seconds = dateObj.getSeconds() < 10 ? '0' + dateObj.getSeconds() : dateObj.getSeconds();
             let time = hours + ':' + minutes + ':' + seconds;
 
             return date + 'T' + time + 'Z';
         }
+
         return '';
     }
 
@@ -111,27 +64,29 @@ export function AddSessionModal(props: IAddSessionModalProps) {
 
     useEffect(() => {
 
-        vesselApi.viewAllVessels().then((data) => {
-            setVessels(data.data as Vessel[]);
-            let dropDownEntries = [] as any;
-            for (let i = 0; i < data.data.length; i++) {
+        vesselApi.viewAllVessels().then(
+            (response) => {
+                let dropDownEntries = [] as any;
 
-                dropDownEntries.push({
-                    label: data.data[i].name + " (" + data.data[i].capacity + "ml)",
-                    value: data.data[i].id
-                })
+                for (let i = 0; i < response.data.length; i++) {
+                    let vesselObj = response.data[i];
+
+                    dropDownEntries.push({
+                        label: vesselObj.name + " (" + vesselObj.capacity + "ml)",
+                        value: vesselObj.id
+                    })
+                }
+
+                setVesselsDropDown(dropDownEntries);
+            },
+            (err) => {
+                console.log(err);
             }
-            console.log(dropDownEntries);
-            setVesselsDropDown(dropDownEntries);
-
-        }, (err) => {
-            console.log(err);
-        })
+        );
     }, []);
-    console.log(vesselsDropDown)
 
     return (
-        <PaperProvider>
+        <PaperProvider theme={Theme}>
             <SafeAreaView style={styles.dropDown}>
 
                 <View>
@@ -144,7 +99,6 @@ export function AddSessionModal(props: IAddSessionModalProps) {
 
                     <View style={styles.container}>
                         <View style={styles.itemAmount}>
-
                             <TextInput
                                 label="Amount [g]"
                                 value={amount.toString()}
@@ -158,7 +112,6 @@ export function AddSessionModal(props: IAddSessionModalProps) {
 
                         <View style={styles.itemVessel}>
                             <DropDown
-                                theme={theme}
                                 label={"Vessel"}
                                 visible={showDropDown}
                                 dropDownStyle={{width: 240, top: 80,}}
@@ -174,20 +127,53 @@ export function AddSessionModal(props: IAddSessionModalProps) {
 
                         </View>
                     </View>
+
                     <Text>Session Price: {((props.tea?.price || 0) * parseFloat(amount)).toFixed(2)}</Text>
 
-                    <Button mode="outlined"
-                            onPress={() => {
-                                checkInput();
-                                // props.toggleAddSessionModalVisibility(false);
-                            }}> save </Button>
-
-                    <Button style={{marginTop: "70%"}} mode="outlined"
-                            onPress={() => props.toggleAddSessionModalVisibility(false)}> return </Button>
-
-
+                    <Button
+                        mode="outlined"
+                        onPress={() => checkInput()}
+                    >
+                        Save
+                    </Button>
+                    <Button
+                        style={{marginTop: "70%"}}
+                        mode="outlined"
+                        onPress={() => props.toggleAddSessionModalVisibility(false)}
+                    >
+                        Return
+                    </Button>
                 </View>
             </SafeAreaView>
         </PaperProvider>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start' // if you want to fill rows left to right
+    },
+    button: {
+        flexDirection: "row",
+        paddingTop: 10,
+        justifyContent: 'space-between',
+
+    },
+    dropDown: {
+        justifyContent: 'space-between',
+        paddingTop: 5,
+        flex: 1,
+        //backgroundColor: '#006400'
+    },
+    itemAmount: {
+        width: '40%',
+        paddingLeft: 5,
+    },
+    itemVessel: {
+        width: '60%',
+        paddingLeft: 35,
+        paddingRight: 5,
+    }
+});
