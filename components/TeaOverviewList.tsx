@@ -52,7 +52,7 @@ export default function TeaOverviewList(props: any) {
             {searchBarContent()}
 
             <View style={styles.scrollViewContainer}>
-                <ScrollView>
+                <ScrollView style={styles.scrollView}>
                     {filteredTeas.map((item: Tea, i: number) => (
                         <List.Item
                             style={styles.scrollViewContainerItem}
@@ -61,7 +61,7 @@ export default function TeaOverviewList(props: any) {
                             titleEllipsizeMode={"tail"}
                             title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
                             description={item.type}
-                            left={props => <List.Icon {...props} icon="tea"/>}
+                            left={props => <List.Icon {...props} icon="leaf"/>}
                             onPress={() => {
                                 props.onPress(filteredTeas[i]);
                             }}
@@ -74,13 +74,17 @@ export default function TeaOverviewList(props: any) {
 }
 
 const styles = StyleSheet.create({
+    scrollView: {
+        marginBottom: 110
+    },
     scrollViewContainer: {
         height: "100%",
         alignItems: 'center',
         marginHorizontal: 10
     },
     scrollViewContainerItem: {
-        minWidth: '100%'
+        minWidth: '100%',
+        padding: 5
     },
     noVesselsFoundTextContainer: {
         marginTop: "50%",

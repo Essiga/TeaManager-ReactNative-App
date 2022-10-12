@@ -41,14 +41,26 @@ export default function VesselScreen(props: any) {
         setAddVesselModalVisible(false);
     }
 
-    function deleteVessel(id: any) {
+    function deleteVessel(removeIndex: any) {
 
-        vesselApi.deleteVessel(id).then((data) => {
-            console.log(data.data);
-        }, (err) => {
-            console.log(err);
-        })
+        vesselApi.deleteVessel(removeIndex).then(
+            (response) => {
+                setVessels(vessels => {
+                    return vessels.filter((vessel) => {
+                        return vessel.id !== removeIndex;
+                    });
+                });
+
+                console.log(response.data);
+                console.log(removeIndex);
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
+
+    console.log(vessels);
 
     return isLoading ? (
         <View style={styles.activityIndicatorContainer}>

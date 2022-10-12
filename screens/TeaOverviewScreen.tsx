@@ -42,8 +42,8 @@ export default function TeaOverviewScreen(props: any) {
     function callViewAllTeas() {
         teaApi.viewAllTeas()
             .then(
-                (data) => {
-                    setTeas(data.data as Tea[]);
+                (response) => {
+                    setTeas(response.data as Tea[]);
                 },
                 (err) => {
                     console.log(err);
