@@ -5,8 +5,9 @@ import VesselScreen from '../screens/VesselScreen';
 import {RootTabParamList} from '../types';
 import TeaOverviewScreen from "../screens/TeaOverviewScreen";
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
-import {faLeaf, faMugHot} from '@fortawesome/free-solid-svg-icons'
+import {faBook, faLeaf, faMugHot} from '@fortawesome/free-solid-svg-icons'
 import {TouchableRipple} from "react-native-paper";
+import SessionsScreen from "../screens/SessionsScreen";
 
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
@@ -42,6 +43,17 @@ export default function Navigation() {
                     options={{
                         title: 'Vessels',
                         tabBarIcon: ({color}) => <FontAwesomeIcon icon={faMugHot} color={color}/>,
+                        headerStyle: {
+                            backgroundColor: '#ded8c1',
+                        },
+                    }}
+                />
+                <Tab.Screen
+                    name="Sessions"
+                    component={SessionsScreen}
+                    options={{
+                        title: 'Sessions',
+                        tabBarIcon: ({color}) => <FontAwesomeIcon icon={faBook} color={color}/>,
                         headerStyle: {
                             backgroundColor: '#ded8c1',
                         },

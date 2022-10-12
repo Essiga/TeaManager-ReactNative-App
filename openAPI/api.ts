@@ -44,6 +44,12 @@ export interface Session {
      * @type {string}
      * @memberof Session
      */
+    'teaName'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Session
+     */
     'date': string;
     /**
      * 
