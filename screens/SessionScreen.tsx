@@ -1,10 +1,11 @@
-import {Modal, ScrollView, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {View} from "react-native";
 import {useEffect, useState} from "react";
 import {Session, SessionApi} from "../openAPI";
-import {ActivityIndicator, List} from "react-native-paper";
+import {ActivityIndicator} from "react-native-paper";
 import {DetailedSessionModal} from "../components/modal/DetailedSessionModal";
 import {RootTabScreenProps} from "../types";
+import SessionViewList from "../components/SessionViewList";
 
 const sessionApi = new SessionApi();
 
@@ -25,7 +26,8 @@ export default function SessionScreen(navProps: RootTabScreenProps<"SessionScree
 
         callViewAllSessions();
 
-        return navProps.navigation.addListener('tabPress', () => {
+        return navProps.navigation.addListener('focus', () => {
+            setLoading(true);
             callViewAllSessions();
         });
     }, [navProps.navigation]);
@@ -34,11 +36,11 @@ export default function SessionScreen(navProps: RootTabScreenProps<"SessionScree
         sessionApi.viewAllSessions()
             .then(
                 (data) => {
-                    console.log(data.data);
                     data.data.sort(function (a, b) {
                         // @ts-ignore
                         return new Date(b.date) - new Date(a.date);
                     });
+
                     setSessions(data.data as Session[]);
                 },
                 (err) => {
@@ -56,28 +58,16 @@ export default function SessionScreen(navProps: RootTabScreenProps<"SessionScree
         </View>
     ) : (
         <View>
-            <View style={styles.scrollViewContainer}>
-                <ScrollView>
-                    {sessions.map((item: Session, i: number) => (
-                        <List.Item
-                            style={styles.scrollViewContainerItem}
-                            titleNumberOfLines={1}
-                            key={i}
-                            titleEllipsizeMode={"tail"}
-                            title={(item?.teaName?.length ?? 0) < 35 ? `${item.teaName}` : `${item.teaName?.substring(0, 32)}...`}
-                            description={new Date(item.date).toLocaleString()}
-                            left={props => <List.Icon {...props} icon="tea"/>}
-                            onPress={() => {
-                                setSession(item);
+            <SessionViewList
+                sessions={sessions}
+                onItemPress={(item) => {
+                    setSession(item);
 
-                                navProps.navigation.navigate("DetailedSessionModal", {
-                                    session: item
-                                })
-                            }}
-                        />
-                    ))}
-                </ScrollView>
-            </View>
+                    navProps.navigation.navigate("DetailedSessionModal", {
+                        session: item
+                    });
+                }}
+            />
         </View>
     );
 }
@@ -87,24 +77,5 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         justifyContent: 'center'
-    },
-    fabStyle: {
-        bottom: 72,
-        right: 16,
-        position: 'absolute',
-        alignItems: 'center'
-    },
-    scrollViewContainer: {
-        height: "100%",
-        alignItems: 'center',
-        marginHorizontal: 10
-    },
-    scrollViewContainerItem: {
-        minWidth: '100%'
-    },
-    noVesselsFoundTextContainer: {
-        marginTop: "50%",
-        height: "100%",
-        alignItems: 'center'
-    },
+    }
 });

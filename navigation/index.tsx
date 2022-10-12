@@ -16,6 +16,11 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {DetailedTeaModal} from "../components/modal/DetailedTeaModal";
 import {UpdateTeaModal} from "../components/modal/UpdateTeaModal";
 import {DetailedSessionModal} from "../components/modal/DetailedSessionModal";
+import {LogBox} from 'react-native';
+
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+]);
 
 export default function Navigation() {
     return (
@@ -48,7 +53,7 @@ function RootNavigator() {
                     presentation: 'modal',
                     headerLeft: (_props) => {
                         return (
-                            <TouchableOpacity onPress={() => navigation.goBack()}>
+                            <TouchableOpacity style={{marginRight: 10}} onPress={() => navigation.goBack()}>
                                 <FontAwesomeIcon {..._props} icon={faChevronLeft}/>
                             </TouchableOpacity>
                         )

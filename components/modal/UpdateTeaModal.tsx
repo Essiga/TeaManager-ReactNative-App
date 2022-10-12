@@ -1,7 +1,7 @@
 import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
 import {Provider as PaperProvider} from 'react-native-paper';
 import {IUpdateTeaModalProps} from "./api/IUpdateTeaModalProps";
-import {Button, TextInput, Text} from "react-native-paper";
+import {Button, TextInput} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import {useState} from "react";
 import {Tea, TeaApi, TeaType} from "../../openAPI";
@@ -56,10 +56,6 @@ export function UpdateTeaModal(navProps: RootStackScreenProps<'UpdateTeaModal'>)
             props.updateTea(tea);
             navProps.navigation.navigate("DetailedTeaModal", {
                 tea: tea,
-                toggleTeaModalVisibility: () => {
-                },
-                toggleAddSessionModalVisibility: () => {
-                }
             });
 
             Alert.alert("Tea successfully updated");
@@ -72,13 +68,6 @@ export function UpdateTeaModal(navProps: RootStackScreenProps<'UpdateTeaModal'>)
     return (
         <PaperProvider theme={Theme}>
             <SafeAreaView style={styles.dropDown}>
-                <Text
-                    variant="titleLarge"
-                    style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}
-                >
-                    Update Tea
-                </Text>
-
                 <TextInput
                     label={"old tea name: " + props.tea.name}
                     value={updateTea}
@@ -128,14 +117,10 @@ export function UpdateTeaModal(navProps: RootStackScreenProps<'UpdateTeaModal'>)
                         <Button
                             icon="tea"
                             mode="contained"
-                            onPress={() => {
-                                updateData();
-                            }}
+                            onPress={() => updateData()}
                         >
                             Update Tea
                         </Button>
-                        <Button mode="outlined"
-                                onPress={() => props.toggleUpdateTeaModalVisibility(true)}> return </Button>
                     </View>
                 </View>
             </SafeAreaView>

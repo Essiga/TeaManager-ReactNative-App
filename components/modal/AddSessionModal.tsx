@@ -57,6 +57,8 @@ export function AddSessionModal(navProps: RootStackScreenProps<"AddSessionModal"
 
         sessionApi.addSession(session).then(response => {
             Alert.alert("Session added successfully 😁");
+
+            navProps.navigation.navigate("Root");
         }, (err) => {
             console.log(err);
         });
@@ -95,6 +97,7 @@ export function AddSessionModal(navProps: RootStackScreenProps<"AddSessionModal"
                     >
                         {props.tea.name}
                     </Text>
+
                     <View style={styles.container}>
                         <View style={styles.props}>
                             <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>Type:</Text>
@@ -106,7 +109,6 @@ export function AddSessionModal(navProps: RootStackScreenProps<"AddSessionModal"
                         </View>
                     </View>
 
-
                     <View style={styles.container}>
                         <View style={styles.itemAmount}>
                             <TextInput
@@ -117,7 +119,6 @@ export function AddSessionModal(navProps: RootStackScreenProps<"AddSessionModal"
                                     setAmount(text);
                                 }}
                             />
-
                         </View>
 
                         <View style={styles.itemVessel}>
@@ -134,12 +135,14 @@ export function AddSessionModal(navProps: RootStackScreenProps<"AddSessionModal"
                                     right: <TextInput.Icon icon={"arrow-down-drop-circle"}/>
                                 }}
                             />
-
                         </View>
                     </View>
 
-                    <Text style={{paddingLeft: 5}} variant={"bodyLarge"}>Session
-                        Price: {((props.tea?.price || 0) * parseFloat(amount)).toFixed(2)}</Text>
+                    <Text
+                        style={{paddingLeft: 5}} variant={"bodyLarge"}
+                    >
+                        Session Price: {((props.tea?.price || 0) * parseFloat(amount)).toFixed(2)}
+                    </Text>
 
                     <View style={{alignItems: "center"}}>
                         <Button
@@ -147,20 +150,11 @@ export function AddSessionModal(navProps: RootStackScreenProps<"AddSessionModal"
                             mode="outlined"
                             onPress={() => {
                                 checkInput();
-                                props.toggleAddSessionModalVisibility(false);
                             }}
                         >
                             Add
                         </Button>
                     </View>
-
-                    <Button
-                        style={{marginTop: "70%"}}
-                        mode="outlined"
-                        onPress={() => props.toggleAddSessionModalVisibility(false)}
-                    >
-                        Return
-                    </Button>
                 </View>
             </SafeAreaView>
         </PaperProvider>

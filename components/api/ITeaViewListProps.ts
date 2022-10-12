@@ -1,6 +1,6 @@
 import {Tea} from "../../openAPI";
 
-export interface ITeaViewList {
+export interface ITeaViewListProps {
     teas: Tea[];
     onItemPress: (tea: Tea) => void;
 }

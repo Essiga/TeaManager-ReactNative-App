@@ -1,24 +1,24 @@
-import {Vessel} from "../openAPI";
+import {Session} from "../openAPI";
 import {List, Text} from "react-native-paper";
-import {ScrollView, StyleSheet, TouchableOpacity} from "react-native";
-import React, {useState} from "react";
+import {ScrollView, StyleSheet} from "react-native";
+import {useState} from "react";
 import {View} from "react-native";
 import StyledSearchbar from "./styled/StyledSearchbar";
-import {IVesselViewListProps} from "./api/IVesselViewListProps";
+import {ISessionViewListProps} from "./api/ISessionViewListProps";
 
-export default function VesselViewList(props: IVesselViewListProps) {
+export default function SessionViewList(props: ISessionViewListProps) {
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredVessels, setFilteredVessels] = useState(props.vessels);
+    const [filteredSessions, setFilteredTeas] = useState(props.sessions);
 
     const onChangeSearch = (query: string) => {
 
         if (query === "") {
-            setFilteredVessels(props.vessels);
+            setFilteredTeas(props.sessions);
         } else {
-            setFilteredVessels(
-                props.vessels.filter((filter: Vessel) => {
-                    const itemData = filter.name ? filter.name.toUpperCase() : ''.toUpperCase();
+            setFilteredTeas(
+                props.sessions.filter((filter: Session) => {
+                    const itemData = filter.teaName ? filter.teaName.toUpperCase() : ''.toUpperCase();
 
                     return itemData.indexOf(query.toUpperCase()) > -1;
                 })
@@ -38,13 +38,13 @@ export default function VesselViewList(props: IVesselViewListProps) {
         );
     }
 
-    return !filteredVessels.length ? (
+    return !filteredSessions.length ? (
         <>
             {searchBarContent()}
 
-            <View style={styles.noVesselsFoundTextContainer}>
+            <View style={styles.noSessionsFoundTextContainer}>
                 <Text>
-                    No vessels found
+                    No sessions found
                 </Text>
             </View>
         </>
@@ -53,25 +53,19 @@ export default function VesselViewList(props: IVesselViewListProps) {
             {searchBarContent()}
 
             <View style={styles.scrollViewContainer}>
-                <ScrollView style={styles.scrollView}>
-                    {filteredVessels.map((item: Vessel, i: number) => (
+                <ScrollView>
+                    {filteredSessions.map((item: Session, i: number) => (
                         <List.Item
                             style={styles.scrollViewContainerItem}
                             titleNumberOfLines={1}
                             key={i}
                             titleEllipsizeMode={"tail"}
-                            title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
-                            description={item.capacity + "ml"}
-                            left={_props => <List.Icon {..._props} icon="tea"/>}
-
-                            // TODO:: delete is broken
-                            // right={_props => {
-                            //     return (
-                            //         <TouchableOpacity onPress={() => props.deleteVessel(item.id)}>
-                            //             <List.Icon {..._props} icon="delete"/>
-                            //         </TouchableOpacity>
-                            //     )
-                            // }}
+                            title={(item?.teaName?.length ?? 0) < 35 ? `${item.teaName}` : `${item.teaName?.substring(0, 32)}...`}
+                            description={new Date(item.date).toLocaleString()}
+                            left={props => <List.Icon {...props} icon="tea"/>}
+                            onPress={() => {
+                                props.onItemPress(filteredSessions[i]);
+                            }}
                         />
                     ))}
                 </ScrollView>
@@ -87,13 +81,13 @@ const styles = StyleSheet.create({
     scrollViewContainer: {
         height: "100%",
         alignItems: 'center',
-        marginHorizontal: 10
+        marginHorizontal: 10,
     },
     scrollViewContainerItem: {
         minWidth: '100%',
         padding: 5
     },
-    noVesselsFoundTextContainer: {
+    noSessionsFoundTextContainer: {
         marginTop: "50%",
         height: "100%",
         alignItems: 'center'

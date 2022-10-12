@@ -3,10 +3,10 @@ import {List, Text} from "react-native-paper";
 import {ScrollView, StyleSheet} from "react-native";
 import {useState} from "react";
 import {View} from "react-native";
-import StyledSearchbar from "./StyledSearchbar";
-import {ITeaViewList} from "./api/ITeaViewList";
+import StyledSearchbar from "./styled/StyledSearchbar";
+import {ITeaViewListProps} from "./api/ITeaViewListProps";
 
-export default function TeaViewList(props: ITeaViewList) {
+export default function TeaViewList(props: ITeaViewListProps) {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredTeas, setFilteredTeas] = useState(props.teas);

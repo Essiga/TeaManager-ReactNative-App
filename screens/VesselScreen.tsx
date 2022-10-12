@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Modal, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {View} from "react-native";
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
 import {Vessel, VesselApi} from "../openAPI";
@@ -12,14 +12,14 @@ let vesselApi = new VesselApi();
 export default function VesselScreen(navProps: RootTabScreenProps<"VesselScreen">) {
 
     const [vessels, setVessels] = useState([] as Vessel[]);
-    const [addVesselModalVisible, setAddVesselModalVisible] = useState(false);
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
 
         callViewAllVessels();
 
-        return navProps.navigation.addListener('tabPress', () => {
+        return navProps.navigation.addListener('focus', () => {
+            setLoading(true);
             callViewAllVessels();
         });
     }, [navProps.navigation]);
@@ -36,10 +36,6 @@ export default function VesselScreen(navProps: RootTabScreenProps<"VesselScreen"
             .finally(() => {
                 setLoading(false);
             });
-    }
-
-    function toggleVesselModalVisibility() {
-        setAddVesselModalVisible(false);
     }
 
     function deleteVessel(removeIndex: any) {
@@ -77,9 +73,7 @@ export default function VesselScreen(navProps: RootTabScreenProps<"VesselScreen"
                 label={''}
                 extended={false}
                 onPress={() => {
-                    navProps.navigation.navigate("AddVesselModal", {
-                        toggleAddVesselModalVisibility: toggleVesselModalVisibility
-                    });
+                    navProps.navigation.navigate("AddVesselModal", {});
                 }}
                 visible={true}
                 animateFrom={'right'}
