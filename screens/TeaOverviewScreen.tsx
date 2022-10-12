@@ -10,7 +10,7 @@ import {AddSessionModal} from "../components/modal/AddSessionModal";
 
 const teaApi = new TeaApi();
 
-export default function TeaOverviewScreen(props: any) {
+export default function TeaOverviewScreen(navProps: any) {
 
     const [teas, setTeas] = useState([] as Tea[]);
     const [teaModalVisible, setTeaModalVisible] = useState(false);
@@ -32,7 +32,7 @@ export default function TeaOverviewScreen(props: any) {
 
         callViewAllTeas();
 
-        return props.navigation.addListener('tabPress', () => {
+        return navProps.navigation.addListener('tabPress', () => {
             callViewAllTeas();
         });
     }, []);
@@ -74,26 +74,13 @@ export default function TeaOverviewScreen(props: any) {
             <TeaOverviewList
                 teas={teas}
                 onPress={(tea: Tea) => {
-                    setTea(tea);
-                    props.navigation.navigate("DetailedTeaModal", {
+                    navProps.navigation.navigate("DetailedTeaModal", {
                         tea: tea,
                         toggleTeaModalVisibility: toggleTeaModalVisibility,
                         toggleAddSessionModalVisibility: toggleAddSessionModalVisibility
                     });
-                    // setTeaModalVisible(true)
                 }}
             />
-
-            <Modal
-                visible={teaModalVisible}
-                onDismiss={() => setTeaModalVisible(false)}
-            >
-                <DetailedTeaModal
-                    tea={tea}
-                    toggleTeaModalVisibility={toggleTeaModalVisibility}
-                    toggleAddSessionModalVisibility={toggleAddSessionModalVisibility}
-                />
-            </Modal>
 
             <Modal
                 visible={addSessionModalVisible}
