@@ -1,8 +1,9 @@
 import {Tea} from "../openAPI";
-import {List, Searchbar, Text} from "react-native-paper";
+import {List, Text} from "react-native-paper";
 import {ScrollView, StyleSheet} from "react-native";
 import {useState} from "react";
 import {View} from "./Themed";
+import StyledSearchbar from "./StyledSearchbar";
 
 export default function TeaOverviewList(props: any) {
 
@@ -28,10 +29,10 @@ export default function TeaOverviewList(props: any) {
 
     const searchBarContent = () => {
         return (
-            <Searchbar
-                placeholder="Search"
-                onChangeText={onChangeSearch}
-                value={searchQuery}
+            <StyledSearchbar
+                placeholder={"Search"}
+                onChangeSearch={onChangeSearch}
+                searchQuery={searchQuery}
             />
         );
     }
@@ -62,7 +63,7 @@ export default function TeaOverviewList(props: any) {
                             description={item.type}
                             left={props => <List.Icon {...props} icon="tea"/>}
                             onPress={() => {
-                                props.onPress(i);
+                                props.onPress(filteredTeas[i]);
                             }}
                         />
                     ))}
@@ -75,7 +76,8 @@ export default function TeaOverviewList(props: any) {
 const styles = StyleSheet.create({
     scrollViewContainer: {
         height: "100%",
-        alignItems: 'center'
+        alignItems: 'center',
+        marginHorizontal: 10
     },
     scrollViewContainerItem: {
         minWidth: '100%'

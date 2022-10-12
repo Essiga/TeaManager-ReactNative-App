@@ -1,73 +1,54 @@
-/**
- * If you are not familiar with React Navigation, refer to the "Fundamentals" guide:
- * https://reactnavigation.org/docs/getting-started
- *
- */
 import * as React from 'react';
-import {ColorSchemeName} from 'react-native';
-import {FontAwesome} from '@expo/vector-icons';
+import {TouchableOpacity} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {DarkTheme, DefaultTheme, NavigationContainer} from '@react-navigation/native';
-import AddNewTeaModal from '../components/AddNewTeaModal';
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
+import {NavigationContainer} from '@react-navigation/native';
 import VesselScreen from '../screens/VesselScreen';
 import {RootTabParamList} from '../types';
-import LinkingConfiguration from './LinkingConfiguration';
 import TeaOverviewScreen from "../screens/TeaOverviewScreen";
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
+import {faLeaf, faMugHot} from '@fortawesome/free-solid-svg-icons'
+import {TouchableRipple} from "react-native-paper";
 
-export default function Navigation({colorScheme}: { colorScheme: ColorSchemeName }) {
+const Tab = createBottomTabNavigator<RootTabParamList>();
+
+export default function Navigation() {
+
     return (
-        <NavigationContainer
-            linking={LinkingConfiguration}
-            theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
-        >
-            <BottomTabNavigator/>
+        <NavigationContainer>
+            <Tab.Navigator
+                initialRouteName="TeaOverview"
+                screenOptions={() => ({
+                    tabBarActiveTintColor: '#7b8f4b',
+                    tabBarInactiveTintColor: 'grey',
+                    tabBarActiveBackgroundColor: '#F0EAD2',
+                    tabBarInactiveBackgroundColor: '#F0EAD2',
+                    tabBarLabelStyle: {marginBottom: 3},
+                    tabBarButton: (props) => <TouchableRipple{...props}/>
+                })}
+            >
+                <Tab.Screen
+                    name="TeaOverview"
+                    component={TeaOverviewScreen}
+                    options={{
+                        title: 'Teas',
+                        tabBarIcon: ({color}) => <FontAwesomeIcon icon={faLeaf} color={color}/>,
+                        headerStyle: {
+                            backgroundColor: '#ded8c1',
+                        },
+                    }}
+                />
+                <Tab.Screen
+                    name="Vessel"
+                    component={VesselScreen}
+                    options={{
+                        title: 'Vessels',
+                        tabBarIcon: ({color}) => <FontAwesomeIcon icon={faMugHot} color={color}/>,
+                        headerStyle: {
+                            backgroundColor: '#ded8c1',
+                        },
+                    }}
+                />
+            </Tab.Navigator>
         </NavigationContainer>
     );
-}
-
-/**
- * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
- * https://reactnavigation.org/docs/bottom-tab-navigator
- */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
-
-function BottomTabNavigator() {
-    const colorScheme = useColorScheme();
-
-    return (
-        <BottomTab.Navigator
-            initialRouteName="TeaOverview"
-            screenOptions={{
-                tabBarActiveTintColor: Colors[colorScheme].tint,
-            }}>
-            <BottomTab.Screen
-                name="Vessel"
-                component={VesselScreen}
-                options={{
-                    title: 'Vessel',
-                    tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
-                }}
-            />
-            <BottomTab.Screen
-                name="TeaOverview"
-                component={TeaOverviewScreen}
-                options={{
-                    title: 'Tea Overview',
-                    tabBarIcon: ({color}) => <TabBarIcon name="code" color={color}/>,
-                }}
-            />
-        </BottomTab.Navigator>
-    );
-}
-
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
-function TabBarIcon(props: {
-    name: React.ComponentProps<typeof FontAwesome>['name'];
-    color: string;
-}) {
-    return <FontAwesome size={30} style={{marginBottom: -3}} {...props} />;
 }
