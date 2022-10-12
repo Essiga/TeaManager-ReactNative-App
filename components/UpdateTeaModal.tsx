@@ -14,13 +14,13 @@ let teaApi = new TeaApi();
 
 export function UpdateTeaModal(props: IUpdateTeaModalProps) {
 
-    const [newTea, setNewTea] = useState("");
-    const [teaType, setTeaType] = useState(TeaType.Green);
-    const [amount, setAmount] = useState(0);
-    const [price, setPrice] = useState(0);
-    const [link, setLink] = useState("");
-    const [vendor, setVendor] = useState("");
-    const [year, setYear] = useState(0);
+    const [updateTea, setUpdateTea] = useState(props.tea.name);
+    const [updateTeaType, setTeaType] = useState(TeaType.Green);
+    const [updateAmount, setUpdateAmount] = useState(props.tea.amount);
+    const [updatePrice, setUpdatePrice] = useState(props.tea.price);
+    const [updateLink, setUpdateLink] = useState(props.tea.link);
+    const [updateVendor, setUpdateVendor] = useState(props.tea.vendor);
+    const [updateYear, setUpdateYear] = useState(props.tea.year);
     const [showDropDown, setShowDropDown] = useState(false);
 
     const teaTypeDropDown: TeaTypeDropDownEntry[] = [
@@ -55,22 +55,23 @@ export function UpdateTeaModal(props: IUpdateTeaModalProps) {
 
     function updateData() {
         let tea: Tea = {
-            name: newTea,
-            type: teaType,
-            amount: amount,
-            price: price,
-            link: link,
-            vendor: vendor,
-            year: year
+            id:props.tea.id,
+            name: updateTea,
+            type: updateTeaType,
+            amount: updateAmount,
+            price: updatePrice,
+            link: updateLink,
+            vendor: updateVendor,
+            year: updateYear
         };
-
-        teaApi.addTea(tea).then((response) => {
+        console.log("new tea:", tea)
+        teaApi.updateTea(tea).then((response) => {
             Alert.alert(response.data);
         }, (err) => {
             console.log(err);
         })
 
-        props.toggleUpdateTeaModalVisibility();
+        props.toggleUpdateTeaModalVisibility(true);
     }
 
     return (
@@ -80,9 +81,9 @@ export function UpdateTeaModal(props: IUpdateTeaModalProps) {
                 Tea </Text>
 
             <TextInput
-                label="Tea name"
-                value={props.tea.name}
-                onChangeText={text => setNewTea(text)}
+                label={"old tea name: " + props.tea.name}
+                value={updateTea}
+                onChangeText={text => setUpdateTea(text)}
             />
 
             <DropDown
@@ -91,7 +92,7 @@ export function UpdateTeaModal(props: IUpdateTeaModalProps) {
                 dropDownStyle={{width: 140, top: 80,}}
                 showDropDown={() => setShowDropDown(true)}
                 onDismiss={() => setShowDropDown(false)}
-                value={teaType}
+                value={updateTeaType}
                 setValue={setTeaType}
                 list={teaTypeDropDown}
                 inputProps={{
@@ -99,29 +100,29 @@ export function UpdateTeaModal(props: IUpdateTeaModalProps) {
                 }}
             />
             <TextInput
-                label="Amount"
-                value={props.tea.amount.toString()}
-                onChangeText={text => setAmount(parseFloat(text))}
+                label={"old amount " + props.tea.amount.toString()}
+                value={updateAmount.toString()}
+                onChangeText={text => setUpdateAmount(parseFloat(text))}
             />
             <TextInput
-                label="price"
-                value={props.tea.price?.toString()}
-                onChangeText={text => setPrice(parseFloat(text))}
+                label={"old price: " + props.tea.price?.toString()}
+                value={updatePrice?.toString()}
+                onChangeText={text => setUpdatePrice(parseFloat(text))}
             />
             <TextInput
-                label="Webpage"
-                value={props.tea.link}
-                onChangeText={text => setLink(text)}
+                label={"old Link: " + props.tea.link}
+                value={updateLink}
+                onChangeText={text => setUpdateLink(text)}
             />
             <TextInput
-                label="Vendor"
-                value={props.tea.vendor}
-                onChangeText={text => setVendor(text)}
+                label={"old vendor: " + props.tea.vendor}
+                value={updateVendor}
+                onChangeText={text => setUpdateVendor(text)}
             />
             <TextInput
-                label="Year"
-                value={props.tea.year?.toString()}
-                onChangeText={text => setYear(parseInt(text))}
+                label={"old Year: " + props.tea.year?.toString()}
+                value={updateYear?.toString()}
+                onChangeText={text => setUpdateYear(parseFloat(text))}
             />
             <View style={styles.container}>
                 <View style={styles.button}>
@@ -131,7 +132,7 @@ export function UpdateTeaModal(props: IUpdateTeaModalProps) {
                             }}>
                         Update Tea
                     </Button>
-                    <Button mode="outlined" onPress={() => props.toggleUpdateTeaModalVisibility()}> return </Button>
+                    <Button mode="outlined" onPress={() => props.toggleUpdateTeaModalVisibility(true)}> return </Button>
                 </View>
             </View>
         </SafeAreaView>
