@@ -1,69 +1,72 @@
 import {Linking, StyleSheet, View} from "react-native";
-import {Button, Text} from "react-native-paper";
+import {Button, Text, Provider as PaperProvider} from 'react-native-paper';
 import {ITeaModalProps} from "./api/ITeaModalProps";
+import Theme from "../constants/Theme";
 
 export function DetailedTeaModal(props: ITeaModalProps) {
 
     return (
-        <View>
-            <Text
-                variant="titleLarge"
-                style={styles.title}
-            >
-                {props.tea.name}
-            </Text>
+        <PaperProvider theme={Theme}>
+            <View>
+                <Text
+                    variant="titleLarge"
+                    style={styles.title}
+                >
+                    {props.tea.name}
+                </Text>
 
-            <View style={styles.container}>
-                <View style={styles.item}>
-                    <Text style={styles.propsStyle} variant="bodyLarge">Amount:</Text>
-                    <Text style={styles.propsStyle} variant="bodyLarge">Price/g:</Text>
-                    <Text style={styles.propsStyle} variant="bodyLarge">Year:</Text>
-                    <Text style={styles.propsStyle} variant="bodyLarge">Vendor:</Text>
-                    <Text style={styles.propsStyle} variant="bodyLarge">Website:</Text>
-                    <Text style={styles.propsStyle} variant="bodyLarge">Type:</Text>
+                <View style={styles.container}>
+                    <View style={styles.item}>
+                        <Text style={styles.propsStyle} variant="bodyLarge">Amount:</Text>
+                        <Text style={styles.propsStyle} variant="bodyLarge">Price/g:</Text>
+                        <Text style={styles.propsStyle} variant="bodyLarge">Year:</Text>
+                        <Text style={styles.propsStyle} variant="bodyLarge">Vendor:</Text>
+                        <Text style={styles.propsStyle} variant="bodyLarge">Website:</Text>
+                        <Text style={styles.propsStyle} variant="bodyLarge">Type:</Text>
+
+                    </View>
+                    <View style={styles.item}>
+                        <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.amount}g</Text>
+                        <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.price} USD</Text>
+                        <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.year}</Text>
+                        <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.vendor}</Text>
+                        <Text
+                            style={styles.linkText}
+                            variant="bodyLarge"
+                            onPress={() => {
+                                if (props.tea.link != null) {
+                                    Linking
+                                        .openURL(props.tea.link)
+                                        .then(/* Empty promise handling */);
+                                }
+                            }}
+                        >
+                            Open link
+                        </Text>
+                        <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.type}</Text>
+                    </View>
 
                 </View>
-                <View style={styles.item}>
-                    <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.amount}g</Text>
-                    <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.price} USD</Text>
-                    <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.year}</Text>
-                    <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.vendor}</Text>
-                    <Text
-                        style={styles.linkText}
-                        variant="bodyLarge"
-                        onPress={() => {
-                            if (props.tea.link != null) {
-                                Linking
-                                    .openURL(props.tea.link)
-                                    .then(/* Empty promise handling */);
-                            }
-                        }}
-                    >
-                        Open link
-                    </Text>
-                    <Text style={styles.propsStyle} variant="bodyLarge">{props.tea.type}</Text>
-                </View>
 
+                <Button
+                    style={{marginTop: 15}}
+                    mode="outlined"
+                    onPress={() => {
+                        props.toggleTeaModalVisibility(false);
+                        props.toggleAddSessionModalVisibility(true);
+                    }}
+                >
+                    Start Session
+                </Button>
+                <Button
+                    style={{marginTop: "100%"}}
+                    mode="outlined"
+                    onPress={() => props.toggleTeaModalVisibility(false)}
+                >
+                    Return
+                </Button>
             </View>
-
-            <Button
-                style={{marginTop: 15}}
-                mode="outlined"
-                onPress={() => {
-                    props.toggleTeaModalVisibility(false);
-                    props.toggleAddSessionModalVisibility(true);
-                }}
-            >
-                Start Session
-            </Button>
-            <Button
-                style={{marginTop: "100%"}}
-                mode="outlined"
-                onPress={() => props.toggleTeaModalVisibility(false)}
-            >
-                Return
-            </Button>
-        </View>
+        </PaperProvider>
     );
 }
 

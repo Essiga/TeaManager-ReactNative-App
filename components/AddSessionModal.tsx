@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {Alert, SafeAreaView, StyleSheet} from 'react-native';
 import {IAddSessionModalProps} from "./api/IAddSessionModalProps";
-import {Button, DefaultTheme, Provider as PaperProvider, Text, TextInput} from "react-native-paper";
+import {Button, Provider as PaperProvider, Text, TextInput} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import Theme from '../constants/Theme';
 import {Session, SessionApi, Vessel, VesselApi} from "../openAPI";
@@ -11,8 +11,6 @@ let vesselApi = new VesselApi();
 let sessionApi = new SessionApi();
 
 export function AddSessionModal(props: IAddSessionModalProps) {
-
-    let vesselArray: Vessel[] = [];
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [vesselsDropDown, setVesselsDropDown] = useState([] as any)
@@ -47,7 +45,6 @@ export function AddSessionModal(props: IAddSessionModalProps) {
             price: parseFloat(((props.tea?.price || 0) * parseFloat(amount)).toFixed(2)),
             teaId: (props.tea?.id || ""),
             vesselId: selectedVesselId
-
         }
 
         sendData(session);
@@ -56,7 +53,7 @@ export function AddSessionModal(props: IAddSessionModalProps) {
     function sendData(session: Session) {
 
         sessionApi.addSession(session).then(response => {
-            console.log(response)
+            Alert.alert(response.data);
         }, (err) => {
             console.log(err);
         });
