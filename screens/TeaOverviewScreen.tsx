@@ -1,7 +1,7 @@
 import {Modal, StyleSheet} from 'react-native';
 import {View} from '../components/Themed';
 import {useEffect, useState} from "react";
-import {TeaModal} from "../components/TeaModal";
+import {DetailedTeaModal} from "../components/DetailedTeaModal";
 import {Tea, TeaApi, TeaType} from "../openAPI";
 import TeaOverviewList from "../components/TeaOverviewList";
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
@@ -84,7 +84,7 @@ export default function TeaOverviewScreen(props: any) {
                 visible={teaModalVisible}
                 onDismiss={() => setTeaModalVisible(false)}
             >
-                <TeaModal
+                <DetailedTeaModal
                     tea={tea}
                     toggleTeaModalVisibility={toggleTeaModalVisibility}
                     toggleAddSessionModalVisibility={toggleAddSessionModalVisibility}
