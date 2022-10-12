@@ -1,4 +1,4 @@
 # TeaManager-ReactNative-App
 
-##Instalation
-You will figure it out.
+## Instalation
+You'll figure it out.
