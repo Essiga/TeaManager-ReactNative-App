@@ -1,12 +1,12 @@
 import {Modal, StyleSheet} from 'react-native';
 import {View} from '../components/Themed';
 import {useEffect, useState} from "react";
-import {DetailedTeaModal} from "../components/DetailedTeaModal";
+import {DetailedTeaModal} from "../components/modal/DetailedTeaModal";
 import {Tea, TeaApi, TeaType} from "../openAPI";
 import TeaOverviewList from "../components/TeaOverviewList";
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
-import AddNewTeaModal from "../components/AddNewTeaModal";
-import {AddSessionModal} from "../components/AddSessionModal";
+import AddNewTeaModal from "../components/modal/AddNewTeaModal";
+import {AddSessionModal} from "../components/modal/AddSessionModal";
 
 const teaApi = new TeaApi();
 

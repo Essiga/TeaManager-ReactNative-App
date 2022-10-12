@@ -1,11 +1,11 @@
 import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
 import {Provider as PaperProvider} from 'react-native-paper';
-import {IUpdateTeaModalProps} from "./api/IUpdateTeaModalProps";
+import {IUpdateTeaModalProps} from "../api/IUpdateTeaModalProps";
 import {Button, TextInput, Text} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import {useState} from "react";
-import {Tea, TeaApi, TeaType} from "../openAPI";
-import Theme from "../constants/Theme";
+import {Tea, TeaApi, TeaType} from "../../openAPI";
+import Theme from "../../constants/Theme";
 
 type TeaTypeDropDownEntry = {
     label: string,

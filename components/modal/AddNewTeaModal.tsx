@@ -2,9 +2,9 @@ import {useState} from "react";
 import {Alert, StyleSheet, SafeAreaView} from 'react-native';
 import {Button, Text, TextInput, Provider as PaperProvider} from 'react-native-paper';
 import DropDown from "react-native-paper-dropdown";
-import Theme from '../constants/Theme';
-import {View} from './Themed';
-import {TeaApi, Tea, TeaType} from "../openAPI";
+import Theme from '../../constants/Theme';
+import {View} from '../Themed';
+import {TeaApi, Tea, TeaType} from "../../openAPI";
 
 let teaApi = new TeaApi();
 

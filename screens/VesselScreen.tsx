@@ -3,7 +3,7 @@ import {Modal, StyleSheet} from 'react-native';
 import {View} from '../components/Themed';
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
 import {Vessel, VesselApi} from "../openAPI";
-import {AddVesselModal} from "../components/AddVesselModal";
+import {AddVesselModal} from "../components/modal/AddVesselModal";
 import VesselList from "../components/VesselList";
 
 let vesselApi = new VesselApi();

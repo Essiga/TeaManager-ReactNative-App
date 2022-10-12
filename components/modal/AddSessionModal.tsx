@@ -1,11 +1,11 @@
 import {useEffect, useState} from "react";
 import {Alert, SafeAreaView, StyleSheet} from 'react-native';
-import {IAddSessionModalProps} from "./api/IAddSessionModalProps";
+import {IAddSessionModalProps} from "../api/IAddSessionModalProps";
 import {Button, Provider as PaperProvider, Text, TextInput} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
-import Theme from '../constants/Theme';
-import {Session, SessionApi, Vessel, VesselApi} from "../openAPI";
-import {View} from "./Themed";
+import Theme from '../../constants/Theme';
+import {Session, SessionApi, Vessel, VesselApi} from "../../openAPI";
+import {View} from "../Themed";
 
 let vesselApi = new VesselApi();
 let sessionApi = new SessionApi();

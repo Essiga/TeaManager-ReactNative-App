@@ -1,11 +1,14 @@
 import {Linking, Modal, StyleSheet, View} from "react-native";
 import {Button, Text} from "react-native-paper";
-import {ITeaModalProps} from "./api/ITeaModalProps";
-import {Tea, TeaApi, TeaType} from "../openAPI";
+import {ITeaModalProps} from "../api/ITeaModalProps";
+import {Tea, TeaApi, TeaType} from "../../openAPI";
 import {useState} from "react";
 import {UpdateTeaModal} from "./UpdateTeaModal";
 
-export function DetailedTeaModal(props: ITeaModalProps) {
+// let teaApi = new TeaApi();
+
+export function DetailedTeaModal(props: any) {
+
     const [updateTeaVisible, setUpdateTeaVisible] = useState(false);
     const [tea, setTea] = useState({
         id: props.tea.id,
@@ -29,16 +32,14 @@ export function DetailedTeaModal(props: ITeaModalProps) {
     }
 
     function updateTea(tea: Tea) {
-        let teaApi = new TeaApi();
         if (tea.id != null) {
             // teaApi.getTeaById(tea.id).then((data) => {
             //     setTea(data as unknown as Tea)
             // });
             //props.tea = tea;
-            setTea(tea);
 
+            setTea(tea);
         }
-        console.log("new", tea)
     }
 
     return (
@@ -80,16 +81,26 @@ export function DetailedTeaModal(props: ITeaModalProps) {
                     </Text>
                     <Text style={styles.propsStyle} variant="bodyLarge">{tea.type}</Text>
                 </View>
-
             </View>
 
             <View style={styles.button}>
-                <Button mode="outlined" onPress={() => {
-                    props.toggleTeaModalVisibility(false);
-                    props.toggleAddSessionModalVisibility(true);
-                }}> Start Session </Button>
-                <Button mode="outlined" onPress={() => showUpdateTea(tea)}> Update Tea</Button>
+                <Button
+                    mode="outlined"
+                    onPress={() => {
+                        props.toggleTeaModalVisibility(false);
+                        props.toggleAddSessionModalVisibility(true);
+                    }}
+                >
+                    Start Session
+                </Button>
+                <Button
+                    mode="outlined"
+                    onPress={() => showUpdateTea(tea)}
+                >
+                    Update Tea
+                </Button>
             </View>
+
             <Button
                 style={{marginTop: "100%"}}
                 mode="outlined"
@@ -98,11 +109,17 @@ export function DetailedTeaModal(props: ITeaModalProps) {
                 Return
             </Button>
 
-            <Modal visible={updateTeaVisible} onDismiss={() => {
-                setUpdateTeaVisible(false)
-            }}>
-                <UpdateTeaModal toggleUpdateTeaModalVisibility={toggleUpdateTeaModalVisibility} tea={tea}
-                                updateTea={updateTea}/>
+            <Modal
+                visible={updateTeaVisible}
+                onDismiss={() => {
+                    setUpdateTeaVisible(false)
+                }}
+            >
+                <UpdateTeaModal
+                    toggleUpdateTeaModalVisibility={toggleUpdateTeaModalVisibility}
+                    tea={tea}
+                    updateTea={updateTea}
+                />
             </Modal>
         </View>
     );

@@ -1,9 +1,9 @@
 import {useState} from "react";
 import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
 import {Button, Text, TextInput, Provider as PaperProvider} from 'react-native-paper';
-import Theme from '../constants/Theme';
-import {IAddVesselModalProps} from "./api/IAddVesselModalProps";
-import {Vessel, VesselApi} from "../openAPI";
+import Theme from '../../constants/Theme';
+import {IAddVesselModalProps} from "../api/IAddVesselModalProps";
+import {Vessel, VesselApi} from "../../openAPI";
 
 let vesselApi = new VesselApi();
 

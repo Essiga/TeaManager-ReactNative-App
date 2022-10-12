@@ -8,13 +8,13 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome'
 import {faBook, faChevronLeft, faLeaf, faMugHot} from '@fortawesome/free-solid-svg-icons'
 import {TouchableRipple} from "react-native-paper";
 import SessionsScreen from "../screens/SessionsScreen";
-import {AddVesselModal} from "../components/AddVesselModal";
+import {AddVesselModal} from "../components/modal/AddVesselModal";
 import {TouchableOpacity} from "react-native";
-import AddNewTeaModal from "../components/AddNewTeaModal";
-import {AddSessionModal} from "../components/AddSessionModal";
+import AddNewTeaModal from "../components/modal/AddNewTeaModal";
+import {AddSessionModal} from "../components/modal/AddSessionModal";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {DetailedTeaModal} from "../components/DetailedTeaModal";
-import {UpdateTeaModal} from "../components/UpdateTeaModal";
+import {DetailedTeaModal} from "../components/modal/DetailedTeaModal";
+import {UpdateTeaModal} from "../components/modal/UpdateTeaModal";
 
 export default function Navigation() {
 

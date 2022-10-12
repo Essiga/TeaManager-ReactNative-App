@@ -6,8 +6,8 @@
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {CompositeScreenProps, NavigatorScreenParams} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {AddVesselModal} from "./components/AddVesselModal";
-import {UpdateTeaModal} from "./components/UpdateTeaModal";
+import {AddVesselModal} from "./components/modal/AddVesselModal";
+import {UpdateTeaModal} from "./components/modal/UpdateTeaModal";
 
 declare global {
     namespace ReactNavigation {
