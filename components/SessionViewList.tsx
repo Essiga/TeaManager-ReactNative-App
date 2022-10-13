@@ -28,32 +28,27 @@ export default function SessionViewList(props: ISessionViewListProps) {
         setSearchQuery(query);
     };
 
-    const searchBarContent = () => {
-        return (
+    return (
+        <>
             <StyledSearchbar
                 placeholder={"Search"}
                 onChangeSearch={(query: string) => onChangeSearch(query)}
                 searchQuery={searchQuery}
             />
-        );
-    }
-
-    return !filteredSessions.length ? (
-        <>
-            {searchBarContent()}
-
-            <View style={styles.noSessionsFoundTextContainer}>
-                <Text>
-                    No sessions found
-                </Text>
-            </View>
-        </>
-    ) : (
-        <>
-            {searchBarContent()}
 
             <View style={styles.scrollViewContainer}>
                 <ScrollView>
+
+                    {
+                        !filteredSessions.length ? (
+                            <View style={styles.noItemsFoundTextContainer}>
+                                <Text>
+                                    No sessions found
+                                </Text>
+                            </View>
+                        ) : ("")
+                    }
+
                     {filteredSessions.map((item: Session, i: number) => (
                         <List.Item
                             style={styles.scrollViewContainerItem}
@@ -81,15 +76,13 @@ const styles = StyleSheet.create({
     scrollViewContainer: {
         height: "100%",
         alignItems: 'center',
-        marginHorizontal: 10,
+        marginHorizontal: 10
     },
     scrollViewContainerItem: {
         minWidth: '100%',
         padding: 5
     },
-    noSessionsFoundTextContainer: {
-        marginTop: "50%",
-        height: "100%",
-        alignItems: 'center'
+    noItemsFoundTextContainer: {
+        marginTop: 100
     },
 });
