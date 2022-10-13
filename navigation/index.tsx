@@ -18,10 +18,6 @@ import {UpdateTeaModal} from "../components/modal/UpdateTeaModal";
 import {DetailedSessionModal} from "../components/modal/DetailedSessionModal";
 import {LogBox} from 'react-native';
 
-LogBox.ignoreLogs([
-    'Non-serializable values were found in the navigation state',
-]);
-
 export default function Navigation() {
     return (
         <NavigationContainer>
@@ -156,3 +152,12 @@ function BottomTabNavigator() {
         </Tab.Navigator>
     );
 }
+
+/**
+ * We can ignore this warning (see below -> ignoreLogs) because we are not using the deep linking functionality
+ * https://reactnavigation.org/docs/troubleshooting/#i-get-the-warning-non-serializable-values-were-found-in-the-navigation-state
+ */
+
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state',
+]);

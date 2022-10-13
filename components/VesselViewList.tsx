@@ -28,32 +28,27 @@ export default function VesselViewList(props: IVesselViewListProps) {
         setSearchQuery(query);
     };
 
-    const searchBarContent = () => {
-        return (
+    return (
+        <>
             <StyledSearchbar
                 placeholder={"Search"}
                 onChangeSearch={(query: string) => onChangeSearch(query)}
                 searchQuery={searchQuery}
             />
-        );
-    }
-
-    return !filteredVessels.length ? (
-        <>
-            {searchBarContent()}
-
-            <View style={styles.noVesselsFoundTextContainer}>
-                <Text>
-                    No vessels found
-                </Text>
-            </View>
-        </>
-    ) : (
-        <>
-            {searchBarContent()}
 
             <View style={styles.scrollViewContainer}>
                 <ScrollView style={styles.scrollView}>
+
+                    {
+                        !filteredVessels.length ? (
+                            <View style={styles.noItemsFoundTextContainer}>
+                                <Text>
+                                    No vessels found
+                                </Text>
+                            </View>
+                        ) : ("")
+                    }
+
                     {filteredVessels.map((item: Vessel, i: number) => (
                         <List.Item
                             style={styles.scrollViewContainerItem}
@@ -93,9 +88,7 @@ const styles = StyleSheet.create({
         minWidth: '100%',
         padding: 5
     },
-    noVesselsFoundTextContainer: {
-        marginTop: "50%",
-        height: "100%",
-        alignItems: 'center'
+    noItemsFoundTextContainer: {
+        marginTop: 100
     },
 });
