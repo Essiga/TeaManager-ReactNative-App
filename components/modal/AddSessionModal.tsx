@@ -1,18 +1,19 @@
 import {useEffect, useState} from "react";
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {Alert, SafeAreaView, StyleSheet} from 'react-native';
 import {IAddSessionModalProps} from "./api/IAddSessionModalProps";
-import {Button, DefaultTheme, Provider as PaperProvider, Text, TextInput} from "react-native-paper";
+import {Button, Provider as PaperProvider, Text, TextInput} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
-import Theme from '../constants/Theme';
-import {Session, SessionApi, Vessel, VesselApi} from "../openAPI";
-import {View} from "./Themed";
+import Theme from '../../constants/Theme';
+import {Session, SessionApi, Vessel, VesselApi} from "../../openAPI";
+import {View} from "react-native";
+import {RootStackScreenProps} from "../../types";
 
 let vesselApi = new VesselApi();
 let sessionApi = new SessionApi();
 
-export function AddSessionModal(props: IAddSessionModalProps) {
+export function AddSessionModal(navProps: RootStackScreenProps<"AddSessionModal">) {
 
-    let vesselArray: Vessel[] = [];
+    const props: IAddSessionModalProps = navProps.route.params;
 
     const [showDropDown, setShowDropDown] = useState(false);
     const [vesselsDropDown, setVesselsDropDown] = useState([] as any)
@@ -47,7 +48,6 @@ export function AddSessionModal(props: IAddSessionModalProps) {
             price: parseFloat(((props.tea?.price || 0) * parseFloat(amount)).toFixed(2)),
             teaId: (props.tea?.id || ""),
             vesselId: selectedVesselId
-
         }
 
         sendData(session);
@@ -56,7 +56,9 @@ export function AddSessionModal(props: IAddSessionModalProps) {
     function sendData(session: Session) {
 
         sessionApi.addSession(session).then(response => {
-            console.log(response)
+            Alert.alert("Session added successfully 😁");
+
+            navProps.navigation.navigate("Root");
         }, (err) => {
             console.log(err);
         });
@@ -88,14 +90,24 @@ export function AddSessionModal(props: IAddSessionModalProps) {
     return (
         <PaperProvider theme={Theme}>
             <SafeAreaView style={styles.dropDown}>
-
                 <View>
+                    <Text
+                        variant="bodyLarge"
+                        style={{paddingBottom: 15, paddingTop: 15, paddingLeft: 5}}
+                    >
+                        {props.tea.name}
+                    </Text>
 
-                    <Text variant="headlineMedium" style={{paddingLeft: 5}}>Add Session</Text>
-                    <Text variant="bodyLarge"
-                          style={{paddingBottom: 15, paddingTop: 15, paddingLeft: 5}}>{props.tea.name}</Text>
-                    <Text style={{paddingLeft: 5}}>Type: {props.tea.type}</Text>
-                    <Text style={{paddingLeft: 5}}>Price/g: {props.tea.price} USD</Text>
+                    <View style={styles.container}>
+                        <View style={styles.props}>
+                            <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>Type:</Text>
+                            <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>Price/g:</Text>
+                        </View>
+                        <View>
+                            <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>{props.tea.type}</Text>
+                            <Text variant={"bodyLarge"} style={{paddingLeft: 5}}>{props.tea.price} USD</Text>
+                        </View>
+                    </View>
 
                     <View style={styles.container}>
                         <View style={styles.itemAmount}>
@@ -107,7 +119,6 @@ export function AddSessionModal(props: IAddSessionModalProps) {
                                     setAmount(text);
                                 }}
                             />
-
                         </View>
 
                         <View style={styles.itemVessel}>
@@ -124,25 +135,26 @@ export function AddSessionModal(props: IAddSessionModalProps) {
                                     right: <TextInput.Icon icon={"arrow-down-drop-circle"}/>
                                 }}
                             />
-
                         </View>
                     </View>
 
-                    <Text>Session Price: {((props.tea?.price || 0) * parseFloat(amount)).toFixed(2)}</Text>
+                    <Text
+                        style={{paddingLeft: 5}} variant={"bodyLarge"}
+                    >
+                        Session Price: {((props.tea?.price || 0) * parseFloat(amount)).toFixed(2)}
+                    </Text>
 
-                    <Button
-                        mode="outlined"
-                        onPress={() => checkInput()}
-                    >
-                        Save
-                    </Button>
-                    <Button
-                        style={{marginTop: "70%"}}
-                        mode="outlined"
-                        onPress={() => props.toggleAddSessionModalVisibility(false)}
-                    >
-                        Return
-                    </Button>
+                    <View style={{alignItems: "center"}}>
+                        <Button
+                            style={{marginTop: 20, width: "40%"}}
+                            mode="outlined"
+                            onPress={() => {
+                                checkInput();
+                            }}
+                        >
+                            Add
+                        </Button>
+                    </View>
                 </View>
             </SafeAreaView>
         </PaperProvider>
@@ -154,6 +166,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'flex-start' // if you want to fill rows left to right
+    },
+    item: {
+        width: '50%'
+    },
+    props: {
+        width: "40%",
+        marginStart: 5
     },
     button: {
         flexDirection: "row",
@@ -168,11 +187,15 @@ const styles = StyleSheet.create({
         //backgroundColor: '#006400'
     },
     itemAmount: {
+        paddingTop: 10,
+        paddingBottom: 10,
         width: '40%',
         paddingLeft: 5,
     },
     itemVessel: {
         width: '60%',
+        paddingTop: 10,
+        paddingBottom: 10,
         paddingLeft: 35,
         paddingRight: 5,
     }

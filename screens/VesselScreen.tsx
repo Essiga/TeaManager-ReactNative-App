@@ -1,29 +1,30 @@
 import React, {useEffect, useState} from "react";
-import {Modal, StyleSheet} from 'react-native';
-import {View} from '../components/Themed';
+import {Alert, StyleSheet} from 'react-native';
+import {View} from "react-native";
 import {ActivityIndicator, AnimatedFAB} from "react-native-paper";
 import {Vessel, VesselApi} from "../openAPI";
-import {AddVesselModal} from "../components/AddVesselModal";
-import VesselList from "../components/VesselList";
+import {AddVesselModal} from "../components/modal/AddVesselModal";
+import VesselViewList from "../components/VesselViewList";
+import {RootTabScreenProps} from "../types";
 
 let vesselApi = new VesselApi();
 
-export default function VesselScreen(props: any) {
+export default function VesselScreen(navProps: RootTabScreenProps<"VesselScreen">) {
 
     const [vessels, setVessels] = useState([] as Vessel[]);
-    const [addVesselModalVisible, setAddVesselModalVisible] = useState(false);
     const [isLoading, setLoading] = useState(true);
 
     useEffect(() => {
 
-        getAllVessels();
+        callViewAllVessels();
 
-        return props.navigation.addListener('tabPress', () => {
-            getAllVessels();
+        return navProps.navigation.addListener('focus', () => {
+            setLoading(true);
+            callViewAllVessels();
         });
-    }, [props.navigation]);
+    }, [navProps.navigation]);
 
-    function getAllVessels() {
+    function callViewAllVessels() {
         vesselApi.viewAllVessels()
             .then(
                 (data) => {
@@ -37,17 +38,22 @@ export default function VesselScreen(props: any) {
             });
     }
 
-    function toggleVesselModalVisibility() {
-        setAddVesselModalVisible(false);
-    }
+    function deleteVessel(removeIndex: any) {
 
-    function deleteVessel(id: any) {
+        vesselApi.deleteVessel(removeIndex).then(
+            (response) => {
+                setVessels(vessels => {
+                    return vessels.filter((vessel) => {
+                        return vessel.id !== removeIndex;
+                    });
+                });
 
-        vesselApi.deleteVessel(id).then((data) => {
-            console.log(data.data);
-        }, (err) => {
-            console.log(err);
-        })
+                Alert.alert("Vessel deleted successfully 😁");
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
 
     return isLoading ? (
@@ -56,23 +62,18 @@ export default function VesselScreen(props: any) {
         </View>
     ) : (
         <View>
-            <VesselList
+            <VesselViewList
                 vessels={vessels}
                 deleteVessel={(id: number) => deleteVessel(id)}
             />
-
-            <Modal
-                visible={addVesselModalVisible}
-                onDismiss={() => setAddVesselModalVisible(false)}
-            >
-                <AddVesselModal toggleAddVesselModalVisibility={toggleVesselModalVisibility}></AddVesselModal>
-            </Modal>
 
             <AnimatedFAB
                 icon={'plus'}
                 label={''}
                 extended={false}
-                onPress={() => setAddVesselModalVisible(true)}
+                onPress={() => {
+                    navProps.navigation.navigate("AddVesselModal", {});
+                }}
                 visible={true}
                 animateFrom={'right'}
                 iconMode={'static'}

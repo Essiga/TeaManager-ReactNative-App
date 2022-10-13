@@ -1,22 +1,23 @@
-import {Vessel} from "../openAPI";
+import {Tea} from "../openAPI";
 import {List, Text} from "react-native-paper";
-import {ScrollView, StyleSheet, TouchableOpacity} from "react-native";
-import React, {useState} from "react";
-import {View} from "./Themed";
-import StyledSearchbar from "./StyledSearchbar";
+import {ScrollView, StyleSheet} from "react-native";
+import {useState} from "react";
+import {View} from "react-native";
+import StyledSearchbar from "./styled/StyledSearchbar";
+import {ITeaViewListProps} from "./api/ITeaViewListProps";
 
-export default function VesselList(props: any) {
+export default function TeaViewList(props: ITeaViewListProps) {
 
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredVessels, setFilteredVessels] = useState(props.vessels);
+    const [filteredTeas, setFilteredTeas] = useState(props.teas);
 
     const onChangeSearch = (query: string) => {
 
         if (query === "") {
-            setFilteredVessels(props.vessels);
+            setFilteredTeas(props.teas);
         } else {
-            setFilteredVessels(
-                props.vessels.filter((filter: Vessel) => {
+            setFilteredTeas(
+                props.teas.filter((filter: Tea) => {
                     const itemData = filter.name ? filter.name.toUpperCase() : ''.toUpperCase();
 
                     return itemData.indexOf(query.toUpperCase()) > -1;
@@ -37,13 +38,13 @@ export default function VesselList(props: any) {
         );
     }
 
-    return !filteredVessels.length ? (
+    return !filteredTeas.length ? (
         <>
             {searchBarContent()}
 
             <View style={styles.noVesselsFoundTextContainer}>
                 <Text>
-                    No vessels found
+                    No teas found
                 </Text>
             </View>
         </>
@@ -52,21 +53,18 @@ export default function VesselList(props: any) {
             {searchBarContent()}
 
             <View style={styles.scrollViewContainer}>
-                <ScrollView>
-                    {filteredVessels.map((item: Vessel, i: number) => (
+                <ScrollView style={styles.scrollView}>
+                    {filteredTeas.map((item: Tea, i: number) => (
                         <List.Item
                             style={styles.scrollViewContainerItem}
                             titleNumberOfLines={1}
                             key={i}
                             titleEllipsizeMode={"tail"}
                             title={item.name.length < 35 ? `${item.name}` : `${item.name.substring(0, 32)}...`}
-                            left={_props => <List.Icon {..._props} icon="tea"/>}
-                            right={_props => {
-                                return (
-                                    <TouchableOpacity onPress={() => props.deleteVessel(item.id)}>
-                                        <List.Icon {..._props} icon="delete"/>
-                                    </TouchableOpacity>
-                                )
+                            description={item.type}
+                            left={props => <List.Icon {...props} icon="leaf"/>}
+                            onPress={() => {
+                                props.onItemPress(filteredTeas[i]);
                             }}
                         />
                     ))}
@@ -77,13 +75,17 @@ export default function VesselList(props: any) {
 }
 
 const styles = StyleSheet.create({
+    scrollView: {
+        marginBottom: 110
+    },
     scrollViewContainer: {
         height: "100%",
         alignItems: 'center',
-        marginHorizontal: 10
+        marginHorizontal: 10,
     },
     scrollViewContainerItem: {
-        minWidth: '100%'
+        minWidth: '100%',
+        padding: 5
     },
     noVesselsFoundTextContainer: {
         marginTop: "50%",

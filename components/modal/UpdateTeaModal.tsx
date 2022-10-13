@@ -1,11 +1,12 @@
 import {Alert, SafeAreaView, StyleSheet, View} from "react-native";
 import {Provider as PaperProvider} from 'react-native-paper';
 import {IUpdateTeaModalProps} from "./api/IUpdateTeaModalProps";
-import {Button, TextInput, Text} from "react-native-paper";
+import {Button, TextInput} from "react-native-paper";
 import DropDown from "react-native-paper-dropdown";
 import {useState} from "react";
-import {Tea, TeaApi, TeaType} from "../openAPI";
-import Theme from "../constants/Theme";
+import {Tea, TeaApi, TeaType} from "../../openAPI";
+import Theme from "../../constants/Theme";
+import {RootStackScreenProps} from "../../types";
 
 type TeaTypeDropDownEntry = {
     label: string,
@@ -14,7 +15,9 @@ type TeaTypeDropDownEntry = {
 
 let teaApi = new TeaApi();
 
-export function UpdateTeaModal(props: IUpdateTeaModalProps) {
+export function UpdateTeaModal(navProps: RootStackScreenProps<'UpdateTeaModal'>) {
+
+    const props: IUpdateTeaModalProps = navProps.route.params;
 
     const [updateTea, setUpdateTea] = useState(props.tea.name);
     const [updateTeaType, setTeaType] = useState(TeaType.Green);
@@ -36,25 +39,6 @@ export function UpdateTeaModal(props: IUpdateTeaModalProps) {
         {label: 'Heicha', value: TeaType.Heicha}
     ];
 
-    const styles = StyleSheet.create({
-        container: {
-            justifyContent: "space-between",
-            padding: 50,
-
-        },
-        button: {
-            flexDirection: "row",
-            paddingTop: 10,
-            justifyContent: 'space-between',
-
-        },
-        dropDown: {
-            justifyContent: 'space-between',
-            paddingTop: 5,
-            flex: 1,
-        }
-    });
-
     function updateData() {
         let tea: Tea = {
             id: props.tea.id,
@@ -66,25 +50,24 @@ export function UpdateTeaModal(props: IUpdateTeaModalProps) {
             vendor: updateVendor,
             year: updateYear
         };
+
         teaApi.updateTea(tea).then((response) => {
+
             props.updateTea(tea);
-            console.log("up", tea)
-            Alert.alert("tea successfully updated");
+            navProps.navigation.navigate("DetailedTeaModal", {
+                tea: tea,
+            });
+
+            Alert.alert("Tea successfully updated");
 
         }, (err) => {
             console.log(err);
         })
-        props.toggleUpdateTeaModalVisibility(false);
-        //props.toggleUpdateTeaModalVisibility(true);
     }
 
     return (
         <PaperProvider theme={Theme}>
             <SafeAreaView style={styles.dropDown}>
-                <Text variant="titleLarge"
-                      style={{paddingStart: 20, paddingEnd: 20, paddingBottom: 10, textAlign: "center"}}>Update
-                    Tea </Text>
-
                 <TextInput
                     label={"old tea name: " + props.tea.name}
                     value={updateTea}
@@ -131,18 +114,35 @@ export function UpdateTeaModal(props: IUpdateTeaModalProps) {
                 />
                 <View style={styles.container}>
                     <View style={styles.button}>
-                        <Button icon="tea" mode="contained"
-                                onPress={() => {
-                                    updateData();
-                                }}>
+                        <Button
+                            icon="tea"
+                            mode="contained"
+                            onPress={() => updateData()}
+                        >
                             Update Tea
                         </Button>
-                        <Button mode="outlined"
-                                onPress={() => props.toggleUpdateTeaModalVisibility(true)}> return </Button>
                     </View>
                 </View>
             </SafeAreaView>
         </PaperProvider>
     );
-
 }
+
+const styles = StyleSheet.create({
+    container: {
+        justifyContent: "space-between",
+        padding: 50,
+
+    },
+    button: {
+        flexDirection: "row",
+        paddingTop: 10,
+        justifyContent: 'space-between',
+
+    },
+    dropDown: {
+        justifyContent: 'space-between',
+        paddingTop: 5,
+        flex: 1,
+    }
+});
